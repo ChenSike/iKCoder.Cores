@@ -1,0 +1,114 @@
+<root type="MySql">
+  <item name="spa_operation_course_basic">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_course_name" type="varchar" length="20">
+    </param>
+    <param name="_lesson_title" type="varchar" length="45">
+    </param>
+    <param name="_isfree" type="varchar" length="1">
+    </param>
+    <param name="_lesson_code" type="varchar" length="20">
+    </param>
+  </item>
+  <item name="spa_operation_course_main">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_name" type="varchar" length="20">
+    </param>
+    <param name="_title" type="varchar" length="45">
+    </param>
+    <param name="_isfree" type="varchar" length="1">
+    </param>
+    <param name="_price" type="int" length="11">
+    </param>
+    <param name="_discount" type="int" length="11">
+    </param>
+    <param name="_stem" type="varchar" length="10">
+    </param>
+    <param name="_udba" type="varchar" length="10">
+    </param>
+  </item>
+  <item name="spa_operation_students_checkon">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_uid" type="varchar" length="45">
+    </param>
+    <param name="_checkdate" type="varchar" length="45">
+    </param>
+    <param name="_checktime" type="varchar" length="45">
+    </param>
+  </item>
+  <item name="spa_operation_students_coursepackage">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_uid" type="varchar" length="45">
+    </param>
+    <param name="_courseid" type="int" length="11">
+    </param>
+    <param name="_overdate" type="varchar" length="45">
+    </param>
+    <param name="_paymentid" type="int" length="11">
+    </param>
+  </item>
+  <item name="spa_operation_students_exp">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_uname" type="varchar" length="45">
+    </param>
+    <param name="_exp" type="int" length="11">
+    </param>
+  </item>
+  <item name="spa_operation_students_learninrecord">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_uid" type="varchar" length="45">
+    </param>
+    <param name="_lesson_id" type="int" length="11">
+    </param>
+    <param name="_actions" type="varchar" length="20">
+    </param>
+    <param name="_datetime" type="varchar" length="45">
+    </param>
+    <param name="_times" type="int" length="11">
+    </param>
+  </item>
+  <item name="spa_operation_students_mood">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_uid" type="varchar" length="45">
+    </param>
+    <param name="_mood" type="varchar" length="1">
+    </param>
+    <param name="_date" type="varchar" length="45">
+    </param>
+  </item>
+  <item name="spa_operation_titles_defined">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_name" type="varchar" length="45">
+    </param>
+    <param name="_titles" type="varchar" length="45">
+    </param>
+    <param name="_exp_min" type="int" length="11">
+    </param>
+    <param name="_exp_max" type="varchar" length="45">
+    </param>
+  </item>
+</root>

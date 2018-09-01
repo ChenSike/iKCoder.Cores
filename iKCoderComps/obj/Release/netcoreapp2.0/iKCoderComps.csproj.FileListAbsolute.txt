@@ -1,0 +1,12 @@
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\bin\Release\netcoreapp2.0\iKCoderComps.deps.json
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\bin\Release\netcoreapp2.0\iKCoderComps.dll
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\bin\Release\netcoreapp2.0\iKCoderComps.pdb
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\bin\Release\netcoreapp2.0\iKCoderSDK.dll
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\bin\Release\netcoreapp2.0\iKCoderSDK.pdb
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\obj\Release\netcoreapp2.0\iKCoderComps.csprojAssemblyReference.cache
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\obj\Release\netcoreapp2.0\iKCoderComps.csproj.CoreCompileInputs.cache
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\obj\Release\netcoreapp2.0\iKCoderComps.AssemblyInfoInputs.cache
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\obj\Release\netcoreapp2.0\iKCoderComps.AssemblyInfo.cs
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\obj\Release\netcoreapp2.0\iKCoderComps.csproj.CopyComplete
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\obj\Release\netcoreapp2.0\iKCoderComps.dll
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Comp\iKCoderComps\iKCoderComps\obj\Release\netcoreapp2.0\iKCoderComps.pdb

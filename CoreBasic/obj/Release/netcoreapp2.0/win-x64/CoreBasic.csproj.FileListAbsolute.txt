@@ -1,0 +1,16 @@
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\CoreBasic.deps.json
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\CoreBasic.runtimeconfig.json
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\CoreBasic.runtimeconfig.dev.json
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\CoreBasic.dll
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\CoreBasic.pdb
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\iKCoderComps.dll
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\iKCoderSDK.dll
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\iKCoderComps.pdb
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\bin\Release\netcoreapp2.0\win-x64\iKCoderSDK.pdb
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\obj\Release\netcoreapp2.0\win-x64\CoreBasic.csproj.CoreCompileInputs.cache
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\obj\Release\netcoreapp2.0\win-x64\CoreBasic.AssemblyInfoInputs.cache
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\obj\Release\netcoreapp2.0\win-x64\CoreBasic.AssemblyInfo.cs
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\obj\Release\netcoreapp2.0\win-x64\CoreBasic.csproj.CopyComplete
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\obj\Release\netcoreapp2.0\win-x64\CoreBasic.dll
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\obj\Release\netcoreapp2.0\win-x64\CoreBasic.pdb
+C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Api\CoreBasic\obj\Release\netcoreapp2.0\win-x64\UserSecretsAssemblyInfo.cs

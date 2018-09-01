@@ -1,0 +1,16 @@
+<root type="MySql">
+  <item name="spa_operation_account_students">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_name" type="varchar" length="45">
+    </param>
+    <param name="_password" type="varchar" length="20">
+    </param>
+    <param name="_status" type="varchar" length="2">
+    </param>
+    <param name="_type" type="varchar" length="2">
+    </param>
+  </item>
+</root>

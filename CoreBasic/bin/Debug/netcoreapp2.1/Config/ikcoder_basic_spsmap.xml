@@ -1,0 +1,40 @@
+<root type="MySql">
+  <item name="spa_operation_account_students">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_name" type="varchar" length="45">
+    </param>
+    <param name="_password" type="varchar" length="20">
+    </param>
+    <param name="_status" type="varchar" length="2">
+    </param>
+    <param name="_type" type="varchar" length="2">
+    </param>
+  </item>
+  <item name="spa_operation_profile_students">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_birthday" type="varchar" length="20">
+    </param>
+    <param name="_city" type="varchar" length="40">
+    </param>
+    <param name="_country" type="varchar" length="20">
+    </param>
+    <param name="_header" type="longblob">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_nickname" type="varchar" length="45">
+    </param>
+    <param name="_schoolmap" type="longblob">
+    </param>
+    <param name="_sex" type="varchar" length="1">
+    </param>
+    <param name="_state" type="varchar" length="40">
+    </param>
+    <param name="_uid" type="int" length="11">
+    </param>
+  </item>
+</root>
