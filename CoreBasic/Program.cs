@@ -19,10 +19,7 @@ namespace CoreBasic
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-				.UseContentRoot(Directory.GetCurrentDirectory())
-				.UseIISIntegration()
-				.UseKestrel()
-				.UseStartup<Startup>()
+    			.UseStartup<Startup>()
 				.UseApplicationInsights()
 				.Build();
     }

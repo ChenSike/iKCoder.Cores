@@ -15,6 +15,7 @@ namespace CoreBasic.Global
 		{
 			ItemAccountStudents newStudentsItem = new ItemAccountStudents();
 			newStudentsItem.id = uid;
+			newStudentsItem.name = name;
 			newStudentsItem.token = Guid.NewGuid().ToString();
 			newStudentsItem.password = password;
 			newStudentsItem.regedtime = DateTime.Now;

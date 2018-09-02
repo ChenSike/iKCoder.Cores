@@ -19061,13 +19061,13 @@
     },
     "iKCoderComps/1.0.0": {
       "type": "project",
-      "path": "../../Comp/iKCoderComps/iKCoderComps/iKCoderComps.csproj",
-      "msbuildProject": "../../Comp/iKCoderComps/iKCoderComps/iKCoderComps.csproj"
+      "path": "../iKCoderComps/iKCoderComps.csproj",
+      "msbuildProject": "../iKCoderComps/iKCoderComps.csproj"
     },
     "iKCoderSDK/1.0.0": {
       "type": "project",
-      "path": "../../Sdk/iKCoderSDK/iKCoderSDK.csproj",
-      "msbuildProject": "../../Sdk/iKCoderSDK/iKCoderSDK.csproj"
+      "path": "../iKCoderSDK/iKCoderSDK.csproj",
+      "msbuildProject": "../iKCoderSDK/iKCoderSDK.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -19087,11 +19087,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\iKCoder\\iKCoder.CoreAPI\\SourceCode\\iKCoderCore\\Api\\CoreBasic\\CoreBasic.csproj",
+      "projectUniqueName": "C:\\iKCoder\\iKCoder.Cores\\CoreBasic\\CoreBasic.csproj",
       "projectName": "CoreBasic",
-      "projectPath": "C:\\iKCoder\\iKCoder.CoreAPI\\SourceCode\\iKCoderCore\\Api\\CoreBasic\\CoreBasic.csproj",
+      "projectPath": "C:\\iKCoder\\iKCoder.Cores\\CoreBasic\\CoreBasic.csproj",
       "packagesPath": "C:\\Users\\schen2\\.nuget\\packages\\",
-      "outputPath": "C:\\iKCoder\\iKCoder.CoreAPI\\SourceCode\\iKCoderCore\\Api\\CoreBasic\\obj\\publish\\win-x64\\",
+      "outputPath": "C:\\iKCoder\\iKCoder.Cores\\CoreBasic\\obj\\publish\\win-x64\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -19110,11 +19110,11 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "C:\\iKCoder\\iKCoder.CoreAPI\\SourceCode\\iKCoderCore\\Comp\\iKCoderComps\\iKCoderComps\\iKCoderComps.csproj": {
-              "projectPath": "C:\\iKCoder\\iKCoder.CoreAPI\\SourceCode\\iKCoderCore\\Comp\\iKCoderComps\\iKCoderComps\\iKCoderComps.csproj"
+            "C:\\iKCoder\\iKCoder.Cores\\iKCoderComps\\iKCoderComps.csproj": {
+              "projectPath": "C:\\iKCoder\\iKCoder.Cores\\iKCoderComps\\iKCoderComps.csproj"
             },
-            "C:\\iKCoder\\iKCoder.CoreAPI\\SourceCode\\iKCoderCore\\Sdk\\iKCoderSDK\\iKCoderSDK.csproj": {
-              "projectPath": "C:\\iKCoder\\iKCoder.CoreAPI\\SourceCode\\iKCoderCore\\Sdk\\iKCoderSDK\\iKCoderSDK.csproj"
+            "C:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\iKCoderSDK.csproj": {
+              "projectPath": "C:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\iKCoderSDK.csproj"
             }
           }
         }
