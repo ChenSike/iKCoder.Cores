@@ -12,6 +12,32 @@
     </param>
     <param name="_lesson_code" type="varchar" length="20">
     </param>
+    <param name="_steam" type="varchar" length="20">
+    </param>
+    <param name="_udba" type="varchar" length="20">
+    </param>
+    <param name="_totalsteps" type="varchar" length="2">
+    </param>
+  </item>
+  <item name="spa_operation_course_exp">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_title" type="varchar" length="45">
+    </param>
+    <param name="_expcenter" type="varchar" length="1000">
+    </param>
+    <param name="_level" type="varchar" length="2">
+    </param>
+    <param name="_exp" type="varchar" length="45">
+    </param>
+    <param name="_doc" type="varchar" length="10000">
+    </param>
+    <param name="_piclist" type="varchar" length="2000">
+    </param>
+    <param name="_course_name" type="varchar" length="45">
+    </param>
   </item>
   <item name="spa_operation_course_main">
     <param name="_operation" type="nvarchar" length="40">
@@ -27,10 +53,6 @@
     <param name="_price" type="int" length="11">
     </param>
     <param name="_discount" type="int" length="11">
-    </param>
-    <param name="_stem" type="varchar" length="10">
-    </param>
-    <param name="_udba" type="varchar" length="10">
     </param>
   </item>
   <item name="spa_operation_students_checkon">
@@ -83,6 +105,24 @@
     <param name="_datetime" type="varchar" length="45">
     </param>
     <param name="_times" type="int" length="11">
+    </param>
+  </item>
+  <item name="spa_operation_students_lessonstatus">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_uid" type="varchar" length="45">
+    </param>
+    <param name="_lesson_code" type="varchar" length="45">
+    </param>
+    <param name="_current_step" type="varchar" length="2">
+    </param>
+    <param name="_current_statusdoc" type="longblob">
+    </param>
+    <param name="_type" type="varchar" length="2">
+    </param>
+    <param name="_recorddt" type="varchar" length="45">
     </param>
   </item>
   <item name="spa_operation_students_mood">

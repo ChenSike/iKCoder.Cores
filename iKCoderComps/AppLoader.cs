@@ -260,13 +260,13 @@ namespace iKCoderComps
 		public string get_ClientToken(HttpRequest httpRequest, string tokenname)
 		{
 			string tokenFromClient = string.Empty;
-			if (httpRequest.Cookies.ContainsKey(tokenname))
-			{
-				tokenFromClient = httpRequest.Cookies[tokenname];
-			}
-			else if (GetQueryParam(httpRequest,tokenname) != string.Empty)
+			if (GetQueryParam(httpRequest, tokenname) != string.Empty)
 			{
 				tokenFromClient = GetQueryParam(httpRequest, tokenname);
+			}
+			else if(httpRequest.Cookies.ContainsKey(tokenname))
+			{
+				tokenFromClient = httpRequest.Cookies[tokenname];
 			}
 			return tokenFromClient;
 		}

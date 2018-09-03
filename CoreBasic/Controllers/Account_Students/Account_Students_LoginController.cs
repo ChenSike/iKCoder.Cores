@@ -38,7 +38,7 @@ namespace CoreBasic.Controllers.Account_Students
 							Global.ItemAccountStudents newItem = Global.ItemAccountStudents.CreateNewItem(uid, name, pwd, "");
 							Global.LoginServices.Push(newItem);
 							Response.Cookies.Append("student_token", newItem.token);
-							return Content(MessageHelper.ExecuteSucessful());
+							return Content(MessageHelper.ExecuteSucessful("TOKEN", newItem.token));
 						}
 						else
 						{

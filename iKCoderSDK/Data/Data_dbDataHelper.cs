@@ -35,7 +35,16 @@ namespace iKCoderSDK
                 return false;
         }
 
-        public static bool GetArrByteColumnDataToString(DataRow activeDR, string activeColumnName, out string result)
+		public static int GetColumnIntData(DataRow activeDR, string activeColumnName)
+		{
+			string result = "";
+			result = activeDR[activeColumnName].ToString();
+			int iResult = 0;
+			int.TryParse(result, out iResult);
+			return iResult;
+		}
+
+		public static bool GetArrByteColumnDataToString(DataRow activeDR, string activeColumnName, out string result)
         {
             result = "";
             if (activeDR != null)
