@@ -28,7 +28,11 @@ namespace AppMain.Controllers.BaseController
 				return result;
 			}
 			else
-				return string.Empty;
+			{				
+				Util_NetServices netObj = new Util_NetServices();
+				string result = netObj.RequestWithGet(Url).ToString();
+				return result;
+			}
 		}
 
 		/// <summary>
@@ -46,8 +50,7 @@ namespace AppMain.Controllers.BaseController
 				return string.Empty;
 			else
 			{
-				string token = _appLoader.get_ClientToken(Request, SYBOL_TOKEN_BASIC);
-				string Url = ROOT_SERVER + "Account_Students_GetCurrentAccountInfo?" + SYBOL_TOKEN_BASIC + "=" + token;
+				string Url = ROOT_SERVER + "Account_Students_GetCurrentAccountInfo";
 				string result = RequestForString(Url, true);
 				XmlDocument resultDoc = new XmlDocument();
 				resultDoc.LoadXml(result);

@@ -25,7 +25,7 @@ namespace AppMain.Controllers.Students
 				string uname = GetAccountInfoFromBasicController("name");
 				Dictionary<string, string> paramsForBasic = new Dictionary<string, string>();
 				paramsForBasic.Add("@uid", uname);
-				paramsForBasic.Add("@checkdate", DateTime.Now.ToString());
+				paramsForBasic.Add("@checkdate", DateTime.Now.ToString("yyyy-MM-dd"));
 				DataTable dtData = _appLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_checkon, paramsForBasic);
 				if (dtData != null && dtData.Rows.Count == 0)
 				{
