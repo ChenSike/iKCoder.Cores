@@ -7,3 +7,12 @@ C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Sdk\iKCoderSDK\obj\Release\net
 C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Sdk\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.AssemblyInfo.cs
 C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Sdk\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.dll
 C:\iKCoder\iKCoder.CoreAPI\SourceCode\iKCoderCore\Sdk\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.pdb
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\bin\Release\netcoreapp2.0\iKCoderSDK.deps.json
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\bin\Release\netcoreapp2.0\iKCoderSDK.dll
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\bin\Release\netcoreapp2.0\iKCoderSDK.pdb
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.csprojAssemblyReference.cache
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.csproj.CoreCompileInputs.cache
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.AssemblyInfoInputs.cache
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.AssemblyInfo.cs
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.dll
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Release\netcoreapp2.0\iKCoderSDK.pdb

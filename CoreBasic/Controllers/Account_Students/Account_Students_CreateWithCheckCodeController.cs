@@ -18,7 +18,7 @@ namespace CoreBasic.Controllers.Account_Students
 		[ServiceFilter(typeof(Filter.Filter_InitServices))]
 		[ServiceFilter(typeof(Filter.Filter_ConnectDB))]
 		[HttpGet]
-		public ContentResult actionResult(string uid, string pwd, string checkcode, string status = "0", string level = "0")
+		public ContentResult actionResult(string uid, string pwd, string checkcode, string status = "0", string level = "0", string type = "0")
 		{
 			try
 			{
@@ -39,23 +39,30 @@ namespace CoreBasic.Controllers.Account_Students
 					{
 						return Content(MessageHelper.ExecuteFalse("400", "wrong checkcode"));
 					}
-					DataTable activeDataTable = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_account_students, activeParams);
-					if (activeDataTable == null)
-						return Content(MessageHelper.ExecuteFalse());
-					else
+					activeParams.Add("@password", pwd);
+					activeParams.Add("@status", status);
+					activeParams.Add("@type", type);
+					Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
+					paramsMap_for_profle.Add("@uid", uid);
+					paramsMap_for_profle.Add("@sex", "1");
+					paramsMap_for_profle.Add("@nickname", uid);
+					paramsMap_for_profle.Add("@birthday", "2000-01-01");
+					paramsMap_for_profle.Add("@country", "china");
+					if (_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle))
 					{
-						if (activeDataTable.Rows.Count > 0)
+						if (_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_account_students, activeParams))
 						{
-							return Content(MessageHelper.ExecuteFalse("400", "Account Existed"));
+							return Content(MessageHelper.ExecuteSucessful());
+						}
+						else
+						{
+							return Content(MessageHelper.ExecuteFalse());
 						}
 					}
-					activeParams.Add("password", pwd);
-					activeParams.Add("status", status);
-					activeParams.Add("type", level);
-					if (_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_account_students, activeParams))
-						return Content(MessageHelper.ExecuteSucessful());
 					else
+					{
 						return Content(MessageHelper.ExecuteFalse());
+					}
 				}
 				else
 					return Content(MessageHelper.ExecuteFalse());
@@ -63,7 +70,7 @@ namespace CoreBasic.Controllers.Account_Students
 			catch (Basic_Exceptions err)
 			{
 				return Content(MessageHelper.ExecuteFalse());
-			}			
+			}
 		}
 	}
 }
