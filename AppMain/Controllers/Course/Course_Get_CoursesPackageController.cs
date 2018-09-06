@@ -23,8 +23,52 @@ namespace AppMain.Controllers.Course
 		{
 			try
 			{
-				DataTable dtData = _appLoader.ExecuteSelect(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_course_main);
-				return Content(Data_dbDataHelper.ActionConvertDTtoXMLString(dtData));
+				string uname = GetAccountInfoFromBasicController("name");
+				Dictionary<string, string> paramsMap = new Dictionary<string, string>();
+				paramsMap.Add("@uid", uname);
+				DataTable dtData = _appLoader.ExecuteSelectWithConditionsReturnDT(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, AppMain.Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_coursepackage, paramsMap);
+				List<string> lstCoursesFromPackage = new List<string>();
+				foreach (DataRow activeDR in dtData.Rows)
+				{
+					string courseid = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeDR, "courseid", out courseid);
+					string overdate = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeDR, "overdate", out overdate);
+					DateTime dtOverdate = DateTime.Now;
+					DateTime.TryParse(overdate, out dtOverdate);
+					if (dtOverdate <= DateTime.Now)
+					{
+						lstCoursesFromPackage.Add(courseid);
+					}
+				}
+				XmlDocument returnDoc = new XmlDocument();
+				returnDoc.LoadXml("<root></root>");
+				dtData = _appLoader.ExecuteSelect(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_course_main);
+				foreach (DataRow activeRow in dtData.Rows)
+				{
+					string course_name = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "name", out course_name);
+					string course_id = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "id", out course_id);
+					string course_title = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "title", out course_title);
+					string course_isfree = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "isfree", out course_isfree);
+					XmlNode newItemNode = Util_XmlOperHelper.CreateNode(returnDoc, "item", "");
+					Util_XmlOperHelper.SetAttribute(newItemNode, "name", course_name);
+					Util_XmlOperHelper.SetAttribute(newItemNode, "id", course_id);
+					Util_XmlOperHelper.SetAttribute(newItemNode, "title", course_title);
+					if (lstCoursesFromPackage.Contains(course_id) || course_isfree == "1")
+					{
+						Util_XmlOperHelper.SetAttribute(newItemNode, "access", "1");
+					}
+					else
+					{
+						Util_XmlOperHelper.SetAttribute(newItemNode, "access", "0");
+					}
+					returnDoc.SelectSingleNode("/root").AppendChild(newItemNode);
+				}
+				return Content(returnDoc.OuterXml);
 			}
 			catch
 			{

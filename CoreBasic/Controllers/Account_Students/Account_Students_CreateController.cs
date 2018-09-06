@@ -17,7 +17,7 @@ namespace CoreBasic.Controllers.Account_Students
 		[ServiceFilter(typeof(Filter.Filter_InitServices))]
 		[ServiceFilter(typeof(Filter.Filter_ConnectDB))]
 		[HttpGet]
-        public ContentResult actionResult(string uid, string pwd, string status = "0", string level = "0")
+        public ContentResult actionResult(string uid, string pwd, string status = "0", string level = "0",string type="0")
         {
 			try
 			{
@@ -35,9 +35,15 @@ namespace CoreBasic.Controllers.Account_Students
 							return Content(MessageHelper.ExecuteFalse("400", "Account Existed"));
 						}
 					}
+					activeParams.Add("@password", pwd);
+					activeParams.Add("@status", status);
+					activeParams.Add("@type", type);
 					Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 					paramsMap_for_profle.Add("@uid", uid);
-					paramsMap_for_profle.Add("@password", pwd);
+					paramsMap_for_profle.Add("@sex", "1");
+					paramsMap_for_profle.Add("@nickname", uid);
+					paramsMap_for_profle.Add("@birthday", "2000-01-01");
+					paramsMap_for_profle.Add("@country", "china");
 					if (_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle))
 					{
 						if (_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_account_students, activeParams))

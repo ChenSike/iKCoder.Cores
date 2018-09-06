@@ -30,6 +30,7 @@ namespace AppMain.Controllers.Students
 				if (recordRows.Length == 0)
 				{
 					paramsForBasic.Add("@mood", mood);
+					paramsForBasic.Add("@checkdate", DateTime.Now.ToString("yyyy-MM-dd"));
 					paramsForBasic.Add("@checktime", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
 					_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_mood, paramsForBasic);
 					return Content(MessageHelper.ExecuteSucessful());
