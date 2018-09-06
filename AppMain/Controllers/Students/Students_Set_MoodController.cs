@@ -25,11 +25,12 @@ namespace AppMain.Controllers.Students
 				string uname = GetAccountInfoFromBasicController("name");
 				Dictionary<string, string> paramsForBasic = new Dictionary<string, string>();
 				paramsForBasic.Add("@uid", uname);
-				paramsForBasic.Add("@date", DateTime.Now.ToString("yyyy-MM-dd"));
 				DataTable dtData = _appLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_checkon, paramsForBasic);
-				if (dtData != null && dtData.Rows.Count == 0)
+				DataRow[] recordRows = dtData.Select("checkdate='" + DateTime.Now.ToString("yyyy-MM-dd") + "'");
+				if (recordRows.Length == 0)
 				{
 					paramsForBasic.Add("@mood", mood);
+					paramsForBasic.Add("@checktime", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
 					_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_mood, paramsForBasic);
 					return Content(MessageHelper.ExecuteSucessful());
 				}

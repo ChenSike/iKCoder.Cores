@@ -60,7 +60,16 @@ namespace iKCoderComps
 			}
 		}
 
-		
+		public bool CreateSPS(string connectionkey,string spsloadedfile)
+		{
+			string spsloadedfullpath = AppContext.BaseDirectory + "\\config\\" + spsloadedfile;
+			return db_objectSqlHelper.ActionAutoCreateSPS(db_objectConnectionHelper.Get_ActiveConnection(connectionkey), spsloadedfullpath);
+		}
+
+		public string GetAPICurrentPath()
+		{
+			return AppContext.BaseDirectory;
+		}
 
 
 		public bool ExecuteInsert(string connectionkey, string spname, Dictionary<string, string> mapparams)

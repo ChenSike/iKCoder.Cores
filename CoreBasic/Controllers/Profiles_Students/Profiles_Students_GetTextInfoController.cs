@@ -55,7 +55,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 					if (!string.IsNullOrEmpty(city))
 						resturnMap.Add("city", city);
 					if (!string.IsNullOrEmpty(realname))
-						resturnMap.Add("realname", city);
+						resturnMap.Add("realname", realname);
 					return Content(MessageHelper.ExecuteSucessfulDoc(resturnMap));
 				}
 				else

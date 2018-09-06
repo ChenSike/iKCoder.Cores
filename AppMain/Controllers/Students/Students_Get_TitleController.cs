@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using iKCoderComps;
 using iKCoderSDK;
 using System.Data;
+using System.Xml;
 
 namespace AppMain.Controllers.Students
 {
@@ -22,6 +23,8 @@ namespace AppMain.Controllers.Students
 		{
 			try
 			{
+				XmlDocument resultDoc = new XmlDocument();
+				resultDoc.LoadXml("<root></root>");
 				string uname = GetAccountInfoFromBasicController("name");
 				Dictionary<string, string> paramsForBasic = new Dictionary<string, string>();
 				paramsForBasic.Add("@uid", uname);
@@ -34,9 +37,41 @@ namespace AppMain.Controllers.Students
 					{
 						int exp_value = Data_dbDataHelper.GetColumnIntData(currentRow, "exp");
 						DataTable dtTitle = _appLoader.ExecuteSelect(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_titles_defined);
-						
+						if(dtData!=null && dtData.Rows.Count>0)
+						{
+							foreach(DataRow activeRow in dtData.Rows)
+							{
+								string title_name = string.Empty;
+								string title_titles = string.Empty;
+								int title_exp_min = 0;
+								int title_exp_max = 0;
+								Data_dbDataHelper.GetColumnData(activeRow, "name", out title_name);
+								Data_dbDataHelper.GetColumnData(activeRow, "titles", out title_titles);
+								title_exp_min = Data_dbDataHelper.GetColumnIntData(activeRow, "exp_min");
+								title_exp_max = Data_dbDataHelper.GetColumnIntData(activeRow, "exp_max");
+								if (exp_value >= title_exp_max)
+								{
+									XmlNode itemNode = Util_XmlOperHelper.CreateNode(resultDoc, "item", "");
+									resultDoc.SelectSingleNode("/root").AppendChild(itemNode);
+									Util_XmlOperHelper.SetAttribute(itemNode, "name", title_name);
+									Util_XmlOperHelper.SetAttribute(itemNode, "title", title_titles);
+									Util_XmlOperHelper.SetAttribute(itemNode, "isget", "1");
+								}
+								else
+								{
+									XmlNode itemNode = Util_XmlOperHelper.CreateNode(resultDoc, "item", "");
+									resultDoc.SelectSingleNode("/root").AppendChild(itemNode);
+									Util_XmlOperHelper.SetAttribute(itemNode, "name", title_name);
+									Util_XmlOperHelper.SetAttribute(itemNode, "title", title_titles);
+									Util_XmlOperHelper.SetAttribute(itemNode, "expvalue", exp_value.ToString());
+									Util_XmlOperHelper.SetAttribute(itemNode, "isget", "0");
+								}
+								
+							}
+						}
 					}
 				}
+				return Content(resultDoc.OuterXml);
 			}
 			catch
 			{
