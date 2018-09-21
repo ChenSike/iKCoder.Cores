@@ -53,7 +53,7 @@ namespace iKCoderSDK
 
     }
 
-    public class class_Data_SqlConnectionHelper
+	public class class_Data_SqlConnectionHelper
     {
         public Dictionary<string, class_Data_SqlConnectionItemEntry> ActiveSqlConnectionCollection = new Dictionary<string, class_Data_SqlConnectionItemEntry>();
 

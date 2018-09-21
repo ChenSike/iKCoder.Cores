@@ -33,8 +33,9 @@ namespace CoreBasic.Controllers.Profiles_Students
 					Data_dbDataHelper.GetColumnData(dt.Rows[0], "header", out header);
 					if (withpath == "1")
 					{
-						string filePath = iKCoderComps.FileStore.GetImageStore(activeItem.id);
-						return Content(MessageHelper.ExecuteSucessful("800", filePath + "\\" + header));
+						//string filePath = iKCoderComps.FileStore.GetImageStore(activeItem.id);
+						//return Content(MessageHelper.ExecuteSucessful("800", filePath + "\\" + header));
+						return Content(MessageHelper.ExecuteSucessful("800", "www.ikcoder.com/corebasic/storepool/" + iKCoderComps.FileStore.GetUerStoreName(activeItem.id) + "/" + header));
 					}
 					else
 					{

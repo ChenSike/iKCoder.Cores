@@ -14,6 +14,8 @@ namespace iKCoderComps
     public class MessageHelper
     {
 
+		public XmlDocument currectDoc = new XmlDocument();
+
         public static string ExecuteSucessful()
         {
 			return "<root><executed>" + "true" + "</executed></root>";
@@ -23,6 +25,27 @@ namespace iKCoderComps
         {
             return "<root><executed>true</executed><msgcode>" + MSGCODE + "</msgcode><msg>" + MSG + "</msg></root>";
         }
+
+		public void CreateNewDoc()
+		{
+			currectDoc = new XmlDocument();
+			currectDoc.LoadXml("<root></root>");
+		}
+
+		public void AddMessage(string attrname,string attrvalue,string messageValue)
+		{
+			XmlNode newItem = Util_XmlOperHelper.CreateNode(currectDoc, "item",messageValue);
+			if (!string.IsNullOrEmpty(attrname))
+			{
+				Util_XmlOperHelper.SetAttribute(newItem, attrname, attrvalue);
+			}
+			currectDoc.SelectSingleNode("/root").AppendChild(newItem);
+		}
+
+		public string GetMessageDocString()
+		{
+			return currectDoc.OuterXml;
+		}
 
 		public static string ExecuteSucessfulDoc(Dictionary<string,string> resultMAP)
 		{

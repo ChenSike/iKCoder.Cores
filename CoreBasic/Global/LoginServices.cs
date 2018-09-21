@@ -149,8 +149,12 @@ namespace CoreBasic.Global
 
 		public static ItemAccountStudents Pull(string token)
 		{
+			Clear();
 			if (Pool_Logined.ContainsKey(token))
+			{
+				Pool_Logined[token].lastVisted = DateTime.Now;
 				return Pool_Logined[token];
+			}
 			else
 				return null;
 		}

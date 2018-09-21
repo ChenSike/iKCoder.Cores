@@ -58,6 +58,8 @@ namespace AppMain.Controllers.Course
 					Data_dbDataHelper.GetColumnData(activeRow, "discount", out course_discount);
 					string course_price = string.Empty;
 					Data_dbDataHelper.GetColumnData(activeRow, "price", out course_price);
+					string course_enable = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "enable", out course_enable);
 					XmlNode newItemNode = Util_XmlOperHelper.CreateNode(returnDoc, "item", "");
 					Util_XmlOperHelper.SetAttribute(newItemNode, "name", course_name);
 					Util_XmlOperHelper.SetAttribute(newItemNode, "id", course_id);
@@ -73,6 +75,7 @@ namespace AppMain.Controllers.Course
 					{
 						Util_XmlOperHelper.SetAttribute(newItemNode, "access", "0");
 					}
+					Util_XmlOperHelper.SetAttribute(newItemNode, "enable", course_enable);
 					returnDoc.SelectSingleNode("/root").AppendChild(newItemNode);
 				}
 				return Content(returnDoc.OuterXml);

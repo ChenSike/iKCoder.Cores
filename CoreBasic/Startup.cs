@@ -46,7 +46,9 @@ namespace CoreBasic
             {
                 app.UseDeveloperExceptionPage();
             }
+			app.UseWebSockets();
 			app.UseSession();
+			app.UseMiddleware<Midware.ChatServicesMidware>();
 			app.UseMvc();
 		}
     }

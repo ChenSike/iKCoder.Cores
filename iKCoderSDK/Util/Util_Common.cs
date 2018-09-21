@@ -28,6 +28,18 @@ namespace iKCoderSDK
             }
         }
 
+		public static string Decoder_Base64(string data)
+		{
+			if (string.IsNullOrEmpty(data))
+				return string.Empty;
+			else
+			{
+				byte[] outputb = Convert.FromBase64String(data);
+				string orgStr = Encoding.Default.GetString(outputb);
+				return orgStr;
+			}
+		}
+
         public static long GuidToLongID()
         {
             byte[] buffer = Guid.NewGuid().ToByteArray();

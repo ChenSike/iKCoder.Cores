@@ -13,6 +13,7 @@ namespace CoreBasic.Global
             public const string spa_operation_account_students = "spa_operation_account_students";
 			public const string spa_operation_profile_students = "spa_operation_profile_students";
 			public const string spa_operation_relations_students = "spa_operation_relations_students";
+			public const string spa_operation_messages_students = "spa_operation_messages_students";
 		}				
     }
 }

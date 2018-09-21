@@ -43,20 +43,6 @@
     <param name="_to" type="varchar" length="45">
     </param>
   </item>
-  <item name="spa_operation_messages_students">
-    <param name="_operation" type="nvarchar" length="40">
-    </param>
-    <param name="_content" type="longblob">
-    </param>
-    <param name="_from" type="varchar" length="45">
-    </param>
-    <param name="_id" type="int" length="11">
-    </param>
-    <param name="_lastupdate" type="varchar" length="45">
-    </param>
-    <param name="_to" type="varchar" length="45">
-    </param>
-  </item>
   <item name="spa_operation_payment_students">
     <param name="_operation" type="nvarchar" length="40">
     </param>

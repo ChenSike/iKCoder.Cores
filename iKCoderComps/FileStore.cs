@@ -42,6 +42,6 @@ namespace iKCoderComps
 		{
 			return LocalStoreDriver + "storepool\\" + GetUerStoreName(userid) + "\\data\\";
 		}
-
+				
     }
 }
