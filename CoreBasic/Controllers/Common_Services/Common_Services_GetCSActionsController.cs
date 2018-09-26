@@ -18,9 +18,11 @@ namespace CoreBasic.Controllers.Common_Services
 		{
 			MessageHelper messageHelper = new MessageHelper();
 			messageHelper.CreateNewDoc();
-			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_ActiveDialog,"");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_NewDialog,"");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_DialogContent, "");
-			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_OpenDialog, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_SendMessage, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_DelDialog, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_DialogList, "");
 			return Content(messageHelper.GetMessageDocString());
 		}
     }

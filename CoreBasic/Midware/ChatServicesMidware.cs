@@ -35,7 +35,8 @@ namespace CoreBasic.Midware
 	public class ChatServicesMidware
     {
 		private static ConcurrentDictionary<string, System.Net.WebSockets.WebSocket> _sockets = new ConcurrentDictionary<string, System.Net.WebSockets.WebSocket>();
-		
+		private static ConcurrentDictionary<string, string> _accountTokenMap = new ConcurrentDictionary<string, string>();
+
 		private readonly RequestDelegate _next;
 
 		public ChatServicesMidware(RequestDelegate next)
@@ -88,10 +89,11 @@ namespace CoreBasic.Midware
 			string token = get_ClientToken(context.Request, "student_token");
 			if (Global.LoginServices.verify_logined_token(token))
 			{
-
 				CancellationToken ct = context.RequestAborted;
 				var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
 				AppLoader newApploader = new AppLoader();
+				string uname = Global.LoginServices.Pool_Logined[token].name;
+				_accountTokenMap.TryAdd(uname, token);
 				string socketId = token;
 				if (!_sockets.ContainsKey(socketId))
 				{
@@ -133,8 +135,10 @@ namespace CoreBasic.Midware
 						}
 					}
 					*/
-					WebSocket dummy;
-					_sockets.TryRemove(socketId, out dummy);
+					WebSocket dummy_socket;
+					_sockets.TryRemove(socketId, out dummy_socket);
+					string dummy_token;
+					_accountTokenMap.TryRemove(uname, out dummy_token);
 					newApploader.CloseDB();
 					await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
 					currentSocket.Dispose();
@@ -148,17 +152,18 @@ namespace CoreBasic.Midware
 			protocalMessageDoc.LoadXml(message);
 			XmlNode fromNode = protocalMessageDoc.SelectSingleNode("/root/from");
 			if (fromNode == null)
-				return "<root><errmsg>nofrom</errmsg></root>";
+				return "<root type='error'><errmsg>nofrom</errmsg></root>";
 			string from = Util_XmlOperHelper.GetNodeValue(fromNode);
 			if(from != token)
-				return "<root><errmsg>invalidated token</errmsg></root>";
+				return "<root type='error'><errmsg>invalidated token</errmsg></root>";
 			XmlNode actionNode = protocalMessageDoc.SelectSingleNode("/root/action");
 			if (actionNode == null)
-				return "<root><errmsg>noaction</errmsg></root>";
+				return "<root type='error'><errmsg>noaction</errmsg></root>";
 			string action = Util_XmlOperHelper.GetNodeValue(actionNode);
+			XmlNode paramsNode = protocalMessageDoc.SelectSingleNode("/root/params");
 			switch (action)
 			{
-				case Global.ActionsMap.Action_Get_ActiveDialog:
+				case Global.ActionsMap.Action_Get_DialogList:
 					/*
 					 * <root>
 					 * <from>
@@ -170,7 +175,7 @@ namespace CoreBasic.Midware
 					 * </root>
 					 * 					 
 					 */
-					return Action_Get_ActiveDialog(token,existedLoader);
+					return Action_Get_DialogList(from, existedLoader);				
 				case Global.ActionsMap.Action_Get_DialogContent:
 					/*
 					 * <root>
@@ -180,115 +185,242 @@ namespace CoreBasic.Midware
 					 * <action>
 					 * Action_Get_DialogContent
 					 * </action>
-					 * <params>
-					 * <target>
-					 * XXXX
-					 * </target>
-					 * </params>
 					 * </root>
 					 * 
 					 */
-					return "";
-				case Global.ActionsMap.Action_Set_OpenDialog:
+					return Action_Get_DialogContent(from, existedLoader);
+				case Global.ActionsMap.Action_Set_NewDialog:
 					/*
 					 * <root>
 					 * <from>
 					 * token
 					 * </from>
+					 * <target>
+					 * <item>
+					 * u1
+					 * </item>
+					 * <item>
+					 * u2
+					 * </item>
+					 * </target>
+					 * <action>
+					 * Action_Get_DialogContent
+					 * </action>
+					 * </root>
+					 * 
+					 */
+					if (paramsNode == null)
+					{
+						return "<root type='error'><errmsg>noparams</errmsg></root>";
+					}
+					else
+					{
+						XmlNodeList targetItemNodes = paramsNode.SelectNodes("target/item");
+						List<string> lstOwners = new List<string>();
+						foreach(XmlNode itemNode in targetItemNodes)
+						{
+							string value = Util_XmlOperHelper.GetNodeValue(itemNode);
+							lstOwners.Add(value);
+						}
+						return Action_Set_NewDialog(lstOwners, existedLoader);
+					}
+				case Global.ActionsMap.Action_Set_SendMessage:
+					/*
+					 * <root>
+					 * <from>
+					 * token
+					 * </from>
+					 * <symbol>
+					 * symbol for message
+					 * </symbol>
 					 * <action>
 					 * Action_Set_OpenDialog
 					 * </action>
 					 * <params>
 					 * <target>
-					 * XXXX
+					 * <item>
+					 * u1
+					 * </item>
+					 * <item>
+					 * u2
+					 * </item>
 					 * </target>
+					 * <message>
+					 * </message>
 					 * </params>
 					 * </root>
 					 * 
 					 */
-					XmlNode paramsNode = protocalMessageDoc.SelectSingleNode("/root/params");
-					if(paramsNode==null)
+					if (paramsNode == null)
 					{
-						return "<root><errmsg>noparams</errmsg></root>";
+						return "<root type='error'><errmsg>noparams</errmsg></root>";
 					}
 					else
 					{
-						XmlNode targetNode = paramsNode.SelectSingleNode("target");
-						if(targetNode==null)
+						XmlNode symbolNode = protocalMessageDoc.SelectSingleNode("/root/symbol");
+						if(symbolNode==null)
 						{
-							return "<root><errmsg>notarget</errmsg></root>";
+							return "<root type='error'><errmsg>nosymbol</errmsg></root>";
 						}
-						string tagetValue = Util_XmlOperHelper.GetNodeValue(targetNode);
-						return Action_Set_OpenDialog(token, tagetValue, existedLoader);
+						string symbolValue = Util_XmlOperHelper.GetNodeValue(symbolNode);
+						XmlNode targetNode = paramsNode.SelectSingleNode("target");
+						if (targetNode == null)
+						{
+							return "<root type='error'><errmsg>notarget</errmsg></root>";
+						}
+						string tagetValue = Util_XmlOperHelper.GetNodeValue(targetNode);						
+						XmlNodeList targetItemNodes = paramsNode.SelectNodes("target/item");
+						List<string> lstOwners = new List<string>();
+						foreach (XmlNode itemNode in targetItemNodes)
+						{
+							string value = Util_XmlOperHelper.GetNodeValue(itemNode);
+							lstOwners.Add(value);
+						}
+						XmlNode messageNode = paramsNode.SelectSingleNode("message");
+						string messageValue = Util_XmlOperHelper.GetNodeValue(messageNode);
+						return Action_Set_SendMessage(symbolValue, message, lstOwners, existedLoader);
 					}
-					
+
 			}
 			return "";
 		}
 
-		public string Action_Set_OpenDialog(string token,string target, AppLoader existedLoader)
+		public string Action_Set_SendMessage(string messageSymbol, string message, List<string> lstOwners, AppLoader existedLoader)
 		{
-			string uid = Global.LoginServices.Pull(token).name;
+			foreach(string owner in lstOwners)
+			{
+				if (_accountTokenMap.ContainsKey(owner))
+				{
+					string owner_token = _accountTokenMap[owner];
+					WebSocket owner_socket = null;
+					if (_sockets.ContainsKey(owner_token))
+					{
+						owner_socket = _sockets[owner_token];
+						SendStringAsync(owner_socket, message);
+					}
+				}
+			}
 			Dictionary<string, string> activeParams = new Dictionary<string, string>();
-			activeParams.Add("source", uid);
-			activeParams.Add("target", target);
+			activeParams.Add("symbol", messageSymbol);
 			DataTable activeDataTable = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
 			if (activeDataTable == null)
-				return "<root><errmsg>nodata</errmsg></root>";
+				return "<root type='error'><errmsg>lostdata</errmsg></root>";
+			else
+			{
+				string base64MsgContent = string.Empty;
+				Data_dbDataHelper.GetColumnData(activeDataTable.Rows[0], "content", out base64MsgContent);
+				string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
+				XmlDocument contentDoc = new XmlDocument();
+				contentDoc.LoadXml("<root></root>");
+				XmlNode newItem = Util_XmlOperHelper.CreateNode(contentDoc,"item", message);
+				Util_XmlOperHelper.SetAttribute(newItem, "date", DateTime.Now.ToString("yyyy-MM-dd"));
+				Util_XmlOperHelper.SetAttribute(newItem, "time", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
+				contentDoc.SelectSingleNode("/root").AppendChild(newItem);
+				string MsgBase64Conetent = Util_Common.Encoder_Base64(contentDoc.OuterXml);
+				activeParams.Add("symbol", MsgBase64Conetent);
+				existedLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
+				return "<root><msg>sent</msg></root>";
+			}
+		}
+
+		public string Action_Get_DialogList(string uid, AppLoader existedLoader)
+		{
+			string query_sql = "SELECT * FROM ikcoder_basic.messagesindex_students where symbol in (select symbol from ikcoder_basic.messagesindex_students where uid =" + uid + ")";
+			DataTable activeDataTable = existedLoader.ExecuteSQL(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, query_sql);
+			if (activeDataTable == null)
+				return "<root type='error'><errmsg>nodata</errmsg></root>";
+			else
+			{
+				XmlDocument returnDoc = new XmlDocument();
+				returnDoc.LoadXml("<root></root>");
+				int uid_index = 1;
+				foreach (DataRow activeRow in activeDataTable.Rows)
+				{
+					string strSymbol = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "symbol", out strSymbol);
+					XmlNode itemNode = returnDoc.SelectSingleNode("/root/item[@symbol='" + strSymbol + "']");
+					if (itemNode == null)
+					{
+						Util_XmlOperHelper.CreateNode("item", "");
+						returnDoc.AppendChild(itemNode);
+					}
+					string uid_fromdb = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "uid", out uid_fromdb);
+					Util_XmlOperHelper.SetAttribute(itemNode, "uid_" + uid_index, uid_fromdb);
+					uid_index++;
+				}
+				return Data_dbDataHelper.ActionConvertDTtoXMLString(activeDataTable);
+			}
+		}
+
+		public string Action_Set_NewDialog(List<string> lstOwners, AppLoader existedLoader)
+		{
+			string symbol_dialog = Guid.NewGuid().ToString();
+			Dictionary<string, string> activeParams = new Dictionary<string, string>();
+			activeParams.Add("symbol", symbol_dialog);
+			foreach (string owner in lstOwners)
+			{
+				activeParams.Add("uid", owner);
+				existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messagesindex_students, activeParams);
+			}
+			activeParams.Clear();
+			activeParams.Add("symbol", symbol_dialog);
+			string newMsgContent = "<msg></msg>";
+			string base64Content = Util_Common.Encoder_Base64(newMsgContent);
+			activeParams.Add("content", base64Content);
+			existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
+			StringBuilder strReturnDoc = new StringBuilder();
+			strReturnDoc.Append("<root type='passive'>");
+			strReturnDoc.Append("<action>" + Global.ActionsMap.Passive_Get_FlushDialogs + "</action>");
+			strReturnDoc.Append("</root>");
+			return strReturnDoc.ToString();
+		}
+
+		
+		public string Action_Get_DialogContent(string symbolMessage, AppLoader existedLoader)
+		{
+			Dictionary<string, string> activeParams = new Dictionary<string, string>();
+			activeParams.Add("symbol", symbolMessage);
+			DataTable activeDataTable = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
+			if (activeDataTable == null || activeDataTable.Rows.Count==0)
+			{
+				StringBuilder strReturnDoc = new StringBuilder();
+				strReturnDoc.Append("<root type='passive'>");
+				strReturnDoc.Append("<action>" + Global.ActionsMap.Passive_Get_FlushDialogs + "</action>");
+				strReturnDoc.Append("</root>");
+				return strReturnDoc.ToString();
+			}
 			else
 			{
 				StringBuilder resultStr = new StringBuilder();
-				if (activeDataTable.Rows.Count==0)
-				{
-					string newMsgContent = "<msg></msg>";
-					string base64Content = Util_Common.Encoder_Base64(newMsgContent);
-					activeParams.Add("content", base64Content);
-					existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
-					resultStr.Append("<root>");
-					resultStr.Append(newMsgContent);
-					resultStr.Append("</root>");
-				}
-				else
-				{
-					string base64MsgContent = string.Empty;
-					Data_dbDataHelper.GetColumnData(activeDataTable.Rows[0],"content", out base64MsgContent);
-					string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
-					resultStr.Append("<root>");
-					resultStr.Append(base64MsgContent);
-					resultStr.Append("</root>");
-				}
+				string base64MsgContent = string.Empty;
+				Data_dbDataHelper.GetColumnData(activeDataTable.Rows[0], "content", out base64MsgContent);
+				string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
+				resultStr.Append("<root>");
+				resultStr.Append(base64MsgContent);
+				resultStr.Append("</root>");
 				return resultStr.ToString();
 			}
 		}
 
-		public string Action_Get_DialogContent(string token, string msgid,AppLoader existedLoader)
+		public string Action_Set_DelDialog(string symbolMessage, AppLoader existedLoader)
 		{
-			string uid = Global.LoginServices.Pull(token).name;
 			Dictionary<string, string> activeParams = new Dictionary<string, string>();
-			activeParams.Add("source", uid);
-			DataTable activeDataTable = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
-			if (activeDataTable == null)
-				return "<root><errmsg>nodata</errmsg></root>";
+			activeParams.Add("symbol", symbolMessage);
+			if(existedLoader.ExecuteDeleteWithConditions(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams))
+			{
+				StringBuilder strReturnDoc = new StringBuilder();
+				strReturnDoc.Append("<root type='passive'>");
+				strReturnDoc.Append("<action>" + Global.ActionsMap.Action_Get_DialogList + "</action>");
+				strReturnDoc.Append("</root>");
+				return strReturnDoc.ToString();
+			}
 			else
 			{
-				return Data_dbDataHelper.ActionConvertDTtoXMLString(activeDataTable);
-			}
+				return "<root type='error'><errmsg>false</errmsg></root>";
+			}			
 		}
 
-		public string Action_Get_ActiveDialog(string token,AppLoader existedLoader)
-		{
-			string uid = Global.LoginServices.Pull(token).name;
-			Dictionary<string, string> activeParams = new Dictionary<string, string>();
-			activeParams.Add("source", uid);
-			DataTable activeDataTable = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
-			if (activeDataTable == null)
-				return "<root><errmsg>nodata</errmsg></root>";
-			else
-			{
-				return Data_dbDataHelper.ActionConvertDTtoXMLString(activeDataTable);
-			}
-		}
-		
 
 		private static Task SendStringAsync(System.Net.WebSockets.WebSocket socket, string data, CancellationToken ct = default(CancellationToken))
 		{
@@ -296,7 +428,7 @@ namespace CoreBasic.Midware
 			var segment = new ArraySegment<byte>(buffer);
 			return socket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
 		}
-
+				
 		private static async Task<string> ReceiveStringAsync(System.Net.WebSockets.WebSocket socket, CancellationToken ct = default(CancellationToken))
 		{
 			var buffer = new ArraySegment<byte>(new byte[8192]);

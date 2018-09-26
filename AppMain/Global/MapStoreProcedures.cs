@@ -19,6 +19,9 @@ namespace AppMain.Global
 			public const string spa_operation_students_mood = "spa_operation_students_mood";
 			public const string spa_operation_course_exp = "spa_operation_course_exp";
 			public const string spa_operation_students_lessonstatus = "spa_operation_students_lessonstatus";
+			public const string spa_operation_students_lessonfinished = "spa_operation_students_lessonfinished";
+			public const string spa_operation_achieved_defined = "spa_operation_achieved_defined";
+			public const string spa_operation_students_learninrecord = "spa_operation_students_learninrecord";
 		}				
     }
 }

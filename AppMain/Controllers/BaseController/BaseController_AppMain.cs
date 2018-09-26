@@ -60,6 +60,21 @@ namespace AppMain.Controllers.BaseController
 			}
 		}
 
+		public XmlDocument GetAPIFromCoreBasic(string api)
+		{
+			if (string.IsNullOrEmpty(api))
+				return null;
+			else
+			{				
+				string Url = ROOT_SERVER + api;
+				string result = RequestForString(Url, true);
+				XmlDocument resultDoc = new XmlDocument();
+				resultDoc.LoadXml(result);
+				XmlNode rootNode = resultDoc.SelectSingleNode("/root");
+				return resultDoc;
+			}
+		}
+
 		public bool VerifyToken()
 		{
 			string token = _appLoader.get_ClientToken(Request,SYBOL_TOKEN_BASIC);

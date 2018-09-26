@@ -71,6 +71,12 @@ namespace iKCoderComps
 			return AppContext.BaseDirectory;
 		}
 
+		public DataTable ExecuteSQL(string connectionkey, string sql)
+		{
+			DataTable dtResult;
+			Data_dbDataHelper.ActionExecuteSQLForDT(db_objectConnectionHelper.Get_ActiveConnection(connectionkey), sql, out dtResult);
+			return dtResult;
+		}
 
 		public bool ExecuteInsert(string connectionkey, string spname, Dictionary<string, string> mapparams)
 		{
@@ -83,6 +89,60 @@ namespace iKCoderComps
 					objSPEntry.ModifyParameterValue(columnname, mapparams[columnname]);
 				}
 				return db_objectSqlHelper.ExecuteInsertSP(objSPEntry, db_objectConnectionHelper, connectionkey);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public bool ExecuteDeleteWithConditions(string connectionkey, string spname, Dictionary<string, string> mapparams)
+		{
+			if (Map_SPS.ContainsKey(spname))
+			{
+				class_data_MySqlSPEntry objSPEntry = (class_data_MySqlSPEntry)Map_SPS[spname];
+				objSPEntry.ClearAllParamsValues();
+				foreach (string columnname in mapparams.Keys)
+				{
+					objSPEntry.ModifyParameterValue(columnname, mapparams[columnname]);
+				}
+				return db_objectSqlHelper.ExecuteDeleteConditionSP(objSPEntry, db_objectConnectionHelper, connectionkey);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public bool ExecuteDeleteWithMixedConditions(string connectionkey, string spname, Dictionary<string, string> mapparams)
+		{
+			if (Map_SPS.ContainsKey(spname))
+			{
+				class_data_MySqlSPEntry objSPEntry = (class_data_MySqlSPEntry)Map_SPS[spname];
+				objSPEntry.ClearAllParamsValues();
+				foreach (string columnname in mapparams.Keys)
+				{
+					objSPEntry.ModifyParameterValue(columnname, mapparams[columnname]);
+				}
+				return db_objectSqlHelper.ExecuteDeleteMixedSP(objSPEntry, db_objectConnectionHelper, connectionkey);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public bool ExecuteDeleteWithID(string connectionkey, string spname, Dictionary<string, string> mapparams)
+		{
+			if (Map_SPS.ContainsKey(spname))
+			{
+				class_data_MySqlSPEntry objSPEntry = (class_data_MySqlSPEntry)Map_SPS[spname];
+				objSPEntry.ClearAllParamsValues();
+				foreach (string columnname in mapparams.Keys)
+				{
+					objSPEntry.ModifyParameterValue(columnname, mapparams[columnname]);
+				}
+				return db_objectSqlHelper.ExecuteDeleteSP(objSPEntry, db_objectConnectionHelper, connectionkey);
 			}
 			else
 			{

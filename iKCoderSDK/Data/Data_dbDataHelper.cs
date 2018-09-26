@@ -497,6 +497,7 @@ namespace iKCoderSDK
                         Util_XmlOperHelper.SetAttribute(newRowNode, dc.ColumnName, columnValue);
                     }
                     rootNode.AppendChild(newRowNode);
+					rowIndex++;
                 }
                 Util_XmlOperHelper.SetAttribute(rootNode, "itemcount", rowIndex.ToString());
                 return resultDoc.OuterXml;

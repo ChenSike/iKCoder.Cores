@@ -31,6 +31,7 @@ namespace AppMain
 			services.AddScoped<Filter.Filter_TokenVerify>();
 			services.AddScoped<Filter.Filter_ConnectDB>();
 			services.AddScoped<Filter.Filter_InitServices>();
+			services.AddScoped<Filter.Filter_OperatorVerify>();
 		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
