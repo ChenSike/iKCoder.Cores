@@ -23,6 +23,9 @@ namespace CoreBasic.Controllers.Common_Services
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_SendMessage, "");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_DelDialog, "");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_DialogList, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_RelationsList, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_RelationsSearch, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_NewFriend, "");
 			return Content(messageHelper.GetMessageDocString());
 		}
     }

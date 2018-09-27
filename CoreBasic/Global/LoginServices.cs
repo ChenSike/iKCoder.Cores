@@ -126,7 +126,7 @@ namespace CoreBasic.Global
 						Pool_Logined.Remove(activeItem.token);
 					}
 				}
-				else if((DateTime.Now - activeItem.lastVisted).Minutes>SPAN_EXPIRED_HOURS)
+				else if((DateTime.Now - activeItem.lastVisted).Hours>SPAN_EXPIRED_HOURS)
 				{
 					lock (Pool_Logined)
 					{

@@ -224,6 +224,62 @@ namespace CoreBasic.Midware
 						}
 						return Action_Set_NewDialog(lstOwners, existedLoader);
 					}
+				case Global.ActionsMap.Action_Get_RelationsList:
+					/*
+					 * <root>
+					 * <from>
+					 * token
+					 * </from>
+					 * <action>
+					 * Action_Get_RelationsList
+					 * </action>
+					 * </root>
+					 */
+					return Action_Get_RelationsList(from, existedLoader);
+				case Global.ActionsMap.Action_Get_RelationsSearch:
+					/*
+					 * <root>
+					 * <from>
+					 * token
+					 * </from>
+					 * <action>
+					 * Action_Get_RelationsSearch
+					 * </action>
+					 * <value>
+					 * </value>
+					 * </root>
+					 */
+					string keyvalue = string.Empty;
+					XmlNode valueNode = protocalMessageDoc.SelectSingleNode("/root/value");
+					if (valueNode == null)
+						keyvalue = Util_XmlOperHelper.GetNodeValue(valueNode);
+					return Action_Get_RelationsSearch(keyvalue, existedLoader);
+				case Global.ActionsMap.Action_Get_RelationsAcceptableList:
+					return Action_Get_RelationsAcceptableList(token, existedLoader);
+				case Global.ActionsMap.Action_Set_NewFriend:
+					/*
+					 * <root>
+					 * <from>
+					 * token
+					 * </from>
+					 * <action>
+					 * Action_Set_NewFriend
+					 * </action>
+					 * <suname>
+					 * </suname>
+					 * </root>
+					 */
+					string suname = string.Empty;
+					XmlNode sunameNode = protocalMessageDoc.SelectSingleNode("/root/suname");
+					if (sunameNode == null)
+					{
+						return "<root type='error'><errmsg>nosuname</errmsg></root>";
+					}
+					else
+					{
+						suname = Util_XmlOperHelper.GetNodeValue(sunameNode);
+						return Action_Set_NewFriend(from, suname, existedLoader);
+					}
 				case Global.ActionsMap.Action_Set_SendMessage:
 					/*
 					 * <root>
@@ -283,6 +339,75 @@ namespace CoreBasic.Midware
 
 			}
 			return "";
+		}
+
+		public string Action_Get_RelationsAcceptableList(string token, AppLoader existedLoader)
+		{
+			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
+			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
+			paramsMap_for_profle.Add("@puname", activeItem.name);
+			paramsMap_for_profle.Add("@accetped", "0");
+			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+			return MessageHelper.TransDatatableToXML(dtData);
+		}
+
+		public string Action_Set_NewFriend(string token,string suname, AppLoader existedLoader)
+		{
+			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
+			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
+			paramsMap_for_profle.Add("@puname", activeItem.name);
+			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+			if (dtData != null && dtData.Rows.Count > 0)
+			{
+				DataRow[] rows = dtData.Select("sname='" + suname + "' and accetped='1'");
+				if (rows.Length > 0)
+				{
+					return MessageHelper.ExecuteFalse();
+				}
+			}
+			paramsMap_for_profle.Add("@sumnae", suname);
+			paramsMap_for_profle.Add("@accetped", "0");
+			if (existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
+			{
+				if (_accountTokenMap.ContainsKey(suname))
+				{
+					string owner_token = _accountTokenMap[suname];
+					WebSocket owner_socket = null;
+					if (_sockets.ContainsKey(owner_token))
+					{
+						owner_socket = _sockets[owner_token];
+						StringBuilder message = new StringBuilder();
+						message.Append("<root type='passive'>");
+						message.Append("<action>" + Global.ActionsMap.Action_Get_RelationsAcceptableList + "</action>");
+						message.Append("</root>");
+						SendStringAsync(owner_socket, message.ToString());
+					}
+				}
+				return MessageHelper.ExecuteSucessful();
+			}
+			else
+			{
+				return MessageHelper.ExecuteFalse();
+			}
+		}
+
+		public string Action_Get_RelationsSearch(string value, AppLoader existedLoader)
+		{
+			Dictionary<string, string> paramsMap = new Dictionary<string, string>();
+			paramsMap.Add("@uid", value);
+			paramsMap.Add("@nickname", value);
+			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap);
+			return MessageHelper.TransDatatableToXML(dtData);
+		}
+
+		public string Action_Get_RelationsList(string token, AppLoader existedLoader)
+		{
+			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
+			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
+			paramsMap_for_profle.Add("@puname", activeItem.name);
+			paramsMap_for_profle.Add("@accetped", "1");
+			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+			return MessageHelper.TransDatatableToXML(dtData);
 		}
 
 		public string Action_Set_SendMessage(string messageSymbol, string message, List<string> lstOwners, AppLoader existedLoader)
@@ -371,7 +496,7 @@ namespace CoreBasic.Midware
 			existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
 			StringBuilder strReturnDoc = new StringBuilder();
 			strReturnDoc.Append("<root type='passive'>");
-			strReturnDoc.Append("<action>" + Global.ActionsMap.Passive_Get_FlushDialogs + "</action>");
+			strReturnDoc.Append("<action>" + Global.ActionsMap.Action_Get_RelationsList + "</action>");
 			strReturnDoc.Append("</root>");
 			return strReturnDoc.ToString();
 		}
@@ -386,7 +511,7 @@ namespace CoreBasic.Midware
 			{
 				StringBuilder strReturnDoc = new StringBuilder();
 				strReturnDoc.Append("<root type='passive'>");
-				strReturnDoc.Append("<action>" + Global.ActionsMap.Passive_Get_FlushDialogs + "</action>");
+				strReturnDoc.Append("<action>" + Global.ActionsMap.Action_Get_RelationsList + "</action>");
 				strReturnDoc.Append("</root>");
 				return strReturnDoc.ToString();
 			}

@@ -59,7 +59,7 @@ namespace AppMain.Controllers.Course
 					string course_price = string.Empty;
 					Data_dbDataHelper.GetColumnData(activeRow, "price", out course_price);
 					string course_enable = string.Empty;
-					Data_dbDataHelper.GetColumnData(activeRow, "enable", out course_enable);
+					Data_dbDataHelper.GetColumnData(activeRow, "enabled", out course_enable);
 					XmlNode newItemNode = Util_XmlOperHelper.CreateNode(returnDoc, "item", "");
 					Util_XmlOperHelper.SetAttribute(newItemNode, "name", course_name);
 					Util_XmlOperHelper.SetAttribute(newItemNode, "id", course_id);
