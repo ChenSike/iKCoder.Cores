@@ -30,10 +30,12 @@ namespace AppMain.Controllers.Reports
 
 			//Get total count
 			doc_AccountTotal = GetAPIFromCoreBasic("Account_Students_TotalCount");
-			XmlNode rowNode = doc_AccountTotal.SelectSingleNode("/root/row[index='1']");
+			XmlNode rowNode = doc_AccountTotal.SelectSingleNode("/root/row[@index='1']");
 			string strTotalValue = Util_XmlOperHelper.GetAttrValue(rowNode, "total");
 			int iTotalValue = 1;
 			int.TryParse(strTotalValue, out iTotalValue);
+			if (iTotalValue == 0)
+				iTotalValue = 1;
 
 
 			//Get exp
@@ -53,15 +55,19 @@ namespace AppMain.Controllers.Reports
 			//Get exp postion for all
 			string sql = "select (@pos:=@pos+1) as pos,tmpResult.* from (SELECT sum(exp) as rexp,uid FROM ikcoder_appmain.students_exp group by uid order by rexp desc) tmpResult,(select @pos:=0) r";
 			DataTable dtData_Position = _appLoader.ExecuteSQL(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, sql);
-			DataRow[] row = dtData_Position.Select("uid='" + uname + "'");
 			string position = string.Empty;
-			if (row.Length == 1)
-			{				
-				Data_dbDataHelper.GetColumnData(row[0], "pos", out position);
-			}
-			else
+			if (dtData_Position != null && dtData_Position.Rows.Count > 0)
 			{
-				position = "1";
+				DataRow[] row = dtData_Position.Select("uid='" + uname + "'");
+
+				if (row.Length == 1)
+				{
+					Data_dbDataHelper.GetColumnData(row[0], "pos", out position);
+				}
+				else
+				{
+					position = "1";
+				}
 			}
 			int iPosition = 1;
 			int.TryParse(position, out iPosition);
@@ -163,7 +169,21 @@ namespace AppMain.Controllers.Reports
 			//Build Time Line
 			XmlNode timelineNode = Util_XmlOperHelper.CreateNode(doc_Result, "timeline", "");
 			rootNode.AppendChild(timelineNode);
-			DataRow[] start_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_StartLearning + "'");
+			if (dtData_LearningStatus != null && dtData_LearningStatus.Rows.Count > 0)
+			{
+				DataRow[] start_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_StartLearning + "'");
+				DataRow[] end_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_EndLearning + "'");
+				foreach(DataRow start_row in start_rows)
+				{
+					string str_rdt = string.Empty;
+					DateTime dt_rdt = new DateTime();
+					Data_dbDataHelper.GetColumnData(start_row, "rdt", out str_rdt);
+					DateTime.TryParse(str_rdt, out dt_rdt);
+					//str_rdt str_rtime = string.Empty;
+					//DateTime dt_rtime = new DateTime();
+
+				}
+			}
 
 			return Content(doc_Result.OuterXml);
 		}

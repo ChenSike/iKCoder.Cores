@@ -28,7 +28,7 @@ namespace AppMain.Controllers.Course
 				paramsmap.Add("@uid", uname);
 				paramsmap.Add("@lesson_code", lesson_code);
 				paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
-				_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_course_basic, paramsmap);
+				_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
 				return Content(MessageHelper.ExecuteSucessful());
 			}
 			catch

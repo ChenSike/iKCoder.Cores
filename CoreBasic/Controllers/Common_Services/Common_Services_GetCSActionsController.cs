@@ -11,9 +11,10 @@ namespace CoreBasic.Controllers.Common_Services
 {
     [Produces("application/json")]
     [Route("api/Common_Services_GetCSActions")]
-    public class Common_Services_GetCSActionsController : Controller
+    public class Common_Services_GetCSActionsController : ControllerBase_Std
     {
 		[ServiceFilter(typeof(Filter.Filter_OperatorCheck))]
+		[HttpGet]
 		public IActionResult action()
 		{
 			MessageHelper messageHelper = new MessageHelper();

@@ -509,7 +509,7 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-24 23:04:25
+-- Dump completed on 2018-09-29 23:45:30
 CREATE DATABASE  IF NOT EXISTS `ikcoder_appmain` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `ikcoder_appmain`;
 -- MySQL dump 10.13  Distrib 8.0.11, for Win64 (x86_64)
@@ -530,6 +530,32 @@ USE `ikcoder_appmain`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `achieved_defined`
+--
+
+DROP TABLE IF EXISTS `achieved_defined`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `achieved_defined` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) DEFAULT NULL,
+  `content` varchar(2000) DEFAULT NULL,
+  `lesson_code` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `achieved_defined`
+--
+
+LOCK TABLES `achieved_defined` WRITE;
+/*!40000 ALTER TABLE `achieved_defined` DISABLE KEYS */;
+INSERT INTO `achieved_defined` VALUES (1,'逻辑探索先驱','恭喜你，你已经开始了奇妙的编程之旅，奇妙的大门为你打开，从现在开始，你已经是一名数字斗士，为了战胜数字世界的敌人而继续努力吧。','A_001');
+/*!40000 ALTER TABLE `achieved_defined` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `course_basic`
 --
 
@@ -546,7 +572,7 @@ CREATE TABLE `course_basic` (
   `udba` varchar(20) DEFAULT NULL,
   `totalsteps` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -555,7 +581,7 @@ CREATE TABLE `course_basic` (
 
 LOCK TABLES `course_basic` WRITE;
 /*!40000 ALTER TABLE `course_basic` DISABLE KEYS */;
-INSERT INTO `course_basic` VALUES (1,'A','模式识别','1','A_001','S','UA','4'),(2,'A','路径跟随','1','A_002','S','UDA','4'),(3,'A','顺序','1','A_003','S','UA','4'),(4,'A','条件逻辑','1','A_004','ST','DA','4'),(5,'A','逻辑判断','1','A_005','ST','UA','4'),(6,'A','应用高级逻辑判断','1','A_006','S','UA','4'),(7,'A','应用否定逻辑','1','A_007','S','DA','4'),(8,'A','练习','1','A_008','S','DA','4'),(9,'A','条件循环','1','A_009','T','DA','4'),(10,'A','循环','1','A_010','ST','UA','4');
+INSERT INTO `course_basic` VALUES (1,'A','认识计算机-A','1','A_001','E','UD','1'),(2,'A','认识计算机-B','1','A_002','E','UD','1'),(3,'A','认识计算机-C','1','A_003','E','UD','1'),(4,'A','模式识别','1','A_004','T','UA','4'),(5,'A','路径跟随','1','A_005','T','UA','4'),(6,'A','顺序','1','A_006','T','UA','4'),(7,'A','条件逻辑','1','A_007','T','DA','4'),(8,'A','逻辑判断','1','A_008','S','DA','4'),(9,'A','应用高级逻辑判断','1','A_009','T','DA','4'),(10,'A','应用否定逻辑','1','A_010','T','UA','4'),(11,'A','条件循环','1','A_011','S','UA','4'),(12,'A','循环','1','A_012','T','UA','4'),(13,'A','多重循环','1','A_013','T','DA','4'),(14,'A','练习打字-A','1','A_014','T','UA','4'),(15,'A','变量','1','A_015','T','UA','4'),(16,'A','常量','1','A_016','T','UA','4'),(17,'A','函数-A','1','A_017','T','UD','4'),(18,'A','练习打字-B','1','A_018','T','UA','4'),(19,'A','函数-B','1','A_019','T','UA','4'),(20,'A','事件-A','1','A_020','T','UA','4'),(21,'A','事件-B','1','A_021','T','UA','4'),(22,'A','逻辑运算','1','A_022','T','UD','4'),(23,'A','数学运算','1','A_023','T','UA','4');
 /*!40000 ALTER TABLE `course_basic` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -605,7 +631,7 @@ CREATE TABLE `course_main` (
   `discount` int(11) DEFAULT '0',
   `enabled` varchar(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -614,7 +640,7 @@ CREATE TABLE `course_main` (
 
 LOCK TABLES `course_main` WRITE;
 /*!40000 ALTER TABLE `course_main` DISABLE KEYS */;
-INSERT INTO `course_main` VALUES (1,'A','逻辑课程','1',0,0,'1'),(2,'B ','HTML','0',200,0,'0'),(3,'C','JavaScript','0',800,0,'0'),(4,'D','Python','0',1000,0,'0'),(5,'E','C#','0',1000,0,'0');
+INSERT INTO `course_main` VALUES (1,'A','逻辑课程','1',0,0,'1'),(2,'B ','HTML','0',200,0,'0'),(3,'C','JavaScript','0',800,0,'0'),(4,'D','Python','0',1000,0,'0'),(5,'E','C#','0',1000,0,'0'),(6,'F','Java','0',1200,20,'0'),(7,'G','IOS','0',3000,10,'0');
 /*!40000 ALTER TABLE `course_main` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -708,7 +734,7 @@ CREATE TABLE `students_exp` (
   `rdate` varchar(45) DEFAULT NULL,
   `symbol` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -717,6 +743,7 @@ CREATE TABLE `students_exp` (
 
 LOCK TABLES `students_exp` WRITE;
 /*!40000 ALTER TABLE `students_exp` DISABLE KEYS */;
+INSERT INTO `students_exp` VALUES (1,'1',100,NULL,NULL),(2,'2',100,NULL,NULL),(3,'2',300,NULL,NULL),(4,'1',600,NULL,NULL),(5,'3',200,NULL,NULL);
 /*!40000 ALTER TABLE `students_exp` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -730,10 +757,12 @@ DROP TABLE IF EXISTS `students_learninrecord`;
 CREATE TABLE `students_learninrecord` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` varchar(45) DEFAULT NULL,
-  `lesson_id` int(11) DEFAULT NULL,
-  `actions` varchar(20) DEFAULT NULL,
-  `datetime` varchar(45) DEFAULT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `actions` varchar(30) DEFAULT NULL,
+  `rdt` varchar(45) DEFAULT NULL,
   `times` int(11) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `rtime` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -757,7 +786,8 @@ DROP TABLE IF EXISTS `students_lessonfinished`;
 CREATE TABLE `students_lessonfinished` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` varchar(45) DEFAULT NULL,
-  `symbol` varchar(45) DEFAULT NULL,
+  `lesson_code` varchar(45) DEFAULT NULL,
+  `rdt` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -855,6 +885,48 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'ikcoder_appmain'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `spa_operation_achieved_defined` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spa_operation_achieved_defined`(_operation varchar(40),_content varchar(2000),_id int(11),_lesson_code varchar(45),_title varchar(45))
+BEGIN
+DECLARE tmpsql VARCHAR(800);
+if _operation='select' then
+select * from achieved_defined;
+elseif _operation='insert' then
+insert into ikcoder_appmain.achieved_defined(content,lesson_code,title) values(_content,_lesson_code,_title);
+elseif _operation='update' and _content IS NOT NULL then
+update achieved_defined set content = _content where id = _id;
+elseif _operation='update' and _lesson_code IS NOT NULL then
+update achieved_defined set lesson_code = _lesson_code where id = _id;
+elseif _operation='update' and _title IS NOT NULL then
+update achieved_defined set title = _title where id = _id;
+elseif _operation='selectmixed'then
+select * from achieved_defined where content = IFNULL(_content,content) and id = IFNULL(_id,id) and lesson_code = IFNULL(_lesson_code,lesson_code) and title = IFNULL(_title,title);
+elseif _operation='delete' then
+delete from achieved_defined where id = _id;
+elseif _operation='deletecondition' then
+delete from achieved_defined where content = _content or id = _id or lesson_code = _lesson_code or title = _title;
+elseif _operation='deletemixed'then
+select * from achieved_defined where content = IFNULL(_content,content) and id = IFNULL(_id,id) and lesson_code = IFNULL(_lesson_code,lesson_code) and title = IFNULL(_title,title);
+elseif _operation='selectkey' then
+select * from achieved_defined where id = _id;
+elseif _operation='selectcondition' then
+select * from achieved_defined where content = _content or id = _id or lesson_code = _lesson_code or title = _title;
+END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `spa_operation_course_basic` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -982,6 +1054,46 @@ elseif _operation='selectkey' then
 select * from course_main where id = _id;
 elseif _operation='selectcondition' then
 select * from course_main where id = _id or name = _name or title = _title;
+END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spa_operation_exp_defined` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spa_operation_exp_defined`(_operation varchar(40),_exp int(11),_id int(11),_symbol varchar(45))
+BEGIN
+DECLARE tmpsql VARCHAR(800);
+if _operation='select' then
+select * from exp_defined;
+elseif _operation='insert' then
+insert into ikcoder_appmain.exp_defined(exp,symbol) values(_exp,_symbol);
+elseif _operation='update' and _exp IS NOT NULL then
+update exp_defined set exp = _exp where id = _id;
+elseif _operation='update' and _symbol IS NOT NULL then
+update exp_defined set symbol = _symbol where id = _id;
+elseif _operation='selectmixed'then
+select * from exp_defined where exp = IFNULL(_exp,exp) and id = IFNULL(_id,id) and symbol = IFNULL(_symbol,symbol);
+elseif _operation='delete' then
+delete from exp_defined where id = _id;
+elseif _operation='deletecondition' then
+delete from exp_defined where exp = _exp or id = _id or symbol = _symbol;
+elseif _operation='deletemixed'then
+select * from exp_defined where exp = IFNULL(_exp,exp) and id = IFNULL(_id,id) and symbol = IFNULL(_symbol,symbol);
+elseif _operation='selectkey' then
+select * from exp_defined where id = _id;
+elseif _operation='selectcondition' then
+select * from exp_defined where exp = _exp or id = _id or symbol = _symbol;
 END IF;
 END ;;
 DELIMITER ;
@@ -1161,6 +1273,48 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `spa_operation_students_lessonfinished` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spa_operation_students_lessonfinished`(_operation varchar(40),_id int(11),_lesson_name varchar(45),_rdt varchar(45),_uid varchar(45))
+BEGIN
+DECLARE tmpsql VARCHAR(800);
+if _operation='select' then
+select * from students_lessonfinished;
+elseif _operation='insert' then
+insert into ikcoder_appmain.students_lessonfinished(lesson_name,rdt,uid) values(_lesson_name,_rdt,_uid);
+elseif _operation='update' and _lesson_name IS NOT NULL then
+update students_lessonfinished set lesson_name = _lesson_name where id = _id;
+elseif _operation='update' and _rdt IS NOT NULL then
+update students_lessonfinished set rdt = _rdt where id = _id;
+elseif _operation='update' and _uid IS NOT NULL then
+update students_lessonfinished set uid = _uid where id = _id;
+elseif _operation='selectmixed'then
+select * from students_lessonfinished where id = IFNULL(_id,id) and lesson_name = IFNULL(_lesson_name,lesson_name) and rdt = IFNULL(_rdt,rdt) and uid = IFNULL(_uid,uid);
+elseif _operation='delete' then
+delete from students_lessonfinished where id = _id;
+elseif _operation='deletecondition' then
+delete from students_lessonfinished where id = _id or lesson_name = _lesson_name or rdt = _rdt or uid = _uid;
+elseif _operation='deletemixed'then
+select * from students_lessonfinished where id = IFNULL(_id,id) and lesson_name = IFNULL(_lesson_name,lesson_name) and rdt = IFNULL(_rdt,rdt) and uid = IFNULL(_uid,uid);
+elseif _operation='selectkey' then
+select * from students_lessonfinished where id = _id;
+elseif _operation='selectcondition' then
+select * from students_lessonfinished where id = _id or lesson_name = _lesson_name or rdt = _rdt or uid = _uid;
+END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `spa_operation_students_lessonstatus` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1301,4 +1455,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-24 23:04:26
+-- Dump completed on 2018-09-29 23:45:31
