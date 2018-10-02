@@ -94,10 +94,10 @@ namespace CoreBasic.Midware
 			byte[] hash_result = sha.ComputeHash(hash_buffer);
 			string strResult = Encoding.Default.GetString(hash_result);
 			string strResultBase64 = Util_Common.Encoder_Base64(strResult);
-			if (!context.Response.Headers.ContainsKey("Sec-WebSocket-Key"))
-				context.Response.Headers.Add("Sec-WebSocket-Key", strResultBase64);
+			if (!context.Response.Headers.ContainsKey("Sec-WebSocket-Accept"))
+				context.Response.Headers.Add("Sec-WebSocket-Accept", strResultBase64);
 			else
-				context.Response.Headers["context.Response.Headers"] = strResultBase64;
+				context.Response.Headers["Sec-WebSocket-Accept"] = strResultBase64;
 			
 			string token = get_ClientToken(context.Request, "student_token");
 			if (Global.LoginServices.verify_logined_token(token))
