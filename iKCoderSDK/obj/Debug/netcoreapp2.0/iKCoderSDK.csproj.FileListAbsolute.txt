@@ -15,3 +15,4 @@ C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Debug\netcoreapp2.0\iKCoderSDK.AssemblyI
 C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Debug\netcoreapp2.0\iKCoderSDK.AssemblyInfo.cs
 C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Debug\netcoreapp2.0\iKCoderSDK.dll
 C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Debug\netcoreapp2.0\iKCoderSDK.pdb
+C:\iKCoder\iKCoder.Cores\iKCoderSDK\obj\Debug\netcoreapp2.0\iKCoderSDK.csprojAssemblyReference.cache

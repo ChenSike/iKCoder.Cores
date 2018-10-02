@@ -77,15 +77,19 @@ namespace AppMain.Controllers.Reports
 				//Get finished lessons
 				paramsMap.Clear();
 				paramsMap.Add("@uid", uname);
-				DataTable dtData_FinishedLesson = _appLoader.ExecuteSelectWithConditionsReturnDT(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, AppMain.Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsMap);
-				int iFinishedLessons = dtData_FinishedLesson.Rows.Count;
 				List<string> lstLessonsFinished_Code = new List<string>();
 				List<string> lstLessonsFinished_Name = new List<string>();
-				foreach (DataRow activeDR in dtData_FinishedLesson.Rows)
+				DataTable dtData_FinishedLesson = _appLoader.ExecuteSelectWithConditionsReturnDT(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, AppMain.Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsMap);
+				int iFinishedLessons = 0;
+				if (dtData_FinishedLesson != null && dtData_FinishedLesson.Rows.Count > 0)
 				{
-					string lesson_code = string.Empty;
-					Data_dbDataHelper.GetColumnData(activeDR, "lesson_code", out lesson_code);
-					lstLessonsFinished_Code.Add(lesson_code);
+					iFinishedLessons = dtData_FinishedLesson.Rows.Count;
+					foreach (DataRow activeDR in dtData_FinishedLesson.Rows)
+					{
+						string lesson_code = string.Empty;
+						Data_dbDataHelper.GetColumnData(activeDR, "lesson_code", out lesson_code);
+						lstLessonsFinished_Code.Add(lesson_code);
+					}
 				}
 
 				//Get achieved defined

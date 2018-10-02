@@ -18,29 +18,15 @@
   <item name="spa_operation_groupmessages_students">
     <param name="_operation" type="nvarchar" length="40">
     </param>
-    <param name="_from" type="varchar" length="45">
-    </param>
     <param name="_id" type="int" length="11">
     </param>
     <param name="_isremoved" type="varchar" length="1">
+    </param>
+    <param name="_source" type="varchar" length="45">
     </param>
     <param name="_title" type="varchar" length="45">
     </param>
     <param name="_tolist" type="longblob">
-    </param>
-  </item>
-  <item name="spa_operation_message_students">
-    <param name="_operation" type="nvarchar" length="40">
-    </param>
-    <param name="_content" type="longblob">
-    </param>
-    <param name="_from" type="varchar" length="45">
-    </param>
-    <param name="_id" type="int" length="11">
-    </param>
-    <param name="_isremoved" type="varchar" length="1">
-    </param>
-    <param name="_to" type="varchar" length="45">
     </param>
   </item>
   <item name="spa_operation_messages_students">
@@ -48,13 +34,19 @@
     </param>
     <param name="_content" type="longblob">
     </param>
-    <param name="_from" type="varchar" length="45">
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_symbol" type="varchar" length="45">
+    </param>
+  </item>
+  <item name="spa_operation_messagesindex_students">
+    <param name="_operation" type="nvarchar" length="40">
     </param>
     <param name="_id" type="int" length="11">
     </param>
-    <param name="_lastupdate" type="varchar" length="45">
+    <param name="_symbol" type="varchar" length="45">
     </param>
-    <param name="_to" type="varchar" length="45">
+    <param name="_uid" type="varchar" length="45">
     </param>
   </item>
   <item name="spa_operation_payment_students">
@@ -97,6 +89,20 @@
     <param name="_puname" type="varchar" length="45">
     </param>
     <param name="_suname" type="varchar" length="45">
+    </param>
+  </item>
+  <item name="spa_operation_signin_students">
+    <param name="_operation" type="nvarchar" length="40">
+    </param>
+    <param name="_id" type="int" length="11">
+    </param>
+    <param name="_product" type="varchar" length="45">
+    </param>
+    <param name="_sdate" type="varchar" length="45">
+    </param>
+    <param name="_stime" type="varchar" length="45">
+    </param>
+    <param name="_uname" type="varchar" length="45">
     </param>
   </item>
 </root>
