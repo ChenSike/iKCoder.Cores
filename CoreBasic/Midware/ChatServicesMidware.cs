@@ -13,6 +13,7 @@ using System.Xml;
 using iKCoderSDK;
 using iKCoderComps;
 using System.Data;
+using System.Security.Cryptography;
 
 namespace CoreBasic.Midware
 {
@@ -86,6 +87,18 @@ namespace CoreBasic.Midware
 				return;
 			}
 
+			string strSecWebSocketKeyValue = context.Request.Headers["Sec-WebSocket-Key"].ToString();
+			SHA1 sha = SHA1.Create();
+			string strSecWebSocketKeyValue_ForSha = strSecWebSocketKeyValue + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+			byte[] hash_buffer = Encoding.Default.GetBytes(strSecWebSocketKeyValue_ForSha);
+			byte[] hash_result = sha.ComputeHash(hash_buffer);
+			string strResult = Encoding.Default.GetString(hash_result);
+			string strResultBase64 = Util_Common.Encoder_Base64(strResult);
+			if (!context.Response.Headers.ContainsKey("Sec-WebSocket-Key"))
+				context.Response.Headers.Add("Sec-WebSocket-Key", strResultBase64);
+			else
+				context.Response.Headers["context.Response.Headers"] = strResultBase64;
+			
 			string token = get_ClientToken(context.Request, "student_token");
 			if (Global.LoginServices.verify_logined_token(token))
 			{
@@ -97,7 +110,9 @@ namespace CoreBasic.Midware
 				string socketId = token;
 				if (!_sockets.ContainsKey(socketId))
 				{
+					
 					_sockets.TryAdd(socketId, currentSocket);
+					
 					newApploader.InitApiConfigs(Global.GlobalDefines.SY_CONFIG_FILE);
 					newApploader.ConnectDB(Global.GlobalDefines.DB_KEY_IKCODER_BASIC);
 					newApploader.LoadSPS(Global.GlobalDefines.DB_SPSMAP_FILE);
@@ -555,7 +570,7 @@ namespace CoreBasic.Midware
 		}
 				
 		private static async Task<string> ReceiveStringAsync(System.Net.WebSockets.WebSocket socket, CancellationToken ct = default(CancellationToken))
-		{
+		{			
 			var buffer = new ArraySegment<byte>(new byte[8192]);
 			using (var ms = new MemoryStream())
 			{

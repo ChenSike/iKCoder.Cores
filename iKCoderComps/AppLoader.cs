@@ -315,7 +315,6 @@ namespace iKCoderComps
 				return null;
 		}
 
-
 		public void clear_logined_token(HttpRequest httpRequest, HttpResponse httpResponse , ISession session , string tokenname)
 		{
 			if (httpRequest.Cookies.ContainsKey(tokenname))
