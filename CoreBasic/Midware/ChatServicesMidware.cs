@@ -409,10 +409,8 @@ namespace CoreBasic.Midware
 
 		public string Action_Get_RelationsSearch(string value, AppLoader existedLoader)
 		{
-			Dictionary<string, string> paramsMap = new Dictionary<string, string>();
-			paramsMap.Add("@uid", value);
-			paramsMap.Add("@nickname", value);
-			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap);
+			string sql = "select * from profile_students where uid = '" + value + "' or nickname like '%" + value + "%'";
+			DataTable dtData = existedLoader.ExecuteSQL(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, sql);
 			return MessageHelper.TransDatatableToXML(dtData);
 		}
 
