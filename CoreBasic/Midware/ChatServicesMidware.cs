@@ -264,11 +264,12 @@ namespace CoreBasic.Midware
 					 * </value>
 					 * </root>
 					 */
-					string keyvalue = string.Empty;
+					/*string keyvalue = string.Empty;
 					XmlNode valueNode = protocalMessageDoc.SelectSingleNode("/root/value");
 					if (valueNode != null)
 						keyvalue = Util_XmlOperHelper.GetNodeValue(valueNode);
-					return Action_Get_RelationsSearch(keyvalue, existedLoader);
+					return Action_Get_RelationsSearch(keyvalue, existedLoader);*/
+					return "hello";
 				case Global.ActionsMap.Action_Get_RelationsAcceptableList:
 					return Action_Get_RelationsAcceptableList(token, existedLoader);
 				case Global.ActionsMap.Action_Set_NewFriend:
