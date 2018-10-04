@@ -565,7 +565,7 @@ namespace CoreBasic.Midware
 		{
 			var buffer = Encoding.UTF8.GetBytes(data);
 			var segment = new ArraySegment<byte>(buffer);
-			return socket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
+			return socket.SendAsync(segment, WebSocketMessageType.Binary, true, ct);
 		}
 				
 		private static async Task<string> ReceiveStringAsync(System.Net.WebSockets.WebSocket socket, CancellationToken ct = default(CancellationToken))
