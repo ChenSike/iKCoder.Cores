@@ -170,8 +170,8 @@ namespace CoreBasic.Midware
 			if (fromNode == null)
 				return "<root type='error'><errmsg>nofrom</errmsg></root>";
 			string from = Util_XmlOperHelper.GetNodeValue(fromNode);
-			if(from != token)
-				return "<root type='error'><errmsg>invalidated token</errmsg></root>";
+			/*if(from != token)
+				return "<root type='error'><errmsg>invalidated token</errmsg></root>";*/
 			XmlNode actionNode = protocalMessageDoc.SelectSingleNode("/root/action");
 			if (actionNode == null)
 				return "<root type='error'><errmsg>noaction</errmsg></root>";
