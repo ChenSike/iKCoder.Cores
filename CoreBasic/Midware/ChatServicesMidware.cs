@@ -266,7 +266,7 @@ namespace CoreBasic.Midware
 					 */
 					string keyvalue = string.Empty;
 					XmlNode valueNode = protocalMessageDoc.SelectSingleNode("/root/value");
-					if (valueNode == null)
+					if (valueNode != null)
 						keyvalue = Util_XmlOperHelper.GetNodeValue(valueNode);
 					return Action_Get_RelationsSearch(keyvalue, existedLoader);
 				case Global.ActionsMap.Action_Get_RelationsAcceptableList:
