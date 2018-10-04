@@ -9,7 +9,7 @@ using iKCoderSDK;
 
 namespace AppMain.Controllers.System
 {
-    [Route("api/[controller]")]
+    [Route("api/System_Set_CreateSPS")]
     [ApiController]
     public class System_Set_CreateSPSController : BaseController.BaseController_AppMain
     {

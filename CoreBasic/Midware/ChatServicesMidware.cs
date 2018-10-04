@@ -98,12 +98,14 @@ namespace CoreBasic.Midware
 				context.Response.Headers.Add("Sec-WebSocket-Accept", strResultBase64);
 			else
 				context.Response.Headers["Sec-WebSocket-Accept"] = strResultBase64;
+			context.Response.Headers["Sec-WebSocket-Protocol"] = "chat";
 			
-			string token = get_ClientToken(context.Request, "student_token");
-			if (Global.LoginServices.verify_logined_token(token))
-			{
+			//string token = get_ClientToken(context.Request, "student_token");
+			//if (Global.LoginServices.verify_logined_token(token))
+			//{
 				CancellationToken ct = context.RequestAborted;
 				var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+				
 				AppLoader newApploader = new AppLoader();
 				string uname = Global.LoginServices.Pool_Logined[token].name;
 				_accountTokenMap.TryAdd(uname, token);
@@ -118,46 +120,46 @@ namespace CoreBasic.Midware
 					newApploader.LoadSPS(Global.GlobalDefines.DB_SPSMAP_FILE);
 				}
 
-				while (true)
+			while (true)
+			{
+				if (ct.IsCancellationRequested)
 				{
-					if (ct.IsCancellationRequested)
+					break;
+				}
+
+				string response = await ReceiveStringAsync(currentSocket, ct);
+				if (string.IsNullOrEmpty(response))
+				{
+					if (currentSocket.State != WebSocketState.Open)
 					{
 						break;
 					}
+					continue;
+				}
+				string returnContent = ProcessProtocal(token, response, newApploader);
+				await SendStringAsync(currentSocket, returnContent, ct);
 
-					string response = await ReceiveStringAsync(currentSocket, ct);
-					if (string.IsNullOrEmpty(response))
+				/*
+				foreach (var socket in _sockets)
+				{
+					if (socket.Value.State != WebSocketState.Open)
 					{
-						if (currentSocket.State != WebSocketState.Open)
-						{
-							break;
-						}
 						continue;
 					}
-					string returnContent = ProcessProtocal(token, response, newApploader);
-					await SendStringAsync(currentSocket, returnContent, ct);
-
-					/*
-					foreach (var socket in _sockets)
+					if (socket.Key == msg.ReceiverID || socket.Key == socketId)
 					{
-						if (socket.Value.State != WebSocketState.Open)
-						{
-							continue;
-						}
-						if (socket.Key == msg.ReceiverID || socket.Key == socketId)
-						{
-							await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
-						}
+						await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
 					}
-					*/
-					WebSocket dummy_socket;
-					_sockets.TryRemove(socketId, out dummy_socket);
-					string dummy_token;
-					_accountTokenMap.TryRemove(uname, out dummy_token);
-					newApploader.CloseDB();
-					await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
-					currentSocket.Dispose();
 				}
+				*/
+				WebSocket dummy_socket;
+				_sockets.TryRemove(socketId, out dummy_socket);
+				string dummy_token;
+				_accountTokenMap.TryRemove(uname, out dummy_token);
+				newApploader.CloseDB();
+				await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
+				currentSocket.Dispose();
+				//}
 			}
 		}
 
@@ -185,7 +187,7 @@ namespace CoreBasic.Midware
 					 * token
 					 * <from>
 					 * <action>
-					 * Action_Get_ActiveDialog
+					 * Action_Get_DialogList
 					 * </action>
 					 * </root>
 					 * 					 
@@ -219,7 +221,7 @@ namespace CoreBasic.Midware
 					 * </item>
 					 * </target>
 					 * <action>
-					 * Action_Get_DialogContent
+					 * Action_Set_NewDialog
 					 * </action>
 					 * </root>
 					 * 

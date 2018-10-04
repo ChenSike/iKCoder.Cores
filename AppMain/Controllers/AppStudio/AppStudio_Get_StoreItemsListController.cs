@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppMain.Controllers.Course
+namespace AppMain.Controllers.AppStudio
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Course_Get_CurrentLessonStatusController : ControllerBase
+    public class AppStudio_Get_StoreItemsListController : ControllerBase
     {
     }
 }
