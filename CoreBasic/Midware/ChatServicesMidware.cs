@@ -87,7 +87,7 @@ namespace CoreBasic.Midware
 				return;
 			}
 
-			string strSecWebSocketKeyValue = context.Request.Headers["Sec-WebSocket-Key"].ToString();
+			/*string strSecWebSocketKeyValue = context.Request.Headers["Sec-WebSocket-Key"].ToString();
 			SHA1 sha = SHA1.Create();
 			string strSecWebSocketKeyValue_ForSha = strSecWebSocketKeyValue + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 			byte[] hash_buffer = Encoding.Default.GetBytes(strSecWebSocketKeyValue_ForSha);
@@ -99,66 +99,65 @@ namespace CoreBasic.Midware
 			else
 				context.Response.Headers["Sec-WebSocket-Accept"] = strResultBase64;
 			context.Response.Headers["Sec-WebSocket-Protocol"] = "chat";
+			*/
 
 			string token = get_ClientToken(context.Request, "student_token");
 			if (Global.LoginServices.verify_logined_token(token))
 			{
-			CancellationToken ct = context.RequestAborted;
-			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
-
-			AppLoader newApploader = new AppLoader();
-			string uname = Global.LoginServices.Pool_Logined[token].name;
-			_accountTokenMap.TryAdd(uname, token);
-			string socketId = token;
-			if (!_sockets.ContainsKey(socketId))
-			{
-
-				_sockets.TryAdd(socketId, currentSocket);
-
-				newApploader.InitApiConfigs(Global.GlobalDefines.SY_CONFIG_FILE);
-				newApploader.ConnectDB(Global.GlobalDefines.DB_KEY_IKCODER_BASIC);
-				newApploader.LoadSPS(Global.GlobalDefines.DB_SPSMAP_FILE);
-			}
-
-			while (true)
-			{
-				if (ct.IsCancellationRequested)
+				CancellationToken ct = context.RequestAborted;
+				var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+				AppLoader newApploader = new AppLoader();
+				string uname = Global.LoginServices.Pool_Logined[token].name;
+				_accountTokenMap.TryAdd(uname, token);
+				string socketId = token;
+				if (!_sockets.ContainsKey(socketId))
 				{
-					break;
+
+					_sockets.TryAdd(socketId, currentSocket);
+					newApploader.InitApiConfigs(Global.GlobalDefines.SY_CONFIG_FILE);
+					newApploader.ConnectDB(Global.GlobalDefines.DB_KEY_IKCODER_BASIC);
+					newApploader.LoadSPS(Global.GlobalDefines.DB_SPSMAP_FILE);
 				}
 
-				string response = await ReceiveStringAsync(currentSocket, ct);
-				if (string.IsNullOrEmpty(response))
+				while (true)
 				{
-					if (currentSocket.State != WebSocketState.Open)
+					if (ct.IsCancellationRequested)
 					{
 						break;
 					}
-					continue;
-				}
-				string returnContent = ProcessProtocal(token, response, newApploader);
-				await SendStringAsync(currentSocket, returnContent, ct);
 
-				/*
-				foreach (var socket in _sockets)
-				{
-					if (socket.Value.State != WebSocketState.Open)
+					string response = await ReceiveStringAsync(currentSocket, ct);
+					if (string.IsNullOrEmpty(response))
 					{
+						if (currentSocket.State != WebSocketState.Open)
+						{
+							break;
+						}
 						continue;
 					}
-					if (socket.Key == msg.ReceiverID || socket.Key == socketId)
+					string returnContent = ProcessProtocal(token, response, newApploader);
+					await SendStringAsync(currentSocket, returnContent, ct);
+
+					/*
+					foreach (var socket in _sockets)
 					{
-						await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
+						if (socket.Value.State != WebSocketState.Open)
+						{
+							continue;
+						}
+						if (socket.Key == msg.ReceiverID || socket.Key == socketId)
+						{
+							await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
+						}
 					}
-				}
-				*/
-				WebSocket dummy_socket;
-				_sockets.TryRemove(socketId, out dummy_socket);
-				string dummy_token;
-				_accountTokenMap.TryRemove(uname, out dummy_token);
-				newApploader.CloseDB();
-				await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
-				currentSocket.Dispose();
+					*/
+					WebSocket dummy_socket;
+					_sockets.TryRemove(socketId, out dummy_socket);
+					string dummy_token;
+					_accountTokenMap.TryRemove(uname, out dummy_token);
+					newApploader.CloseDB();
+					await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
+					currentSocket.Dispose();
 				}
 			}
 		}
