@@ -101,8 +101,8 @@ namespace CoreBasic.Midware
 			context.Response.Headers["Sec-WebSocket-Protocol"] = "chat";
 
 			string token = get_ClientToken(context.Request, "student_token");
-			//if (Global.LoginServices.verify_logined_token(token))
-			//{
+			if (Global.LoginServices.verify_logined_token(token))
+			{
 			CancellationToken ct = context.RequestAborted;
 			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
 
@@ -159,7 +159,7 @@ namespace CoreBasic.Midware
 				newApploader.CloseDB();
 				await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
 				currentSocket.Dispose();
-				//}
+				}
 			}
 		}
 
