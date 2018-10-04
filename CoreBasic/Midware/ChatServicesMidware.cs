@@ -99,26 +99,26 @@ namespace CoreBasic.Midware
 			else
 				context.Response.Headers["Sec-WebSocket-Accept"] = strResultBase64;
 			context.Response.Headers["Sec-WebSocket-Protocol"] = "chat";
-			
-			//string token = get_ClientToken(context.Request, "student_token");
+
+			string token = get_ClientToken(context.Request, "student_token");
 			//if (Global.LoginServices.verify_logined_token(token))
 			//{
-				CancellationToken ct = context.RequestAborted;
-				var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
-				
-				AppLoader newApploader = new AppLoader();
-				string uname = Global.LoginServices.Pool_Logined[token].name;
-				_accountTokenMap.TryAdd(uname, token);
-				string socketId = token;
-				if (!_sockets.ContainsKey(socketId))
-				{
-					
-					_sockets.TryAdd(socketId, currentSocket);
-					
-					newApploader.InitApiConfigs(Global.GlobalDefines.SY_CONFIG_FILE);
-					newApploader.ConnectDB(Global.GlobalDefines.DB_KEY_IKCODER_BASIC);
-					newApploader.LoadSPS(Global.GlobalDefines.DB_SPSMAP_FILE);
-				}
+			CancellationToken ct = context.RequestAborted;
+			var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+
+			AppLoader newApploader = new AppLoader();
+			string uname = Global.LoginServices.Pool_Logined[token].name;
+			_accountTokenMap.TryAdd(uname, token);
+			string socketId = token;
+			if (!_sockets.ContainsKey(socketId))
+			{
+
+				_sockets.TryAdd(socketId, currentSocket);
+
+				newApploader.InitApiConfigs(Global.GlobalDefines.SY_CONFIG_FILE);
+				newApploader.ConnectDB(Global.GlobalDefines.DB_KEY_IKCODER_BASIC);
+				newApploader.LoadSPS(Global.GlobalDefines.DB_SPSMAP_FILE);
+			}
 
 			while (true)
 			{
