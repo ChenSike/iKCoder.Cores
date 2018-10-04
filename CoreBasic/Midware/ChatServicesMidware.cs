@@ -365,14 +365,13 @@ namespace CoreBasic.Midware
 			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			if (dtData != null && dtData.Rows.Count > 0)
 			{
-				DataRow[] rows = dtData.Select("sname='" + suname + "' and accetped='1'");
+				DataRow[] rows = dtData.Select("sname='" + suname + "' and accepted='1'");
 				if (rows.Length > 0)
 				{
 					return MessageHelper.ExecuteFalse();
 				}
 			}
 			paramsMap_for_profle.Add("@suname", suname);
-			paramsMap_for_profle.Add("@accepted", "0");
 			if (existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
 			{
 				if (_accountTokenMap.ContainsKey(suname))
@@ -409,7 +408,7 @@ namespace CoreBasic.Midware
 			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 			paramsMap_for_profle.Add("@puname", activeItem.name);
-			paramsMap_for_profle.Add("@accetped", "1");
+			paramsMap_for_profle.Add("@accepted", "1");
 			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			return MessageHelper.TransDatatableToXML(dtData);
 		}
