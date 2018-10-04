@@ -135,8 +135,19 @@ namespace CoreBasic.Midware
 						}
 						continue;
 					}
-					string returnContent = ProcessProtocal(token, response, newApploader);
-					await SendStringAsync(currentSocket, returnContent, ct);
+					string activeAction = string.Empty;
+					StringBuilder returnResult = new StringBuilder();
+					string returnContent = ProcessProtocal(token, response, newApploader,out activeAction);
+					returnResult.Append("<ret>");
+					returnResult.Append("<faction>");
+					returnResult.Append(activeAction);
+					returnResult.Append("</faction>");
+					returnResult.Append("<doc>");
+					returnResult.Append(returnContent);
+					returnResult.Append("</doc>");
+					returnResult.Append("</ret>");
+
+					await SendStringAsync(currentSocket, returnResult.ToString(), ct);
 					/*
 					foreach (var socket in _sockets)
 					{
@@ -161,8 +172,9 @@ namespace CoreBasic.Midware
 			}
 		}
 
-		private string ProcessProtocal(string token, string message, AppLoader existedLoader)
+		private string ProcessProtocal(string token, string message, AppLoader existedLoader,out string refAction)
 		{
+			refAction = "";
 			XmlDocument protocalMessageDoc = new XmlDocument();
 			protocalMessageDoc.LoadXml(message);
 			XmlNode fromNode = protocalMessageDoc.SelectSingleNode("/root/from");
@@ -176,6 +188,7 @@ namespace CoreBasic.Midware
 				return "<root type='error'><errmsg>noaction</errmsg></root>";
 			string action = Util_XmlOperHelper.GetNodeValue(actionNode);
 			XmlNode paramsNode = protocalMessageDoc.SelectSingleNode("/root/params");
+			refAction = action;
 			switch (action)
 			{
 				case Global.ActionsMap.Action_Get_DialogList:
