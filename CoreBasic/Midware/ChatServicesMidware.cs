@@ -264,12 +264,11 @@ namespace CoreBasic.Midware
 					 * </value>
 					 * </root>
 					 */
-					/*string keyvalue = string.Empty;
+					string keyvalue = string.Empty;
 					XmlNode valueNode = protocalMessageDoc.SelectSingleNode("/root/value");
 					if (valueNode != null)
 						keyvalue = Util_XmlOperHelper.GetNodeValue(valueNode);
-					return Action_Get_RelationsSearch(keyvalue, existedLoader);*/
-					return "hello";
+					return Action_Get_RelationsSearch(keyvalue, existedLoader);
 				case Global.ActionsMap.Action_Get_RelationsAcceptableList:
 					return Action_Get_RelationsAcceptableList(token, existedLoader);
 				case Global.ActionsMap.Action_Set_NewFriend:
@@ -564,8 +563,8 @@ namespace CoreBasic.Midware
 		private static Task SendStringAsync(System.Net.WebSockets.WebSocket socket, string data, CancellationToken ct = default(CancellationToken))
 		{
 			var buffer = Encoding.UTF8.GetBytes(data);
-			var segment = new ArraySegment<byte>(buffer);
-			return socket.SendAsync(segment, WebSocketMessageType.Binary, true, ct);
+			var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
+			return socket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
 		}
 				
 		private static async Task<string> ReceiveStringAsync(System.Net.WebSockets.WebSocket socket, CancellationToken ct = default(CancellationToken))
