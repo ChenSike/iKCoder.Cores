@@ -137,7 +137,6 @@ namespace CoreBasic.Midware
 					}
 					string returnContent = ProcessProtocal(token, response, newApploader);
 					await SendStringAsync(currentSocket, returnContent, ct);
-
 					/*
 					foreach (var socket in _sockets)
 					{
@@ -151,14 +150,14 @@ namespace CoreBasic.Midware
 						}
 					}
 					*/
-					WebSocket dummy_socket;
-					_sockets.TryRemove(socketId, out dummy_socket);
-					string dummy_token;
-					_accountTokenMap.TryRemove(uname, out dummy_token);
-					newApploader.CloseDB();
-					await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
-					currentSocket.Dispose();
 				}
+				WebSocket dummy_socket;
+				_sockets.TryRemove(socketId, out dummy_socket);
+				string dummy_token;
+				_accountTokenMap.TryRemove(uname, out dummy_token);
+				newApploader.CloseDB();
+				await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
+				currentSocket.Dispose();
 			}
 		}
 

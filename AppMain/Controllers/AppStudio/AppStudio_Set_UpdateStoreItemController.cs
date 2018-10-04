@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using iKCoderComps;
+using iKCoderSDK;
 
 namespace AppMain.Controllers.AppStudio
 {
@@ -15,9 +17,16 @@ namespace AppMain.Controllers.AppStudio
 		[ServiceFilter(typeof(AppMain.Filter.Filter_ConnectDB))]
 		[ServiceFilter(typeof(AppMain.Filter.Filter_TokenVerify))]
 		[HttpGet]
-		public ContentResult action()
+		public ContentResult action(string projectname)
 		{
-
+			string postData = _appLoader.get_PostData(HttpContext.Request);
+			string base64PostData = Util_Common.Encoder_Base64(postData);
+			Dictionary<string, string> paramsmap = new Dictionary<string, string>();
+			string uname = GetAccountInfoFromBasicController("name");
+			paramsmap.Add("@uid", uname);
+			paramsmap.Add("@pname", projectname);
+			paramsmap.Add("@contentdoc", base64PostData);
+			paramsmap.Add("@imdt", str_code);
 		}*/
     }
 }
