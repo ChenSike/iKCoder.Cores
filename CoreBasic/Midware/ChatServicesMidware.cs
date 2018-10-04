@@ -18,21 +18,6 @@ using System.Security.Cryptography;
 namespace CoreBasic.Midware
 {
 
-	public class MessageItem
-	{
-		public string SenderID { get; set; }
-		public string ReceiverID { get; set; }
-		public string MessageType { get; set; }
-		public string Content { get; set; }
-	}
-
-	public class WebSocket_socketItem
-	{
-		public DateTime regTime;
-		public DateTime recentTime;
-		public WebSocket _sockets;
-	}
-
 	public class ChatServicesMidware
     {
 		private static ConcurrentDictionary<string, System.Net.WebSockets.WebSocket> _sockets = new ConcurrentDictionary<string, System.Net.WebSockets.WebSocket>();
@@ -121,46 +106,39 @@ namespace CoreBasic.Midware
 
 				while (true)
 				{
-					if (ct.IsCancellationRequested)
+					try
 					{
-						break;
-					}
-
-					string response = await ReceiveStringAsync(currentSocket, ct);
-					if (string.IsNullOrEmpty(response))
-					{
-						if (currentSocket.State != WebSocketState.Open)
+						if (ct.IsCancellationRequested)
 						{
 							break;
 						}
-						continue;
-					}
-					string activeAction = string.Empty;
-					StringBuilder returnResult = new StringBuilder();
-					string returnContent = ProcessProtocal(token, response, newApploader,out activeAction);
-					returnResult.Append("<ret>");
-					returnResult.Append("<faction>");
-					returnResult.Append(activeAction);
-					returnResult.Append("</faction>");
-					returnResult.Append("<doc>");
-					returnResult.Append(returnContent);
-					returnResult.Append("</doc>");
-					returnResult.Append("</ret>");
 
-					await SendStringAsync(currentSocket, returnResult.ToString(), ct);
-					/*
-					foreach (var socket in _sockets)
-					{
-						if (socket.Value.State != WebSocketState.Open)
+						string response = await ReceiveStringAsync(currentSocket, ct);
+						if (string.IsNullOrEmpty(response))
 						{
+							if (currentSocket.State != WebSocketState.Open)
+							{
+								break;
+							}
 							continue;
 						}
-						if (socket.Key == msg.ReceiverID || socket.Key == socketId)
-						{
-							await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
-						}
+						string activeAction = string.Empty;
+						StringBuilder returnResult = new StringBuilder();
+						string returnContent = ProcessProtocal(token, response, newApploader, out activeAction);
+						returnResult.Append("<ret>");
+						returnResult.Append("<faction>");
+						returnResult.Append(activeAction);
+						returnResult.Append("</faction>");
+						returnResult.Append("<doc>");
+						returnResult.Append(returnContent);
+						returnResult.Append("</doc>");
+						returnResult.Append("</ret>");
+						await SendStringAsync(currentSocket, returnResult.ToString(), ct);
 					}
-					*/
+					catch
+					{
+						continue;
+					}
 				}
 				WebSocket dummy_socket;
 				_sockets.TryRemove(socketId, out dummy_socket);
@@ -393,8 +371,8 @@ namespace CoreBasic.Midware
 					return MessageHelper.ExecuteFalse();
 				}
 			}
-			paramsMap_for_profle.Add("@sumnae", suname);
-			paramsMap_for_profle.Add("@accetped", "0");
+			paramsMap_for_profle.Add("@suname", suname);
+			paramsMap_for_profle.Add("@accepted", "0");
 			if (existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
 			{
 				if (_accountTokenMap.ContainsKey(suname))
