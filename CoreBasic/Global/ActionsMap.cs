@@ -15,8 +15,10 @@ namespace CoreBasic.Global
 		public const string Action_Set_DelDialog = "Action_Set_DelDialog";
 		public const string Action_Get_RelationsList = "Action_Get_RelationsList";
 		public const string Action_Set_NewFriend = "Action_Set_NewFriend";
+		public const string Action_Set_AcceptFriend = "Action_Set_AcceptFriend";
 		public const string Action_Get_RelationsSearch = "Action_Get_RelationsSearch";
 		public const string Action_Get_RelationsAcceptableList = "Action_Get_RelationsAcceptableList";
+		public const string Action_Get_BatchArrProfile = "Action_Get_BatchArrProfile";
 		public const string Passive_Get_FlushDialogs = "Passive_Get_FlushDialogs";
 	}
 }

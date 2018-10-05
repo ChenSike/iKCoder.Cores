@@ -271,12 +271,16 @@ namespace CoreBasic.Midware
 					 * <action>
 					 * Action_Set_NewFriend
 					 * </action>
+					 * <msg>
+					 * </msg>
 					 * <suname>
 					 * </suname>
 					 * </root>
 					 */
 					string suname = string.Empty;
 					XmlNode sunameNode = protocalMessageDoc.SelectSingleNode("/root/suname");
+					string msg = string.Empty;
+					XmlNode msgNode = protocalMessageDoc.SelectSingleNode("/root/msg");
 					if (sunameNode == null)
 					{
 						return "<root type='error'><errmsg>nosuname</errmsg></root>";
@@ -284,8 +288,55 @@ namespace CoreBasic.Midware
 					else
 					{
 						suname = Util_XmlOperHelper.GetNodeValue(sunameNode);
-						return Action_Set_NewFriend(from, suname, existedLoader);
+						return Action_Set_NewFriend(from, suname, msg, existedLoader);
 					}
+				case Global.ActionsMap.Action_Set_AcceptFriend:
+					/*
+					 * <root>
+					 * <from>
+					 * token
+					 * </from>
+					 * <action>
+					 * Action_Set_AcceptFriend
+					 * </action>
+					 * <id>
+					 * </id>
+					 * </root>
+					 */
+					string id = string.Empty;
+					XmlNode idNode = protocalMessageDoc.SelectSingleNode("/root/id");
+					if (idNode == null)
+					{
+						return "<root type='error'><errmsg>noid</errmsg></root>";
+					}
+					else
+					{
+						id = Util_XmlOperHelper.GetNodeValue(idNode);
+						return Action_Set_AcceptFriend(id, existedLoader);
+					}
+				case Global.ActionsMap.Action_Get_BatchArrProfile:
+					/*
+					 * <root>
+					 * <from>
+					 * token
+					 * </from>
+					 * <action>
+					 * Action_Get_BatchArrProfile
+					 * </action>
+					 * <params>
+					 * <item>
+					 * </item>
+					 * </params>
+					 * </root>
+					 */
+					List<string> lstID = new List<string>();
+					XmlNodeList items = paramsNode.SelectNodes("item");
+					foreach(XmlNode item in items)
+					{
+						string itemValue = Util_XmlOperHelper.GetNodeValue(item);
+						lstID.Add(itemValue);
+					}
+					return Action_Get_BatchArrProfile(lstID, existedLoader);
 				case Global.ActionsMap.Action_Set_SendMessage:
 					/*
 					 * <root>
@@ -347,6 +398,22 @@ namespace CoreBasic.Midware
 			return "";
 		}
 
+		public string Action_Get_BatchArrProfile(List<string> lstID, AppLoader existedLoader)
+		{
+			StringBuilder sql = new StringBuilder();
+			sql.Append("select * from profile_students where uid in (");
+			for (int i =1; i <= lstID.Count; i++)
+			{
+				if (i == lstID.Count)
+					sql.Append("'" + lstID[i]);
+				else
+					sql.Append("'" + lstID[i] + "',");
+			}
+			sql.Append(")");
+			DataTable dtData = existedLoader.ExecuteSQL(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, sql.ToString());
+			return MessageHelper.TransDatatableToXML(dtData);
+		}
+
 		public string Action_Get_RelationsAcceptableList(string token, AppLoader existedLoader)
 		{
 			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
@@ -357,7 +424,7 @@ namespace CoreBasic.Midware
 			return MessageHelper.TransDatatableToXML(dtData);
 		}
 
-		public string Action_Set_NewFriend(string token,string suname, AppLoader existedLoader)
+		public string Action_Set_NewFriend(string token,string suname, string msg,AppLoader existedLoader)
 		{
 			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
@@ -373,6 +440,7 @@ namespace CoreBasic.Midware
 			}
 			paramsMap_for_profle.Add("@accepted", "0");
 			paramsMap_for_profle.Add("@suname", suname);
+			paramsMap_for_profle.Add("@message", msg);
 			if (existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
 			{
 				if (_accountTokenMap.ContainsKey(suname))
@@ -390,6 +458,45 @@ namespace CoreBasic.Midware
 					}
 				}
 				return MessageHelper.ExecuteSucessful();
+			}
+			else
+			{
+				return MessageHelper.ExecuteFalse();
+			}
+		}
+
+		public string Action_Set_AcceptFriend(string id, AppLoader existedLoader)
+		{			
+			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
+			paramsMap_for_profle.Add("@id",id);
+			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+			if (dtData != null && dtData.Rows.Count ==1 )
+			{
+				paramsMap_for_profle.Add("@accepted", "1");
+				if (existedLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
+				{
+					string puname = string.Empty;
+					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "", out puname);
+					if (_accountTokenMap.ContainsKey(puname))
+					{
+						string owner_token = _accountTokenMap[puname];
+						WebSocket owner_socket = null;
+						if (_sockets.ContainsKey(owner_token))
+						{
+							owner_socket = _sockets[owner_token];
+							StringBuilder message = new StringBuilder();
+							message.Append("<root type='passive'>");
+							message.Append("<action>" + Global.ActionsMap.Action_Get_RelationsList + "</action>");
+							message.Append("</root>");
+							SendStringAsync(owner_socket, message.ToString());
+						}
+					}
+					return MessageHelper.ExecuteSucessful();
+				}
+				else
+				{
+					return MessageHelper.ExecuteFalse();
+				}
 			}
 			else
 			{

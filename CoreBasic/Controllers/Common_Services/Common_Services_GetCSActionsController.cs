@@ -26,7 +26,10 @@ namespace CoreBasic.Controllers.Common_Services
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_DialogList, "");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_RelationsList, "");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_RelationsSearch, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_RelationsAcceptableList, "");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_NewFriend, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_AcceptFriend, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_BatchArrProfile, "");
 			return Content(messageHelper.GetMessageDocString());
 		}
     }
