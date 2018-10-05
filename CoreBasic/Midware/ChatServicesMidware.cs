@@ -365,12 +365,13 @@ namespace CoreBasic.Midware
 			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			if (dtData != null && dtData.Rows.Count > 0)
 			{
-				DataRow[] rows = dtData.Select("sname='" + suname + "' and accepted='1'");
+				DataRow[] rows = dtData.Select("suname='" + suname + "' and accepted='1'");
 				if (rows.Length > 0)
 				{
 					return MessageHelper.ExecuteFalse();
 				}
 			}
+			paramsMap_for_profle.Add("@accepted", "0");
 			paramsMap_for_profle.Add("@suname", suname);
 			if (existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
 			{
