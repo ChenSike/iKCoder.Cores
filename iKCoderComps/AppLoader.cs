@@ -204,6 +204,24 @@ namespace iKCoderComps
 			}
 		}
 
+		public class_data_PlatformDBDataReader ExecuteSelectWithConditionsReturnDR(string connectionkey, string spname, Dictionary<string, string> mapparams)
+		{
+			if (Map_SPS.ContainsKey(spname))
+			{
+				class_data_MySqlSPEntry objSPEntry = (class_data_MySqlSPEntry)Map_SPS[spname];
+				objSPEntry.ClearAllParamsValues();
+				foreach (string columnname in mapparams.Keys)
+				{
+					objSPEntry.ModifyParameterValue(columnname, mapparams[columnname]);
+				}
+				return db_objectSqlHelper.ExecuteSelectSPConditionForDR(objSPEntry, db_objectConnectionHelper, connectionkey);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
 		public DataTable ExecuteSelect(string connectionkey, string spname)
 		{
 			if (Map_SPS.ContainsKey(spname))

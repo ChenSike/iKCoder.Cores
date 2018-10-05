@@ -512,7 +512,7 @@ namespace CoreBasic.Midware
 		}
 
 		public string Action_Get_RelationsList(string token, AppLoader existedLoader)
-		{
+		{			
 			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 			paramsMap_for_profle.Add("@puname", activeItem.name);
