@@ -56,6 +56,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 						resturnMap.Add("city", city);
 					if (!string.IsNullOrEmpty(realname))
 						resturnMap.Add("realname", realname);
+					resturnMap.Add("uid", activeItem.name);
 					return Content(MessageHelper.ExecuteSucessfulDoc(resturnMap));
 				}
 				else

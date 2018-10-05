@@ -405,9 +405,9 @@ namespace CoreBasic.Midware
 			for (int i =1; i <= lstID.Count; i++)
 			{
 				if (i == lstID.Count)
-					sql.Append("'" + lstID[i]);
+					sql.Append("'" + lstID[i-1] + "'");
 				else
-					sql.Append("'" + lstID[i] + "',");
+					sql.Append("'" + lstID[i-1] + "',");
 			}
 			sql.Append(")");
 			DataTable dtData = existedLoader.ExecuteSQL(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, sql.ToString());
