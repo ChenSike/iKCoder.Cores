@@ -63,6 +63,24 @@ namespace CoreBasic.Midware
 		}
 
 
+		public string BuildReturnDoc(string optionalDoc,string faction , bool isPassive)
+		{
+			string activeAction = string.Empty;
+			StringBuilder returnResult = new StringBuilder();
+			if(!isPassive)
+				returnResult.Append("<ret>");
+			else
+				returnResult.Append("<ret passive='false'>");
+			returnResult.Append("<faction>");
+			returnResult.Append(faction);
+			returnResult.Append("</faction>");
+			returnResult.Append("<doc>");
+			returnResult.Append(optionalDoc);
+			returnResult.Append("</doc>");
+			returnResult.Append("</ret>");
+			return returnResult.ToString();
+		}
+
 
 		public async Task Invoke(HttpContext context)
 		{
@@ -123,17 +141,8 @@ namespace CoreBasic.Midware
 							continue;
 						}
 						string activeAction = string.Empty;
-						StringBuilder returnResult = new StringBuilder();
 						string returnContent = ProcessProtocal(token, response, newApploader, out activeAction);
-						returnResult.Append("<ret>");
-						returnResult.Append("<faction>");
-						returnResult.Append(activeAction);
-						returnResult.Append("</faction>");
-						returnResult.Append("<doc>");
-						returnResult.Append(returnContent);
-						returnResult.Append("</doc>");
-						returnResult.Append("</ret>");
-						await SendStringAsync(currentSocket, returnResult.ToString(), ct);
+						await SendStringAsync(currentSocket, BuildReturnDoc(returnContent, activeAction, false), ct);
 					}
 					catch
 					{
@@ -451,10 +460,11 @@ namespace CoreBasic.Midware
 					{
 						owner_socket = _sockets[owner_token];
 						StringBuilder message = new StringBuilder();
+
 						message.Append("<root type='passive'>");
 						message.Append("<action>" + Global.ActionsMap.Action_Get_RelationsAcceptableList + "</action>");
 						message.Append("</root>");
-						SendStringAsync(owner_socket, message.ToString());
+						SendStringAsync(owner_socket, BuildReturnDoc(message.ToString(), Global.ActionsMap.Action_Get_RelationsAcceptableList, true));
 					}
 				}
 				return MessageHelper.ExecuteSucessful();
@@ -488,7 +498,7 @@ namespace CoreBasic.Midware
 							message.Append("<root type='passive'>");
 							message.Append("<action>" + Global.ActionsMap.Action_Get_RelationsList + "</action>");
 							message.Append("</root>");
-							SendStringAsync(owner_socket, message.ToString());
+							SendStringAsync(owner_socket, BuildReturnDoc(message.ToString(), Global.ActionsMap.Action_Get_RelationsList, true));
 						}
 					}
 					return MessageHelper.ExecuteSucessful();
