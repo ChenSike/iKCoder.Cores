@@ -503,5 +503,34 @@ namespace iKCoderSDK
                 return resultDoc.OuterXml;
             }
         }
-    }
+
+		public static string ActionConvertDataRowstoXMLString(DataRow[] rows,DataTable sourceTable)
+		{
+			if (rows == null)
+				return string.Empty;
+			else
+			{
+				XmlDocument resultDoc = new XmlDocument();
+				resultDoc.LoadXml("<root></root>");
+				XmlNode rootNode = resultDoc.SelectSingleNode("/root");
+				int rowIndex = 1;
+				foreach (DataRow dr in rows)
+				{
+					XmlNode newRowNode = Util_XmlOperHelper.CreateNode(resultDoc, "row", "");
+					Util_XmlOperHelper.SetAttribute(newRowNode, "index", rowIndex.ToString());
+					foreach (DataColumn dc in sourceTable.Columns)
+					{
+						string columnValue = "";
+						GetColumnData(dr, dc.ColumnName, out columnValue);
+						Util_XmlOperHelper.SetAttribute(newRowNode, dc.ColumnName, columnValue);
+					}
+					rootNode.AppendChild(newRowNode);
+					rowIndex++;
+				}
+				Util_XmlOperHelper.SetAttribute(rootNode, "itemcount", rowIndex.ToString());
+				return resultDoc.OuterXml;
+			}
+		}
+
+	}
 }
