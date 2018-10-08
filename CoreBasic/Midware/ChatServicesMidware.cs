@@ -429,7 +429,7 @@ namespace CoreBasic.Midware
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 			paramsMap_for_profle.Add("@puname", activeItem.name);
 			paramsMap_for_profle.Add("@accetped", "0");
-			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+			DataTable dtData = existedLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			return MessageHelper.TransDatatableToXML(dtData);
 		}
 
@@ -527,7 +527,7 @@ namespace CoreBasic.Midware
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 			paramsMap_for_profle.Add("@puname", activeItem.name);
 			paramsMap_for_profle.Add("@accepted", "1");
-			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+			DataTable dtData = existedLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			return MessageHelper.TransDatatableToXML(dtData);
 		}
 
