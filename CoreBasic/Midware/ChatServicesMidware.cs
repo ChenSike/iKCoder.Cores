@@ -430,10 +430,9 @@ namespace CoreBasic.Midware
 				Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
 				Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 				paramsMap_for_profle.Add("@suname", activeItem.name);
-				DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
-				//DataRow[] rows = dtData.Select("isacc='0'");
-				//return Data_dbDataHelper.ActionConvertDataRowstoXMLString(, dtData);
-				return Data_dbDataHelper.ActionConvertDTtoXMLString(dtData);
+				DataTable dtData = existedLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+				DataRow[] rows = dtData.Select("isacc='0'");
+				return Data_dbDataHelper.ActionConvertDataRowstoXMLString(, dtData);
 			}
 			catch (Exception err)
 			{
