@@ -513,6 +513,7 @@ namespace iKCoderSDK
 				XmlDocument resultDoc = new XmlDocument();
 				resultDoc.LoadXml("<root></root>");
 				XmlNode rootNode = resultDoc.SelectSingleNode("/root");
+				int rowIndex = 1;
 				foreach (DataRow dr in rows)
 				{
 					XmlNode newRowNode = Util_XmlOperHelper.CreateNode(resultDoc, "row", "");
@@ -524,6 +525,7 @@ namespace iKCoderSDK
 						Util_XmlOperHelper.SetAttribute(newRowNode, dc.ColumnName, columnValue);
 					}
 					rootNode.AppendChild(newRowNode);
+					rowIndex++;
 				}
 				return resultDoc.OuterXml;
 			}
