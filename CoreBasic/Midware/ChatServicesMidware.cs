@@ -425,12 +425,19 @@ namespace CoreBasic.Midware
 
 		public string Action_Get_RelationsAcceptableList(string token, AppLoader existedLoader)
 		{
-			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
-			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
-			paramsMap_for_profle.Add("@suname", activeItem.name);
-			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
-			DataRow[] rows = dtData.Select("accepted='0'");
-			return Data_dbDataHelper.ActionConvertDataRowstoXMLString(rows, dtData);
+			try
+			{
+				Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
+				Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
+				paramsMap_for_profle.Add("@suname", activeItem.name);
+				DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+				DataRow[] rows = dtData.Select("accepted='0'");
+				return Data_dbDataHelper.ActionConvertDataRowstoXMLString(rows, dtData);
+			}
+			catch (Exception err)
+			{
+				return err.Message + "|" + err.StackTrace;
+			}
 		}
 
 		public string Action_Set_NewFriend(string token,string suname, string msg,AppLoader existedLoader)
