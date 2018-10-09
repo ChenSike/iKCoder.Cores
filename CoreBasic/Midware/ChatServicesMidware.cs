@@ -429,7 +429,7 @@ namespace CoreBasic.Midware
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 			paramsMap_for_profle.Add("@suname", activeItem.name);
 			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
-			DataRow[] rows = dtData.Select("accetped='0'");
+			DataRow[] rows = dtData.Select("accepted='0'");
 			return Data_dbDataHelper.ActionConvertDataRowstoXMLString(rows, dtData);
 		}
 
