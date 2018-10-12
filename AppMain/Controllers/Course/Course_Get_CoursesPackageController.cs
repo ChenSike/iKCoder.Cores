@@ -60,6 +60,12 @@ namespace AppMain.Controllers.Course
 					Data_dbDataHelper.GetColumnData(activeRow, "price", out course_price);
 					string course_enable = string.Empty;
 					Data_dbDataHelper.GetColumnData(activeRow, "enabled", out course_enable);
+					string course_diff = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "diff", out course_diff);
+					string course_udma = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "udma", out course_udma);
+					string course_des = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "des", out course_des);
 					XmlNode newItemNode = Util_XmlOperHelper.CreateNode(returnDoc, "item", "");
 					Util_XmlOperHelper.SetAttribute(newItemNode, "name", course_name);
 					Util_XmlOperHelper.SetAttribute(newItemNode, "id", course_id);
@@ -67,6 +73,9 @@ namespace AppMain.Controllers.Course
 					Util_XmlOperHelper.SetAttribute(newItemNode, "price", course_price);
 					Util_XmlOperHelper.SetAttribute(newItemNode, "discount", course_discount);
 					Util_XmlOperHelper.SetAttribute(newItemNode, "isfress", course_isfree);
+					Util_XmlOperHelper.SetAttribute(newItemNode, "diff", course_diff);
+					Util_XmlOperHelper.SetAttribute(newItemNode, "udma", course_udma);
+					Util_XmlOperHelper.SetAttribute(newItemNode, "des", course_des);
 					if (lstCoursesFromPackage.Contains(course_id) || course_isfree == "1")
 					{
 						Util_XmlOperHelper.SetAttribute(newItemNode, "access", "1");

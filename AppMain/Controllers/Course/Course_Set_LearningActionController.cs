@@ -50,6 +50,7 @@ namespace AppMain.Controllers.Course
 				paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
 				paramsmap.Add("@actions", str_action);
 				paramsmap.Add("@code", str_code);
+				paramsmap.Add("@type", str_type);
 				DataTable dtLearning = _appLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_learninrecord, paramsmap);
 				if (dtLearning != null)
 				{

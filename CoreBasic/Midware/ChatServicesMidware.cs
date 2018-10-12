@@ -197,6 +197,8 @@ namespace CoreBasic.Midware
 					 * <from>
 					 * token
 					 * </from>
+					 * <symbol>
+					 * </symbol>
 					 * <action>
 					 * Action_Get_DialogContent
 					 * </action>
@@ -602,11 +604,11 @@ namespace CoreBasic.Midware
 					Util_XmlOperHelper.SetAttribute(itemNode, "uid_" + uid_index, uid_fromdb);
 					uid_index++;
 				}
-				return Data_dbDataHelper.ActionConvertDTtoXMLString(activeDataTable);
+				return returnDoc.OuterXml.ToString();
 			}
 		}
 
-		public string Action_Set_NewDialog(List<string> lstOwners, AppLoader existedLoader)
+		public string Action_Set_NewDialog(string token, List<string> lstOwners, AppLoader existedLoader)
 		{
 			string symbol_dialog = Guid.NewGuid().ToString();
 			Dictionary<string, string> activeParams = new Dictionary<string, string>();
