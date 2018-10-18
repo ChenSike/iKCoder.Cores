@@ -92,7 +92,8 @@ namespace iKCoderSDK
                 {
                     newEntry.ActiveConnection = new class_data_MySqlConnectionItem();
                     newEntry.ActiveConnection.activeDatabaseType = activeDBType;
-                    ((class_data_MySqlConnectionItem)newEntry.ActiveConnection).ActiveConnection = new MySqlConnection(newEntry.ConnectionString);
+					string mysqlConnectionString = newEntry.ConnectionString + ";Allow User Variables=True";
+					((class_data_MySqlConnectionItem)newEntry.ActiveConnection).ActiveConnection = new MySqlConnection(mysqlConnectionString);
                     try
                     {
                         ((class_data_MySqlConnectionItem)newEntry.ActiveConnection).ActiveConnection.Open();

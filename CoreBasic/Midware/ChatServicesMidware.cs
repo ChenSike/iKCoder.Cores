@@ -190,7 +190,7 @@ namespace CoreBasic.Midware
 					 * </root>
 					 * 					 
 					 */
-					return Action_Get_DialogList(from, existedLoader);				
+					return Action_Get_DialogList(from, existedLoader);
 				case Global.ActionsMap.Action_Get_DialogContent:
 					/*
 					 * <root>
@@ -226,21 +226,23 @@ namespace CoreBasic.Midware
 					 * </root>
 					 * 
 					 */
-					if (paramsNode == null)
-					{
-						return "<root type='error'><errmsg>noparams</errmsg></root>";
+					XmlNodeList targetUserNodes = protocalMessageDoc.SelectNodes("/root/target/item");
+					List<string> lstTargetItems = new List<string>();
+					if (targetUserNodes != null && targetUserNodes.Count > 0)
+					{						
+						foreach (XmlNode itemNode in targetUserNodes)
+						{
+							string value = Util_XmlOperHelper.GetNodeValue(itemNode);
+							lstTargetItems.Add(value);
+						}
+						Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
+						lstTargetItems.Add(activeItem.name);
 					}
 					else
 					{
-						XmlNodeList targetItemNodes = paramsNode.SelectNodes("target/item");
-						List<string> lstOwners = new List<string>();
-						foreach(XmlNode itemNode in targetItemNodes)
-						{
-							string value = Util_XmlOperHelper.GetNodeValue(itemNode);
-							lstOwners.Add(value);
-						}
-						return Action_Set_NewDialog(lstOwners, existedLoader);
+						return "<root type='error'><errmsg>notargets</errmsg></root>";
 					}
+					return Action_Set_NewDialog(token, lstTargetItems, existedLoader);
 				case Global.ActionsMap.Action_Get_RelationsList:
 					/*
 					 * <root>
@@ -342,7 +344,7 @@ namespace CoreBasic.Midware
 					 */
 					List<string> lstID = new List<string>();
 					XmlNodeList items = paramsNode.SelectNodes("item");
-					foreach(XmlNode item in items)
+					foreach (XmlNode item in items)
 					{
 						string itemValue = Util_XmlOperHelper.GetNodeValue(item);
 						lstID.Add(itemValue);
@@ -382,7 +384,7 @@ namespace CoreBasic.Midware
 					else
 					{
 						XmlNode symbolNode = protocalMessageDoc.SelectSingleNode("/root/symbol");
-						if(symbolNode==null)
+						if (symbolNode == null)
 						{
 							return "<root type='error'><errmsg>nosymbol</errmsg></root>";
 						}
@@ -392,7 +394,7 @@ namespace CoreBasic.Midware
 						{
 							return "<root type='error'><errmsg>notarget</errmsg></root>";
 						}
-						string tagetValue = Util_XmlOperHelper.GetNodeValue(targetNode);						
+						string tagetValue = Util_XmlOperHelper.GetNodeValue(targetNode);
 						XmlNodeList targetItemNodes = paramsNode.SelectNodes("target/item");
 						List<string> lstOwners = new List<string>();
 						foreach (XmlNode itemNode in targetItemNodes)

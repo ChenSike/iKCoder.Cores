@@ -11,7 +11,7 @@ using System.Data;
 
 namespace AppMain.Controllers.Reports
 {
-	[Route("api/report_get_studentwreport")]
+	[Route("api/Report_Get_StudentWReport")]
 	[ApiController]
 	public class Report_Get_StudentWReportController : BaseController.BaseController_AppMain
 	{
@@ -99,7 +99,7 @@ namespace AppMain.Controllers.Reports
 				DataTable dtData_Basic = _appLoader.ExecuteSelect(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, AppMain.Global.MapStoreProcedures.ikcoder_appmain.spa_operation_course_basic);
 
 				//Get Learning Status
-				DataTable dtData_LearningStatus = _appLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_learninrecord, paramsMap);
+				DataTable dtData_LearningStatus = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_learninrecord, paramsMap);
 
 				//Build Sumary
 				XmlNode sumaryNode = Util_XmlOperHelper.CreateNode(doc_Result, "sumary", "");
@@ -142,26 +142,29 @@ namespace AppMain.Controllers.Reports
 				Dictionary<char, int> steamMapForLessons = new Dictionary<char, int>();
 				foreach (string lesson_code in lstLessonsFinished_Code)
 				{
-					DataRow[] finishedLessonRows = dtData_Basic.Select("lesson_code='" + lesson_code + "'");
-					if (finishedLessonRows.Length > 0)
+					if (dtData_Basic != null && dtData_Basic.Rows.Count > 0)
 					{
-						XmlNode finishedLessonRowsItem = Util_XmlOperHelper.CreateNode(doc_Result, "item", "");
-						string lesson_title = string.Empty;
-						string lesson_steam = string.Empty;
-						Data_dbDataHelper.GetColumnData(finishedLessonRows[0], "lesson_title", out lesson_title);
-						Data_dbDataHelper.GetColumnData(finishedLessonRows[0], "steam", out lesson_steam);
-						Util_XmlOperHelper.SetAttribute(finishedLessonRowsItem, "lesson_title", lesson_title);
-						lessonsLstNode.AppendChild(finishedLessonRowsItem);
-						char[] steam_chars = lesson_steam.ToCharArray();
-						foreach (char steam_char in steam_chars)
+						DataRow[] finishedLessonRows = dtData_Basic.Select("lesson_code='" + lesson_code + "'");
+						if (finishedLessonRows.Length > 0)
 						{
-							if (steamMapForLessons.ContainsKey(steam_char))
+							XmlNode finishedLessonRowsItem = Util_XmlOperHelper.CreateNode(doc_Result, "item", "");
+							string lesson_title = string.Empty;
+							string lesson_steam = string.Empty;
+							Data_dbDataHelper.GetColumnData(finishedLessonRows[0], "lesson_title", out lesson_title);
+							Data_dbDataHelper.GetColumnData(finishedLessonRows[0], "steam", out lesson_steam);
+							Util_XmlOperHelper.SetAttribute(finishedLessonRowsItem, "lesson_title", lesson_title);
+							lessonsLstNode.AppendChild(finishedLessonRowsItem);
+							char[] steam_chars = lesson_steam.ToCharArray();
+							foreach (char steam_char in steam_chars)
 							{
-								steamMapForLessons[steam_char] = steamMapForLessons[steam_char] + 1;
-							}
-							else
-							{
-								steamMapForLessons.Add(steam_char, 1);
+								if (steamMapForLessons.ContainsKey(steam_char))
+								{
+									steamMapForLessons[steam_char] = steamMapForLessons[steam_char] + 1;
+								}
+								else
+								{
+									steamMapForLessons.Add(steam_char, 1);
+								}
 							}
 						}
 					}
@@ -177,16 +180,33 @@ namespace AppMain.Controllers.Reports
 				rootNode.AppendChild(timelineNode);
 				if (dtData_LearningStatus != null && dtData_LearningStatus.Rows.Count > 0)
 				{
-					DataRow[] start_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_StartLearning + "'");
-					DataRow[] end_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_EndLearning + "'");
+					DataRow[] start_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_StartLearning);
 					foreach (DataRow start_row in start_rows)
 					{
-						string str_rdt = string.Empty;
-						DateTime dt_rdt = new DateTime();
-						Data_dbDataHelper.GetColumnData(start_row, "rdt", out str_rdt);
-						DateTime.TryParse(str_rdt, out dt_rdt);
-						//str_rdt str_rtime = string.Empty;
-						//DateTime dt_rtime = new DateTime();
+						string str_start_rdt = string.Empty;
+						DateTime dt_start_rdt = new DateTime();
+						Data_dbDataHelper.GetColumnData(start_row, "rdt", out str_start_rdt);
+						DateTime.TryParse(str_start_rdt, out dt_start_rdt);
+						int i_times = Data_dbDataHelper.GetColumnIntData(start_row, "times");
+						string str_code = string.Empty;
+						Data_dbDataHelper.GetColumnData(start_row, "code", out str_code);
+						DataRow[] end_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_EndLearning + "' and code='" + str_code + "'");
+						TimeSpan timeSpan = new TimeSpan();
+						bool isEnded = false;
+						if (end_rows.Length > 0)
+						{
+							string str_end_rdt = string.Empty;
+							Data_dbDataHelper.GetColumnData(end_rows[0], "rdt", out str_end_rdt);
+							DateTime dt_end_rdt = new DateTime();
+							DateTime.TryParse(str_end_rdt, out dt_end_rdt);
+							if (dt_end_rdt.Year == dt_start_rdt.Year && dt_end_rdt.Month == dt_start_rdt.Month && dt_end_rdt.Day == dt_start_rdt.Day)
+							{
+								isEnded = true;
+								timeSpan = dt_end_rdt - dt_start_rdt;
+							}
+						}
+						XmlNode timeItemNode = Util_XmlOperHelper.CreateNode(doc_Result, "item", "");
+						timelineNode.AppendChild(timeItemNode);
 
 					}
 				}

@@ -47,7 +47,7 @@ namespace AppMain.Controllers.Course
 				Dictionary<string, string> paramsmap = new Dictionary<string, string>();
 				string uname = GetAccountInfoFromBasicController("name");
 				paramsmap.Add("@uid", uname);
-				paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
+				paramsmap.Add("@rdt", DateTime.Now.ToString());
 				paramsmap.Add("@actions", str_action);
 				paramsmap.Add("@code", str_code);
 				paramsmap.Add("@type", str_type);
@@ -61,13 +61,11 @@ namespace AppMain.Controllers.Course
 						Data_dbDataHelper.GetColumnData(dtLearning.Rows[0], "id", out id);
 						paramsmap.Add("@times", (times++).ToString());
 						paramsmap.Add("@id", id);
-						paramsmap.Add("@rtime", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
 						_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_learninrecord, paramsmap);
 						return Content(MessageHelper.ExecuteSucessful());
 					}
 				}
 				paramsmap.Add("@times","1");
-				paramsmap.Add("@rtime", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
 				_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_learninrecord, paramsmap);
 				return Content(MessageHelper.ExecuteSucessful());
 			}

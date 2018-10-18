@@ -368,6 +368,7 @@ namespace iKCoderSDK
                     if (activeconnection != null && activeconnection.activeDatabaseType == enum_DatabaseType.SqlServer)
                     {
                         SqlCommand cmd = new SqlCommand(executeSql);
+						cmd.CommandType = CommandType.Text;
                         cmd.Connection = ((class_data_SqlServerConnectionItem)activeconnection).ActiveConnection;
                         SqlDataAdapter sda = new SqlDataAdapter(cmd);
                         resultDT = new DataTable();
@@ -377,6 +378,7 @@ namespace iKCoderSDK
                     else if (activeconnection != null && activeconnection.activeDatabaseType == enum_DatabaseType.MySql)
                     {
                         MySqlCommand cmd = new MySqlCommand(executeSql);
+						cmd.CommandType = CommandType.Text;
                         cmd.Connection = ((class_data_MySqlConnectionItem)activeconnection).ActiveConnection;
                         MySqlDataAdapter sda = new MySqlDataAdapter(cmd);
                         resultDT = new DataTable();

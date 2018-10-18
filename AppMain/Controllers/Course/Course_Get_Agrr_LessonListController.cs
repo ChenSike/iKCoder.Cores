@@ -51,7 +51,7 @@ namespace AppMain.Controllers.Course
 					Data_dbDataHelper.GetColumnData(row, "steam", out lesson_steam);
 					Data_dbDataHelper.GetColumnData(row, "udba", out lesson_udba);
 					Data_dbDataHelper.GetColumnData(row, "totalsteps", out lesson_steps);
-					Data_dbDataHelper.GetColumnData(row, "order", out lesson_order);
+					Data_dbDataHelper.GetColumnData(row, "lorder", out lesson_order);
 					Util_XmlOperHelper.SetAttribute(itemNode, "lesson_title", lesson_title);
 					Util_XmlOperHelper.SetAttribute(itemNode, "lesson_code", lesson_code);
 					Util_XmlOperHelper.SetAttribute(itemNode, "steam", lesson_steam);
