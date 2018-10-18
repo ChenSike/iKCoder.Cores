@@ -234,14 +234,14 @@ namespace CoreBasic.Midware
 						{
 							string value = Util_XmlOperHelper.GetNodeValue(itemNode);
 							lstTargetItems.Add(value);
-						}
-						Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
-						lstTargetItems.Add(activeItem.name);
+						}						
 					}
 					else
 					{
 						return "<root type='error'><errmsg>notargets</errmsg></root>";
 					}
+					Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
+					lstTargetItems.Add(activeItem.name);
 					return Action_Set_NewDialog(token, lstTargetItems, existedLoader);
 				case Global.ActionsMap.Action_Get_RelationsList:
 					/*
