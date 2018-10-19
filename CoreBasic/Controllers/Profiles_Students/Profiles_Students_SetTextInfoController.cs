@@ -18,7 +18,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 		[ServiceFilter(typeof(Filter.Filter_ConnectDB))]
 		[ServiceFilter(typeof(Filter.Filter_UserAuthrization))]
 		[HttpGet]
-		public ContentResult actionResult(string sex, string nickname, string birthday, string state, string city, string realname, string country = "China")
+		public ContentResult actionResult(string sex, string nickname, string birthday, string state, string city, string country = "China")
 		{
 			Global.ItemAccountStudents activeItem = _appLoader.get_SessionObject(HttpContext.Session, "student_item") as Global.ItemAccountStudents;
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
@@ -38,8 +38,6 @@ namespace CoreBasic.Controllers.Profiles_Students
 				paramsMap_for_profle.Add("@state", state);
 			if (!string.IsNullOrEmpty(city))
 				paramsMap_for_profle.Add("@city", city);
-			if (!string.IsNullOrEmpty(realname))
-				paramsMap_for_profle.Add("@realname", realname);
 			if (_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle))
 			{
 				return Content(MessageHelper.ExecuteSucessful());
