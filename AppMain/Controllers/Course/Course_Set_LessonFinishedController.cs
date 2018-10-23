@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using iKCoderComps;
 using iKCoderSDK;
+using System.Data;
 
 namespace AppMain.Controllers.Course
 {
@@ -27,8 +28,21 @@ namespace AppMain.Controllers.Course
 				string uname = GetAccountInfoFromBasicController("name");
 				paramsmap.Add("@uid", uname);
 				paramsmap.Add("@lesson_code", lesson_code);
-				paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
-				_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+				DataTable dtData = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+				if (dtData != null && dtData.Rows.Count == 1)
+				{
+					string finished_id = string.Empty;
+					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "id", out finished_id);
+					paramsmap.Clear();
+					paramsmap.Add("@id", finished_id);
+					paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
+					_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+				}
+				else
+				{
+					paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
+					_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+				}
 				return Content(MessageHelper.ExecuteSucessful());
 			}
 			catch

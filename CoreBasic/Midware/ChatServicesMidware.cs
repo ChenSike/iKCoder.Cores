@@ -176,6 +176,7 @@ namespace CoreBasic.Midware
 			string action = Util_XmlOperHelper.GetNodeValue(actionNode);
 			XmlNode paramsNode = protocalMessageDoc.SelectSingleNode("/root/params");
 			refAction = action;
+			Global.ItemAccountStudents activeStuentItem = Global.LoginServices.Pull(token);
 			switch (action)
 			{
 				case Global.ActionsMap.Action_Get_DialogList:
@@ -190,7 +191,7 @@ namespace CoreBasic.Midware
 					 * </root>
 					 * 					 
 					 */
-					return Action_Get_DialogList(from, existedLoader);
+					return Action_Get_DialogList(activeStuentItem.name, existedLoader);
 				case Global.ActionsMap.Action_Get_DialogContent:
 					/*
 					 * <root>
@@ -582,7 +583,7 @@ namespace CoreBasic.Midware
 
 		public string Action_Get_DialogList(string uid, AppLoader existedLoader)
 		{
-			string query_sql = "SELECT * FROM ikcoder_basic.messagesindex_students where symbol in (select symbol from ikcoder_basic.messagesindex_students where uid =" + uid + ")";
+			string query_sql = "SELECT * FROM ikcoder_basic.messagesindex_students where symbol in (select symbol from ikcoder_basic.messagesindex_students where uid = '" + uid + "')";
 			DataTable activeDataTable = existedLoader.ExecuteSQL(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, query_sql);
 			if (activeDataTable == null)
 				return "<root type='error'><errmsg>nodata</errmsg></root>";
@@ -590,20 +591,25 @@ namespace CoreBasic.Midware
 			{
 				XmlDocument returnDoc = new XmlDocument();
 				returnDoc.LoadXml("<root></root>");
+				XmlNode rootNode = returnDoc.SelectSingleNode("/root");
 				int uid_index = 1;
 				foreach (DataRow activeRow in activeDataTable.Rows)
 				{
 					string strSymbol = string.Empty;
 					Data_dbDataHelper.GetColumnData(activeRow, "symbol", out strSymbol);
+					string uid_fromdb = string.Empty;
+					Data_dbDataHelper.GetColumnData(activeRow, "uid", out uid_fromdb);
+					if (uid == uid_fromdb)
+						continue;
 					XmlNode itemNode = returnDoc.SelectSingleNode("/root/item[@symbol='" + strSymbol + "']");
 					if (itemNode == null)
 					{
-						Util_XmlOperHelper.CreateNode("item", "");
-						returnDoc.AppendChild(itemNode);
-					}
-					string uid_fromdb = string.Empty;
-					Data_dbDataHelper.GetColumnData(activeRow, "uid", out uid_fromdb);
-					Util_XmlOperHelper.SetAttribute(itemNode, "uid_" + uid_index, uid_fromdb);
+						itemNode = Util_XmlOperHelper.CreateNode(returnDoc, "item", "");
+						rootNode.AppendChild(itemNode);
+					}					
+					Util_XmlOperHelper.SetAttribute(itemNode, "uid", uid_fromdb);
+					Util_XmlOperHelper.SetAttribute(itemNode, "symbol", strSymbol);
+					Util_XmlOperHelper.SetAttribute(itemNode, "index", uid_index.ToString());
 					uid_index++;
 				}
 				return returnDoc.OuterXml.ToString();
@@ -617,6 +623,8 @@ namespace CoreBasic.Midware
 			activeParams.Add("symbol", symbol_dialog);
 			foreach (string owner in lstOwners)
 			{
+				if (activeParams.ContainsKey("uid"))
+					activeParams.Remove("uid");
 				activeParams.Add("uid", owner);
 				existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messagesindex_students, activeParams);
 			}
