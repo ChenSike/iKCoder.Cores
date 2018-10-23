@@ -35,6 +35,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 					string filePath = iKCoderComps.FileStore.GetImageStore(activeItem.id);
 					iKCoderComps.FileStore.VerifyUserStorItem(activeItem.id);
 					fileName = Guid.NewGuid() + "." + fileName.Split('.')[1];
+					fileName = fileName.Replace("\"", "");
 					Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 					paramsMap_for_profle.Add("@uid", activeItem.name);
 					DataTable dtData = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
