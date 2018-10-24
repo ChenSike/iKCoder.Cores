@@ -22,13 +22,13 @@ namespace AppMain.Controllers.Course
 		{
 			try
 			{
-				if(string.IsNullOrEmpty(lesson_code))
+				if (string.IsNullOrEmpty(lesson_code))
 					return Content(MessageHelper.ExecuteFalse());
 				Dictionary<string, string> paramsmap = new Dictionary<string, string>();
 				string uname = GetAccountInfoFromBasicController("name");
 				paramsmap.Add("@uid", uname);
 				paramsmap.Add("@lesson_code", lesson_code);
-				DataTable dtData = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+				DataTable dtData = _appLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
 				if (dtData != null && dtData.Rows.Count == 1)
 				{
 					string finished_id = string.Empty;
@@ -40,8 +40,8 @@ namespace AppMain.Controllers.Course
 				}
 				else
 				{
-					paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
-					_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+				paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
+				_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
 				}
 				return Content(MessageHelper.ExecuteSucessful());
 			}
