@@ -32,8 +32,8 @@ namespace CoreBasic.Controllers.Profiles_Students
 					string token = _appLoader.get_ClientToken(Request, "student_token");
 					Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
 					string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim();
-					string filePath = iKCoderComps.FileStore.GetImageStore(activeItem.id);
-					iKCoderComps.FileStore.VerifyUserStorItem(activeItem.id);
+					string filePath = iKCoderComps.FileStore.GetImageStore(_appLoader.GetAPICurrentPath(), activeItem.id);
+					iKCoderComps.FileStore.VerifyUserStorItem(_appLoader.GetAPICurrentPath(), activeItem.id);
 					fileName = Guid.NewGuid() + "." + fileName.Split('.')[1];
 					fileName = fileName.Replace("\"", "");
 					Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();

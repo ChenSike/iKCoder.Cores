@@ -8,7 +8,7 @@ namespace iKCoderComps
     public static class FileStore
     {
 
-		public const string LocalStoreDriver = "c:\\";
+		public static string LocalStoreDriver = "";
 
 		static FileStore()
 		{
@@ -18,13 +18,16 @@ namespace iKCoderComps
 			}		
 		}
 
+		
+		
 		public static string GetUerStoreName(string userid)
 		{
 			return "u" + "_" + userid;
 		}
 
-		public static void VerifyUserStorItem(string userid)
+		public static void VerifyUserStorItem(string rootPath,string userid)
 		{
+			LocalStoreDriver = rootPath;
 			if (!Directory.Exists(LocalStoreDriver + "storepool\\" + GetUerStoreName(userid)))
 				Directory.CreateDirectory(LocalStoreDriver + "\\storepool\\" + GetUerStoreName(userid));
 			if (!Directory.Exists(LocalStoreDriver + "storepool\\" + GetUerStoreName(userid) + "\\images\\"))
@@ -33,13 +36,15 @@ namespace iKCoderComps
 				Directory.CreateDirectory(LocalStoreDriver + "storepool\\" + GetUerStoreName(userid) + "\\data\\");
 		}
 
-		public static string GetImageStore(string userid)
+		public static string GetImageStore(string rootPath,string userid)
 		{
+			LocalStoreDriver = rootPath;
 			return LocalStoreDriver + "storepool\\" + GetUerStoreName(userid) + "\\images\\";
 		}
 
-		public static string GetDataStore(string userid)
+		public static string GetDataStorestring (string rootPath,string userid)
 		{
+			LocalStoreDriver = rootPath;
 			return LocalStoreDriver + "storepool\\" + GetUerStoreName(userid) + "\\data\\";
 		}
 				
