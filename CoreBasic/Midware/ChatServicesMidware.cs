@@ -636,7 +636,7 @@ namespace CoreBasic.Midware
 			existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
 			StringBuilder strReturnDoc = new StringBuilder();
 			strReturnDoc.Append("<root type='passive'>");
-			strReturnDoc.Append("<action>" + Global.ActionsMap.Action_Get_RelationsList + "</action>");
+			strReturnDoc.Append("<action>" + Global.ActionsMap.Action_Get_DialogList + "</action>");
 			strReturnDoc.Append("</root>");
 			return strReturnDoc.ToString();
 		}

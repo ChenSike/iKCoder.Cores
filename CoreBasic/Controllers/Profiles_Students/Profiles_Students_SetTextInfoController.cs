@@ -18,7 +18,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 		[ServiceFilter(typeof(Filter.Filter_ConnectDB))]
 		[ServiceFilter(typeof(Filter.Filter_UserAuthrization))]
 		[HttpGet]
-		public ContentResult actionResult(string sex, string nickname, string birthday, string state, string city, string country = "China")
+		public ContentResult actionResult(string sex, string nickname, string birthday, string state, string city, string realname,string country = "China")
 		{
 			try
 			{
@@ -63,13 +63,27 @@ namespace CoreBasic.Controllers.Profiles_Students
 					paramsMap_for_profle.Remove("@city");
 
 				}
+				if (!string.IsNullOrEmpty(sex))
+				{
+					paramsMap_for_profle.Add("@sex", sex);
+					_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
+					paramsMap_for_profle.Remove("@sex");
+
+				}
+				if (!string.IsNullOrEmpty(realname))
+				{
+					paramsMap_for_profle.Add("@realname", realname);
+					_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
+					paramsMap_for_profle.Remove("@realname");
+
+				}
 				return Content(MessageHelper.ExecuteSucessful());
 			}
 			catch
 			{
 				return Content(MessageHelper.ExecuteFalse());
 			}
-			
+
 		}
 	}
 }
