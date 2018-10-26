@@ -50,8 +50,8 @@ namespace iKCoderComps
 				string name = objApiConfig.GetAttrValue(activeSessionNode, "name");
 				Dictionary<string, string> mapAttrs = new Dictionary<string, string>();
 				List<XmlAttribute> sessionAttrs = objApiConfig.GetSessionAttrs(name);
-                //objApiConfig.SwitchToAESModeON();
-                objApiConfig.SwitchToAESModeOFF();
+                objApiConfig.SwitchToAESModeON();
+                //objApiConfig.SwitchToAESModeOFF();
 				foreach (XmlAttribute activeAttr in sessionAttrs)
 				{
 					if (activeAttr.Name != "name")
