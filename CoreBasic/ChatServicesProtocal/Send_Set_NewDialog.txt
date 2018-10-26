@@ -1,0 +1,1 @@
+<root><from>4f673dd9-4fb1-401a-aee4-0227cdc7ceb2</from><target><item>test_2</item></target><action>Action_Set_NewDialog</action></root>

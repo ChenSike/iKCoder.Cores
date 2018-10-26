@@ -1,0 +1,1 @@
+<root><from>4bd0f43f-fab5-4ab3-9423-4bc6db7cac1d</from><action>Action_Get_DialogList</action></root>
