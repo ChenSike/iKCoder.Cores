@@ -35,7 +35,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 					{
 						//string filePath = iKCoderComps.FileStore.GetImageStore(activeItem.id);
 						//return Content(MessageHelper.ExecuteSucessful("800", filePath + "\\" + header));
-						return Content(MessageHelper.ExecuteSucessful("800", "www.ikcoder.com/corebasic/storepool/" + iKCoderComps.FileStore.GetUerStoreName(activeItem.id) + "/" + header));
+						return Content(MessageHelper.ExecuteSucessful("800", "http://www.ikcoder.com/storepool/" + iKCoderComps.FileStore.GetUerStoreName(activeItem.id) + "/images/" + header));
 					}
 					else
 					{

@@ -18,7 +18,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 		[ServiceFilter(typeof(Filter.Filter_ConnectDB))]
 		[ServiceFilter(typeof(Filter.Filter_UserAuthrization))]
 		[HttpGet]
-		public ContentResult actionResult(string sex, string nickname, string birthday, string state, string city, string realname,string country = "China")
+		public ContentResult actionResult(string sex ="", string nickname = "", string birthday = "", string state = "", string city = "", string realname = "" ,string country = "China" , string school = "")
 		{
 			try
 			{
@@ -75,6 +75,13 @@ namespace CoreBasic.Controllers.Profiles_Students
 					paramsMap_for_profle.Add("@realname", realname);
 					_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
 					paramsMap_for_profle.Remove("@realname");
+
+				}
+				if (!string.IsNullOrEmpty(school))
+				{
+					paramsMap_for_profle.Add("@school", school);
+					_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
+					paramsMap_for_profle.Remove("@school");
 
 				}
 				return Content(MessageHelper.ExecuteSucessful());
