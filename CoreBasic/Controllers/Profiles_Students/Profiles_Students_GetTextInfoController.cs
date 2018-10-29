@@ -38,6 +38,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 					string city = string.Empty;
 					string realname = string.Empty;
 					string sex = string.Empty;
+                    string school = string.Empty;
 					Dictionary<string, string> resturnMap = new Dictionary<string, string>();
 					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "nickname", out nickName);
 					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "birthday", out birthday);
@@ -46,7 +47,8 @@ namespace CoreBasic.Controllers.Profiles_Students
 					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "city", out city);
 					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "realname", out realname);
 					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "sex", out sex);
-					if (!string.IsNullOrEmpty(nickName))
+                    Data_dbDataHelper.GetColumnData(dtData.Rows[0], "school", out school);
+                    if (!string.IsNullOrEmpty(nickName))
 						resturnMap.Add("nickname", nickName);
 					if (!string.IsNullOrEmpty(birthday))
 						resturnMap.Add("birthday", birthday);
@@ -60,7 +62,9 @@ namespace CoreBasic.Controllers.Profiles_Students
 						resturnMap.Add("realname", realname);
 					if (!string.IsNullOrEmpty(sex))
 						resturnMap.Add("sex", sex);
-					resturnMap.Add("uid", activeItem.name);
+                    if (!string.IsNullOrEmpty(school))
+                        resturnMap.Add("school", school);
+                    resturnMap.Add("uid", activeItem.name);
 					return Content(MessageHelper.ExecuteSucessfulDoc(resturnMap));
 				}
 				else

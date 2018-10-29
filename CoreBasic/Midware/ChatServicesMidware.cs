@@ -211,6 +211,8 @@ namespace CoreBasic.Midware
                     if (messageSymbolNode == null)
                         return "<root type='error'><errmsg>nosymbol</errmsg></root>";
                     message_symbol = Util_XmlOperHelper.GetNodeValue(messageSymbolNode);
+                    if(string.IsNullOrEmpty( message_symbol))
+                        return "<root type='error'><errmsg>nosymbol</errmsg></root>";
                     return Action_Get_DialogContent(message_symbol, existedLoader);
 				case Global.ActionsMap.Action_Set_NewDialog:
 					/*
