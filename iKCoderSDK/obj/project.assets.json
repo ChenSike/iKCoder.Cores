@@ -3324,23 +3324,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\schen2\\.nuget\\packages\\": {},
+    "C:\\Users\\Amanda\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\iKCoderSDK.csproj",
+      "projectUniqueName": "D:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\iKCoderSDK.csproj",
       "projectName": "iKCoderSDK",
-      "projectPath": "C:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\iKCoderSDK.csproj",
-      "packagesPath": "C:\\Users\\schen2\\.nuget\\packages\\",
-      "outputPath": "C:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\obj\\",
+      "projectPath": "D:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\iKCoderSDK.csproj",
+      "packagesPath": "C:\\Users\\Amanda\\.nuget\\packages\\",
+      "outputPath": "D:\\iKCoder\\iKCoder.Cores\\iKCoderSDK\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\schen2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Amanda\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

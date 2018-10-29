@@ -22,3 +22,15 @@ C:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.Assem
 C:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.csproj.CopyComplete
 C:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.dll
 C:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.pdb
+D:\iKCoder\iKCoder.Cores\iKCoderComps\bin\Debug\netcoreapp2.0\iKCoderComps.deps.json
+D:\iKCoder\iKCoder.Cores\iKCoderComps\bin\Debug\netcoreapp2.0\iKCoderComps.dll
+D:\iKCoder\iKCoder.Cores\iKCoderComps\bin\Debug\netcoreapp2.0\iKCoderComps.pdb
+D:\iKCoder\iKCoder.Cores\iKCoderComps\bin\Debug\netcoreapp2.0\iKCoderSDK.dll
+D:\iKCoder\iKCoder.Cores\iKCoderComps\bin\Debug\netcoreapp2.0\iKCoderSDK.pdb
+D:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.csprojAssemblyReference.cache
+D:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.csproj.CoreCompileInputs.cache
+D:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.AssemblyInfoInputs.cache
+D:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.AssemblyInfo.cs
+D:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.csproj.CopyComplete
+D:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.dll
+D:\iKCoder\iKCoder.Cores\iKCoderComps\obj\Debug\netcoreapp2.0\iKCoderComps.pdb
