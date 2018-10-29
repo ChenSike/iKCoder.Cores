@@ -193,7 +193,7 @@ namespace CoreBasic.Midware
 					 */
 					return Action_Get_DialogList(activeStuentItem.name, existedLoader);
 				case Global.ActionsMap.Action_Get_DialogContent:
-					/*
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -206,7 +206,12 @@ namespace CoreBasic.Midware
 					 * </root>
 					 * 
 					 */
-					return Action_Get_DialogContent(from, existedLoader);
+                    string message_symbol = string.Empty;
+                    XmlNode messageSymbolNode = protocalMessageDoc.SelectSingleNode("/root/symbol");
+                    if (messageSymbolNode == null)
+                        return "<root type='error'><errmsg>nosymbol</errmsg></root>";
+                    message_symbol = Util_XmlOperHelper.GetNodeValue(messageSymbolNode);
+                    return Action_Get_DialogContent(message_symbol, existedLoader);
 				case Global.ActionsMap.Action_Set_NewDialog:
 					/*
 					 * <root>
