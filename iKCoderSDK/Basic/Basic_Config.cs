@@ -62,7 +62,7 @@ namespace iKCoderSDK
             else
             {
                 string ADE = Util_XmlOperHelper.GetAttrValue(rootNode, "ADE");
-                if (ADE == "1")
+                if (ADE == "1" || ADE == string.Empty || ADE == "")
                     return true;
                 else
                     return false;
