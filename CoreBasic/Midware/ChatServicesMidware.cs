@@ -451,13 +451,13 @@ namespace CoreBasic.Midware
 			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			if (dtData != null && dtData.Rows.Count > 0)
 			{
-				DataRow[] rows = dtData.Select("suname='" + suname + "' and accepted='1'");
+                DataRow[] rows = dtData.Select("suname='" + suname + "'");
 				if (rows.Length > 0)
 				{
-					return MessageHelper.ExecuteFalse();
+					return MessageHelper.ExecuteSucessful();
 				}
 			}
-			paramsMap_for_profle.Add("@accepted", "0");
+			paramsMap_for_profle.Add("@isacc", "0");
 			paramsMap_for_profle.Add("@suname", suname);
 			paramsMap_for_profle.Add("@message", msg);
 			if (existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
@@ -470,7 +470,6 @@ namespace CoreBasic.Midware
 					{
 						owner_socket = _sockets[owner_token];
 						StringBuilder message = new StringBuilder();
-
 						message.Append("<root type='passive'>");
 						message.Append("<action>" + Global.ActionsMap.Action_Get_RelationsAcceptableList + "</action>");
 						message.Append("</root>");

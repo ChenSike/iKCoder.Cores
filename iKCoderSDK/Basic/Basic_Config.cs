@@ -54,6 +54,21 @@ namespace iKCoderSDK
             }
         }
 
+        public bool isADEConfig()
+        {
+            XmlNode rootNode = _configDoc.SelectSingleNode("/root");
+            if (rootNode == null)
+                return true;
+            else
+            {
+                string ADE = Util_XmlOperHelper.GetAttrValue(rootNode, "ADE");
+                if (ADE == "1")
+                    return true;
+                else
+                    return false;
+            }
+        }
+
         public void SwitchToAESModeON(string desKey)
         {
             _desKey = desKey;
