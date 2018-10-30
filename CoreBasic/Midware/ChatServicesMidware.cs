@@ -404,7 +404,7 @@ namespace CoreBasic.Midware
                     }
                     XmlNode messageNode = protocalMessageDoc.SelectSingleNode("/root/message");
                     string messageValue = Util_XmlOperHelper.GetNodeValue(messageNode);
-					return Action_Set_SendMessage(activeItem.name, symbolValue, message, lstOwners, existedLoader);
+					return Action_Set_SendMessage(activeStuentItem.name, symbolValue, message, lstOwners, existedLoader);
             }
 			return "";
 		}
