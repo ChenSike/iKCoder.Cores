@@ -665,10 +665,10 @@ namespace CoreBasic.Midware
 			{
 				StringBuilder resultStr = new StringBuilder();
 				string base64MsgContent = string.Empty;
-				Data_dbDataHelper.GetColumnData(activeDataTable.Rows[0], "content", out base64MsgContent);
+				Data_dbDataHelper.GetArrByteColumnDataToString(activeDataTable.Rows[0], "content", out base64MsgContent);
 				string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
 				resultStr.Append("<root>");
-				resultStr.Append(base64MsgContent);
+				resultStr.Append(MsgContent);
 				resultStr.Append("</root>");
 				return resultStr.ToString();
 			}
