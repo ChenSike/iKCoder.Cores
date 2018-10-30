@@ -20,5 +20,6 @@ namespace CoreBasic.Global
 		public const string Action_Get_RelationsAcceptableList = "Action_Get_RelationsAcceptableList";
 		public const string Action_Get_BatchArrProfile = "Action_Get_BatchArrProfile";
 		public const string Passive_Get_FlushDialogs = "Passive_Get_FlushDialogs";
+		public const string Passive_Get_ReceivedMessage = "Passive_Get_ReceivedMessage";
 	}
 }

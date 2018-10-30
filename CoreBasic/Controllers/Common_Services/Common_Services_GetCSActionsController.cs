@@ -30,6 +30,7 @@ namespace CoreBasic.Controllers.Common_Services
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_NewFriend, "");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Set_AcceptFriend, "");
 			messageHelper.AddMessage("action", Global.ActionsMap.Action_Get_BatchArrProfile, "");
+			messageHelper.AddMessage("action", Global.ActionsMap.Passive_Get_ReceivedMessage, "");
 			return Content(messageHelper.GetMessageDocString());
 		}
     }

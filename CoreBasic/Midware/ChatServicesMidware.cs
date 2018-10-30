@@ -539,7 +539,7 @@ namespace CoreBasic.Midware
 
 		
 
-		public string Action_Set_SendMessage(string messageSymbol, string message, List<string> lstOwners, AppLoader existedLoader)
+		public string Action_Set_SendMessage(string uid,string messageSymbol, string message, List<string> lstOwners, AppLoader existedLoader)
 		{
 			foreach(string owner in lstOwners)
 			{
@@ -550,6 +550,14 @@ namespace CoreBasic.Midware
 					if (_sockets.ContainsKey(owner_token))
 					{
 						owner_socket = _sockets[owner_token];
+						StringBuilder sent_message = new StringBuilder();
+						sent_message.Append("<root>");
+						sent_message.Append("<from>" + uid);
+						sent_message.Append("</from>");
+						sent_message.Append("<msg>");
+						sent_message.Append(message);
+						sent_message.Append("</msg>");
+						sent_message.Append("</root>");
 						SendStringAsync(owner_socket, message);
 					}
 				}
@@ -562,16 +570,17 @@ namespace CoreBasic.Midware
 			else
 			{
 				string base64MsgContent = string.Empty;
-				Data_dbDataHelper.GetColumnData(activeDataTable.Rows[0], "content", out base64MsgContent);
+				Data_dbDataHelper.GetArrByteColumnDataToString(activeDataTable.Rows[0], "content", out base64MsgContent);
 				string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
 				XmlDocument contentDoc = new XmlDocument();
 				contentDoc.LoadXml("<root></root>");
 				XmlNode newItem = Util_XmlOperHelper.CreateNode(contentDoc,"item", message);
 				Util_XmlOperHelper.SetAttribute(newItem, "date", DateTime.Now.ToString("yyyy-MM-dd"));
 				Util_XmlOperHelper.SetAttribute(newItem, "time", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
+				Util_XmlOperHelper.SetAttribute(newItem, "dt", DateTime.Now.ToString());
 				contentDoc.SelectSingleNode("/root").AppendChild(newItem);
 				string MsgBase64Conetent = Util_Common.Encoder_Base64(contentDoc.OuterXml);
-				activeParams.Add("symbol", MsgBase64Conetent);
+				activeParams.Add("content", MsgBase64Conetent);
 				existedLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
 				return "<root><msg>sent</msg></root>";
 			}

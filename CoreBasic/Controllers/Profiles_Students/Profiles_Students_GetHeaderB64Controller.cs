@@ -38,12 +38,28 @@ namespace CoreBasic.Controllers.Profiles_Students
                         return Content("");
                     }
                     string filePath = iKCoderComps.FileStore.GetImageStore(_appLoader.GetAPICurrentPath(), activeItem.id);
-                    FileStream fileStream = new FileStream(filePath + header, FileMode.Open);
-                    BinaryReader binaryReader = new BinaryReader(fileStream);
-                    byte[] dataBuffer = binaryReader.ReadBytes((int)fileStream.Length);
-                    string strDataBuffer = Encoding.Default.GetString(dataBuffer);
-                    string strB64 = Util_Common.Encoder_Base64(strDataBuffer);
-                    return Content(strB64);
+					try
+					{
+						FileStream fileStream = new FileStream(filePath + header, FileMode.Open);
+						BinaryReader binaryReader = new BinaryReader(fileStream);
+						byte[] dataBuffer = binaryReader.ReadBytes((int)fileStream.Length);
+						string strDataBuffer = Encoding.Default.GetString(dataBuffer);
+						string strB64 = Util_Common.Encoder_Base64(strDataBuffer);
+						binaryReader.Close();
+						fileStream.Close();
+						string[] filenameAttrs = header.Split(".");
+						string entendType = filenameAttrs[filenameAttrs.Length - 1];
+						string result = "data:image/";
+						if (entendType == "icon")
+							result = result + "x-icon;base64,";
+						else
+							result = entendType + ";base64,";
+						return Content(result + strB64);
+					}
+					catch
+					{
+						return Content("");
+					}
                 }
                 else
                 {
