@@ -177,10 +177,10 @@ namespace CoreBasic.Midware
 			XmlNode paramsNode = protocalMessageDoc.SelectSingleNode("/root/params");
 			refAction = action;
 			Global.ItemAccountStudents activeStuentItem = Global.LoginServices.Pull(token);
-			switch (action)
-			{
-				case Global.ActionsMap.Action_Get_DialogList:
-					/*
+            switch (action)
+            {
+                case Global.ActionsMap.Action_Get_DialogList:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -191,8 +191,8 @@ namespace CoreBasic.Midware
 					 * </root>
 					 * 					 
 					 */
-					return Action_Get_DialogList(activeStuentItem.name, existedLoader);
-				case Global.ActionsMap.Action_Get_DialogContent:
+                    return Action_Get_DialogList(activeStuentItem.name, existedLoader);
+                case Global.ActionsMap.Action_Get_DialogContent:
                     /*
 					 * <root>
 					 * <from>
@@ -211,11 +211,11 @@ namespace CoreBasic.Midware
                     if (messageSymbolNode == null)
                         return "<root type='error'><errmsg>nosymbol</errmsg></root>";
                     message_symbol = Util_XmlOperHelper.GetNodeValue(messageSymbolNode);
-                    if(string.IsNullOrEmpty( message_symbol))
+                    if (string.IsNullOrEmpty(message_symbol))
                         return "<root type='error'><errmsg>nosymbol</errmsg></root>";
                     return Action_Get_DialogContent(message_symbol, existedLoader);
-				case Global.ActionsMap.Action_Set_NewDialog:
-					/*
+                case Global.ActionsMap.Action_Set_NewDialog:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -234,25 +234,25 @@ namespace CoreBasic.Midware
 					 * </root>
 					 * 
 					 */
-					XmlNodeList targetUserNodes = protocalMessageDoc.SelectNodes("/root/target/item");
-					List<string> lstTargetItems = new List<string>();
-					if (targetUserNodes != null && targetUserNodes.Count > 0)
-					{						
-						foreach (XmlNode itemNode in targetUserNodes)
-						{
-							string value = Util_XmlOperHelper.GetNodeValue(itemNode);
-							lstTargetItems.Add(value);
-						}						
-					}
-					else
-					{
-						return "<root type='error'><errmsg>notargets</errmsg></root>";
-					}
-					Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
-					lstTargetItems.Add(activeItem.name);
-					return Action_Set_NewDialog(token, lstTargetItems, existedLoader);
-				case Global.ActionsMap.Action_Get_RelationsList:
-					/*
+                    XmlNodeList targetUserNodes = protocalMessageDoc.SelectNodes("/root/target/item");
+                    List<string> lstTargetItems = new List<string>();
+                    if (targetUserNodes != null && targetUserNodes.Count > 0)
+                    {
+                        foreach (XmlNode itemNode in targetUserNodes)
+                        {
+                            string value = Util_XmlOperHelper.GetNodeValue(itemNode);
+                            lstTargetItems.Add(value);
+                        }
+                    }
+                    else
+                    {
+                        return "<root type='error'><errmsg>notargets</errmsg></root>";
+                    }
+                    Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
+                    lstTargetItems.Add(activeItem.name);
+                    return Action_Set_NewDialog(token, lstTargetItems, existedLoader);
+                case Global.ActionsMap.Action_Get_RelationsList:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -262,9 +262,9 @@ namespace CoreBasic.Midware
 					 * </action>
 					 * </root>
 					 */
-					return Action_Get_RelationsList(from, existedLoader);
-				case Global.ActionsMap.Action_Get_RelationsSearch:
-					/*
+                    return Action_Get_RelationsList(from, existedLoader);
+                case Global.ActionsMap.Action_Get_RelationsSearch:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -276,15 +276,15 @@ namespace CoreBasic.Midware
 					 * </value>
 					 * </root>
 					 */
-					string keyvalue = string.Empty;
-					XmlNode valueNode = protocalMessageDoc.SelectSingleNode("/root/value");
-					if (valueNode != null)
-						keyvalue = Util_XmlOperHelper.GetNodeValue(valueNode);
-					return Action_Get_RelationsSearch(keyvalue, existedLoader);
-				case Global.ActionsMap.Action_Get_RelationsAcceptableList:
-					return Action_Get_RelationsAcceptableList(token, existedLoader);
-				case Global.ActionsMap.Action_Set_NewFriend:
-					/*
+                    string keyvalue = string.Empty;
+                    XmlNode valueNode = protocalMessageDoc.SelectSingleNode("/root/value");
+                    if (valueNode != null)
+                        keyvalue = Util_XmlOperHelper.GetNodeValue(valueNode);
+                    return Action_Get_RelationsSearch(keyvalue, existedLoader);
+                case Global.ActionsMap.Action_Get_RelationsAcceptableList:
+                    return Action_Get_RelationsAcceptableList(token, existedLoader);
+                case Global.ActionsMap.Action_Set_NewFriend:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -298,21 +298,21 @@ namespace CoreBasic.Midware
 					 * </suname>
 					 * </root>
 					 */
-					string suname = string.Empty;
-					XmlNode sunameNode = protocalMessageDoc.SelectSingleNode("/root/suname");
-					string msg = string.Empty;
-					XmlNode msgNode = protocalMessageDoc.SelectSingleNode("/root/msg");
-					if (sunameNode == null)
-					{
-						return "<root type='error'><errmsg>nosuname</errmsg></root>";
-					}
-					else
-					{
-						suname = Util_XmlOperHelper.GetNodeValue(sunameNode);
-						return Action_Set_NewFriend(from, suname, msg, existedLoader);
-					}
-				case Global.ActionsMap.Action_Set_AcceptFriend:
-					/*
+                    string suname = string.Empty;
+                    XmlNode sunameNode = protocalMessageDoc.SelectSingleNode("/root/suname");
+                    string msg = string.Empty;
+                    XmlNode msgNode = protocalMessageDoc.SelectSingleNode("/root/msg");
+                    if (sunameNode == null)
+                    {
+                        return "<root type='error'><errmsg>nosuname</errmsg></root>";
+                    }
+                    else
+                    {
+                        suname = Util_XmlOperHelper.GetNodeValue(sunameNode);
+                        return Action_Set_NewFriend(from, suname, msg, existedLoader);
+                    }
+                case Global.ActionsMap.Action_Set_AcceptFriend:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -324,19 +324,19 @@ namespace CoreBasic.Midware
 					 * </id>
 					 * </root>
 					 */
-					string id = string.Empty;
-					XmlNode idNode = protocalMessageDoc.SelectSingleNode("/root/id");
-					if (idNode == null)
-					{
-						return "<root type='error'><errmsg>noid</errmsg></root>";
-					}
-					else
-					{
-						id = Util_XmlOperHelper.GetNodeValue(idNode);
-						return Action_Set_AcceptFriend(id, existedLoader);
-					}
-				case Global.ActionsMap.Action_Get_BatchArrProfile:
-					/*
+                    string id = string.Empty;
+                    XmlNode idNode = protocalMessageDoc.SelectSingleNode("/root/id");
+                    if (idNode == null)
+                    {
+                        return "<root type='error'><errmsg>noid</errmsg></root>";
+                    }
+                    else
+                    {
+                        id = Util_XmlOperHelper.GetNodeValue(idNode);
+                        return Action_Set_AcceptFriend(id, existedLoader);
+                    }
+                case Global.ActionsMap.Action_Get_BatchArrProfile:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -350,16 +350,16 @@ namespace CoreBasic.Midware
 					 * </params>
 					 * </root>
 					 */
-					List<string> lstID = new List<string>();
-					XmlNodeList items = paramsNode.SelectNodes("item");
-					foreach (XmlNode item in items)
-					{
-						string itemValue = Util_XmlOperHelper.GetNodeValue(item);
-						lstID.Add(itemValue);
-					}
-					return Action_Get_BatchArrProfile(lstID, existedLoader);
-				case Global.ActionsMap.Action_Set_SendMessage:
-					/*
+                    List<string> lstID = new List<string>();
+                    XmlNodeList items = paramsNode.SelectNodes("item");
+                    foreach (XmlNode item in items)
+                    {
+                        string itemValue = Util_XmlOperHelper.GetNodeValue(item);
+                        lstID.Add(itemValue);
+                    }
+                    return Action_Get_BatchArrProfile(lstID, existedLoader);
+                case Global.ActionsMap.Action_Set_SendMessage:
+                    /*
 					 * <root>
 					 * <from>
 					 * token
@@ -370,7 +370,6 @@ namespace CoreBasic.Midware
 					 * <action>
 					 * Action_Set_OpenDialog
 					 * </action>
-					 * <params>
 					 * <target>
 					 * <item>
 					 * u1
@@ -381,41 +380,32 @@ namespace CoreBasic.Midware
 					 * </target>
 					 * <message>
 					 * </message>
-					 * </params>
 					 * </root>
 					 * 
 					 */
-					if (paramsNode == null)
-					{
-						return "<root type='error'><errmsg>noparams</errmsg></root>";
-					}
-					else
-					{
-						XmlNode symbolNode = protocalMessageDoc.SelectSingleNode("/root/symbol");
-						if (symbolNode == null)
-						{
-							return "<root type='error'><errmsg>nosymbol</errmsg></root>";
-						}
-						string symbolValue = Util_XmlOperHelper.GetNodeValue(symbolNode);
-						XmlNode targetNode = paramsNode.SelectSingleNode("target");
-						if (targetNode == null)
-						{
-							return "<root type='error'><errmsg>notarget</errmsg></root>";
-						}
-						string tagetValue = Util_XmlOperHelper.GetNodeValue(targetNode);
-						XmlNodeList targetItemNodes = paramsNode.SelectNodes("target/item");
-						List<string> lstOwners = new List<string>();
-						foreach (XmlNode itemNode in targetItemNodes)
-						{
-							string value = Util_XmlOperHelper.GetNodeValue(itemNode);
-							lstOwners.Add(value);
-						}
-						XmlNode messageNode = paramsNode.SelectSingleNode("message");
-						string messageValue = Util_XmlOperHelper.GetNodeValue(messageNode);
-						return Action_Set_SendMessage(symbolValue, message, lstOwners, existedLoader);
-					}
-
-			}
+                    XmlNode symbolNode = protocalMessageDoc.SelectSingleNode("/root/symbol");
+                    if (symbolNode == null)
+                    {
+                        return "<root type='error'><errmsg>nosymbol</errmsg></root>";
+                    }
+                    string symbolValue = Util_XmlOperHelper.GetNodeValue(symbolNode);
+                    XmlNode targetNode = protocalMessageDoc.SelectSingleNode("/root/target");
+                    if (targetNode == null)
+                    {
+                        return "<root type='error'><errmsg>notarget</errmsg></root>";
+                    }
+                    string tagetValue = Util_XmlOperHelper.GetNodeValue(targetNode);
+                    XmlNodeList targetItemNodes = protocalMessageDoc.SelectNodes("/root/target/item");
+                    List<string> lstOwners = new List<string>();
+                    foreach (XmlNode itemNode in targetItemNodes)
+                    {
+                        string value = Util_XmlOperHelper.GetNodeValue(itemNode);
+                        lstOwners.Add(value);
+                    }
+                    XmlNode messageNode = protocalMessageDoc.SelectSingleNode("/root/message");
+                    string messageValue = Util_XmlOperHelper.GetNodeValue(messageNode);
+                    return Action_Set_SendMessage(symbolValue, message, lstOwners, existedLoader);
+            }
 			return "";
 		}
 
