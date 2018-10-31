@@ -18,7 +18,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 		[ServiceFilter(typeof(Filter.Filter_InitServices))]
 		[ServiceFilter(typeof(Filter.Filter_ConnectDB))]
 		[ServiceFilter(typeof(Filter.Filter_UserAuthrization))]
-		[HttpGet]
+		[HttpPost]
 		public ContentResult actionResult()
 		{
 			try
