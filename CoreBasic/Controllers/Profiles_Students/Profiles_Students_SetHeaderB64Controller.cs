@@ -23,7 +23,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 		{
 			try
 			{
-				string data = _appLoader.get_PostData(HttpContext.Request);
+				string data = _appLoader.get_PostData(HttpContext.Request,"data");
 				string token = _appLoader.get_ClientToken(Request, "student_token");
 				if(string.IsNullOrEmpty(data))
 					return Content(MessageHelper.ExecuteFalse());

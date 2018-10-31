@@ -369,5 +369,13 @@ namespace iKCoderComps
 			return result;
 		}
 
-	}
+        public string get_PostData(HttpRequest httpRequest,string paramName)
+        {
+            if (httpRequest.Form.ContainsKey(paramName))
+                return httpRequest.Form[paramName].ToString();
+            else
+                return "";
+        }
+
+    }
 }
