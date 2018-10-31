@@ -554,6 +554,11 @@ namespace CoreBasic.Midware
 						sent_message.Append("<root>");
 						sent_message.Append("<from>" + uid);
 						sent_message.Append("</from>");
+						sent_message.Append("<group>");
+						sent_message.Append("</group>");
+						sent_message.Append("<action>");
+						sent_message.Append(Global.ActionsMap.Passive_Get_ReceivedMessage);
+						sent_message.Append("</action>");
 						sent_message.Append("<msg>");
 						sent_message.Append(message);
 						sent_message.Append("</msg>");
