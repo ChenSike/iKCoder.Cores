@@ -50,10 +50,10 @@ namespace CoreBasic.Controllers.Profiles_Students
 						string[] filenameAttrs = header.Split(".");
 						string entendType = filenameAttrs[filenameAttrs.Length - 1];
 						string result = "data:image/";
-						if (entendType == "icon")
+						/*if (entendType == "icon")
 							result = result + "x-icon;base64,";
 						else
-							result = entendType + ";base64,";
+							result = entendType + ";base64,";*/
 						return Content(result + strB64);
 					}
 					catch
