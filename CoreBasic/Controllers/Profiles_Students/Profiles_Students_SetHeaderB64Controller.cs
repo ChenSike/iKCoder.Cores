@@ -29,7 +29,8 @@ namespace CoreBasic.Controllers.Profiles_Students
 					return Content(MessageHelper.ExecuteFalse());
 				byte[] dataBuffer = Util_Common.Decoder_Base64ToBytes(data);
 				Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
-				Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
+                FileStore.VerifyUserStorItem(_appLoader.GetAPICurrentPath(), activeItem.id);
+                Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 				paramsMap_for_profle.Add("@uid", activeItem.name);
 				DataTable dt = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
 				if (dt != null && dt.Rows.Count > 0)
