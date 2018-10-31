@@ -11,7 +11,7 @@ using System.Data;
 
 namespace CoreBasic.Controllers.Profiles_Students
 {
-    [Produces("application/json")]
+    [Produces("application/text")]
     [Route("api/Profiles_Students_SetHeaderB64")]
     public class Profiles_Students_SetHeaderB64Controller : ControllerBase_Std
     {
