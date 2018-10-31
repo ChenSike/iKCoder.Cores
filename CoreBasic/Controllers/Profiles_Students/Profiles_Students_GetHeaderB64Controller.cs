@@ -47,14 +47,14 @@ namespace CoreBasic.Controllers.Profiles_Students
 						string strB64 = Util_Common.Encoder_Base64(strDataBuffer);
 						binaryReader.Close();
 						fileStream.Close();
-						string[] filenameAttrs = header.Split(".");
+						/*string[] filenameAttrs = header.Split(".");
 						string entendType = filenameAttrs[filenameAttrs.Length - 1];
 						string result = "data:image/";
-						/*if (entendType == "icon")
+						if (entendType == "icon")
 							result = result + "x-icon;base64,";
 						else
 							result = entendType + ";base64,";*/
-						return Content(result + strB64);
+						return Content(strB64);
 					}
 					catch
 					{
