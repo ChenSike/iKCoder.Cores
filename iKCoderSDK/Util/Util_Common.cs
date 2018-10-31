@@ -28,6 +28,24 @@ namespace iKCoderSDK
             }
         }
 
+		public static string Encoder_Base64(byte[] buffers)
+		{
+			if (buffers == null || buffers.Length == 0)
+				return string.Empty;
+			else
+			{
+				try
+				{
+					string str = Convert.ToBase64String(buffers);
+					return str;
+				}
+				catch
+				{
+					return string.Empty;
+				}
+			}
+		}
+
 		public static string Decoder_Base64(string data)
 		{
 			if (string.IsNullOrEmpty(data))
