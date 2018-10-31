@@ -53,7 +53,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 							result = result + "x-icon;base64,";
 						else
 							result = result + entendType + ";base64,";
-						return Content(strB64);
+						return Content(result + strB64);
 					}
 					catch
 					{
