@@ -58,6 +58,17 @@ namespace iKCoderSDK
 			}
 		}
 
+		public static byte[] Decoder_Base64ToBytes(string data)
+		{
+			if (string.IsNullOrEmpty(data))
+				return null;
+			else
+			{
+				byte[] outputb = Convert.FromBase64String(data);
+				return outputb;
+			}
+		}
+
         public static long GuidToLongID()
         {
             byte[] buffer = Guid.NewGuid().ToByteArray();

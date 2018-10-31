@@ -39,18 +39,28 @@ namespace CoreBasic.Controllers.Profiles_Students
 					Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 					paramsMap_for_profle.Add("@uid", activeItem.name);
 					DataTable dtData = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
-					string id = string.Empty;
-					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "id", out id);
-					paramsMap_for_profle = new Dictionary<string, string>();
-					paramsMap_for_profle.Add("@id", id);
-					paramsMap_for_profle.Add("@header", fileName);
-					if (_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle))
+					if (dtData != null && dtData.Rows.Count > 0)
 					{
-						string fileFullName = filePath + fileName;
-						using (FileStream fs = System.IO.File.Create(fileFullName))
+						string header = string.Empty;
+						Data_dbDataHelper.GetColumnData(dtData.Rows[0], "header", out header);
+						fileName = header;
+					    string id = string.Empty;
+						Data_dbDataHelper.GetColumnData(dtData.Rows[0], "id", out id);
+						paramsMap_for_profle = new Dictionary<string, string>();
+						paramsMap_for_profle.Add("@id", id);
+						paramsMap_for_profle.Add("@header", fileName);
+						if (_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle))
 						{
-							file.CopyTo(fs);
-							fs.Flush();
+							string fileFullName = filePath + fileName;
+							using (FileStream fs = System.IO.File.Create(fileFullName))
+							{
+								file.CopyTo(fs);
+								fs.Flush();
+							}
+						}
+						else
+						{
+							return Content(MessageHelper.ExecuteFalse());
 						}
 					}
 					else
