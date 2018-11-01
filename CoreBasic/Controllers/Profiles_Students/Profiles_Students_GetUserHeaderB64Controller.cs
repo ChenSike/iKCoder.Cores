@@ -30,7 +30,7 @@ namespace CoreBasic.Controllers.Profiles_Students
 				string uid = string.Empty;
 				Data_dbDataHelper.GetColumnData(dtUser.Rows[0], "id", out uid);
                 Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
-                paramsMap_for_profle.Add("@uid", uid);
+                paramsMap_for_profle.Add("@uid", uname);
                 DataTable dt = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_profile_students, paramsMap_for_profle);
                 if (dt != null && dt.Rows.Count > 0)
                 {
