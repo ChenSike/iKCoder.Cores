@@ -13,8 +13,8 @@ namespace AppMain.Controllers.BaseController
 {
 	public class BaseController_AppMain : ControllerBase_Std
 	{
-		//public static string ROOT_SERVER = "http://wwww.ikcoder.com/corebasic/api/";
-		public static string ROOT_SERVER = "http://127.0.0.1/corebasic/api/";
+		public static string ROOT_SERVER = "http://www.ikcoder.com/corebasic/api/";
+		//public static string ROOT_SERVER = "http://127.0.0.1/corebasic/api/";
 		public static string SYBOL_TOKEN_BASIC = "student_token";
 
 		public string RequestForString(string Url,bool takeToken = false)

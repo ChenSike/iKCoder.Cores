@@ -29,21 +29,33 @@ namespace AppMain.Controllers.Course
 				paramsmap.Add("@uid", uname);
 				paramsmap.Add("@lesson_code", lesson_code);
 				DataTable dtData = _appLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
-				if (dtData != null && dtData.Rows.Count == 1)
-				{
-					string finished_id = string.Empty;
-					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "id", out finished_id);
-					paramsmap.Clear();
-					paramsmap.Add("@id", finished_id);
-					paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
-					_appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
-				}
-				else
-				{
-				paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
-				_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
-				}
-				return Content(MessageHelper.ExecuteSucessful());
+                if (dtData != null && dtData.Rows.Count == 1)
+                {
+                    string finished_id = string.Empty;
+                    Data_dbDataHelper.GetColumnData(dtData.Rows[0], "id", out finished_id);
+                    paramsmap.Clear();
+                    paramsmap.Add("@id", finished_id);
+                    paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
+                    _appLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+                }
+                else
+                {
+                    paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
+                    _appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
+                    paramsmap.Clear();
+                    paramsmap.Add("@lesson_code", lesson_code);
+                    DataTable dt_lessonExp = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_exp_defined, paramsmap);
+                    DataRow activeRow_LessonExp = null;
+                    Data_dbDataHelper.GetActiveRow(dt_lessonExp, 0, out activeRow_LessonExp);
+                    int iLessonExp = Data_dbDataHelper.GetColumnIntData(activeRow_LessonExp, "exp");
+                    paramsmap.Clear();
+                    paramsmap.Add("@uid", uname);
+                    paramsmap.Add("@exp", iLessonExp.ToString());
+                    paramsmap.Add("@rdate", DateTime.Now.ToString());
+                    paramsmap.Add("@symbol", lesson_code);
+                    _appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_exp, paramsmap);
+                }
+                return Content(MessageHelper.ExecuteSucessful());
 			}
 			catch
 			{
