@@ -29,9 +29,10 @@ namespace AppMain.Controllers.Reports
 				XmlNode rootNode = doc_Result.SelectSingleNode("/root");
 				Util_XmlOperHelper.SetAttribute(rootNode, "gdate", DateTime.Now.ToString("yyyy-MM-dd"));
 				string uname = GetAccountInfoFromBasicController("name");
+                string uid = GetAccountInfoFromBasicController("id");
 
-				//Get total count
-				doc_AccountTotal = GetAPIFromCoreBasic("Account_Students_TotalCount");
+                //Get total count
+                doc_AccountTotal = GetAPIFromCoreBasic("Account_Students_TotalCount");
 				XmlNode rowNode = doc_AccountTotal.SelectSingleNode("/root/row[@index='1']");
 				string strTotalValue = Util_XmlOperHelper.GetAttrValue(rowNode, "total");
 				int iTotalValue = 1;
@@ -60,7 +61,7 @@ namespace AppMain.Controllers.Reports
 				string position = string.Empty;
 				if (dtData_Position != null && dtData_Position.Rows.Count > 0)
 				{
-					DataRow[] row = dtData_Position.Select("uid='" + uname + "'");
+					DataRow[] row = dtData_Position.Select("uid='" + uid + "'");
 
 					if (row.Length == 1)
 					{

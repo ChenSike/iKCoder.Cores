@@ -193,8 +193,8 @@ namespace iKCoderComps
 		{
 			if (Map_SPS.ContainsKey(spname))
 			{
-				class_data_MySqlSPEntry objSPEntry = (class_data_MySqlSPEntry)Map_SPS[spname];
-				objSPEntry.ClearAllParamsValues();
+                class_data_MySqlSPEntry objSPEntry = (class_data_MySqlSPEntry)Map_SPS[spname];
+				objSPEntry.ClearAllParamsValues();                
 				foreach (string columnname in mapparams.Keys)
 				{
 					objSPEntry.ModifyParameterValue(columnname, mapparams[columnname]);

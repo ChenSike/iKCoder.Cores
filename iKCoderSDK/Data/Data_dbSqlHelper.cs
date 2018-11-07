@@ -868,7 +868,11 @@ namespace iKCoderSDK
             if (activeEntry != null)
             {
                 if (connectionHelper.Get_ActiveConnection(connectionKeyName).activeDatabaseType == enum_DatabaseType.SqlServer)
-                    ((class_data_SqlServerSPEntry)activeEntry).ModifyParameterValue("@operation", "selectcondition");
+                {
+                    class_data_SqlServerSPEntry activeEntry_SqlServer = (class_data_SqlServerSPEntry)activeEntry;
+                    activeEntry_SqlServer.ModifyParameterValue("@operation", "selectcondition");
+                    
+                }
                 else if (connectionHelper.Get_ActiveConnection(connectionKeyName).activeDatabaseType == enum_DatabaseType.MySql)
                     ((class_data_MySqlSPEntry)activeEntry).ModifyParameterValue("_operation", "selectcondition");
                 Data_dbDataHelper.ActionExecuteStoreProcedureForDT(connectionHelper.Get_ActiveConnection(connectionKeyName), activeEntry, out dt);

@@ -39,6 +39,26 @@ namespace iKCoderSDK
             get;
         }
 
+        public override void SetParamsDefaultValueForSelectConditions()
+        {
+            foreach(MySqlParameter activeParam in ParametersCollection.Values)
+            {
+                if(activeParam.Value == null)
+                {
+                    if(activeParam.MySqlDbType == MySqlDbType.Int16 || activeParam.MySqlDbType == MySqlDbType.Int24 
+                        ||activeParam.MySqlDbType == MySqlDbType.Int32 || activeParam.MySqlDbType == MySqlDbType.Int64 
+                        ||activeParam.MySqlDbType == MySqlDbType.Decimal || activeParam.MySqlDbType == MySqlDbType.Float)
+                    {
+                        activeParam.Value = -1;
+                    }
+                    else if(activeParam.MySqlDbType == MySqlDbType.String || activeParam.MySqlDbType == MySqlDbType.Text)
+                    {
+                        activeParam.Value = "";
+                    }
+                }
+            }
+        }
+
         public override object Clone()
         {
             object newEntry = (new class_data_MySqlSPEntry(this.ActiveDBType)) as object;

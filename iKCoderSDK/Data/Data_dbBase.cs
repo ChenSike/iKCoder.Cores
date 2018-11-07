@@ -328,6 +328,10 @@ namespace iKCoderSDK
         {
         }
 
+        public virtual void SetParamsDefaultValueForSelectConditions()
+        {
+        }
+
     }
 
 }
