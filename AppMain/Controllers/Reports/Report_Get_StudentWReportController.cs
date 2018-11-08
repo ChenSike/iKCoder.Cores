@@ -61,7 +61,7 @@ namespace AppMain.Controllers.Reports
 				string position = string.Empty;
 				if (dtData_Position != null && dtData_Position.Rows.Count > 0)
 				{
-					DataRow[] row = dtData_Position.Select("uid='" + uid + "'");
+					DataRow[] row = dtData_Position.Select("uid='" + uname + "'");
 
 					if (row.Length == 1)
 					{
@@ -175,14 +175,16 @@ namespace AppMain.Controllers.Reports
 					XmlNode newSteamNode = Util_XmlOperHelper.CreateNode(doc_Result, steam_char.ToString(), (steamMapForLessons[steam_char] * 100).ToString());
 					steamNode.AppendChild(newSteamNode);
 				}
+                rootNode.AppendChild(steamNode);
 
 				//Build Time Line
 				XmlNode timelineNode = Util_XmlOperHelper.CreateNode(doc_Result, "timeline", "");
 				rootNode.AppendChild(timelineNode);
 				if (dtData_LearningStatus != null && dtData_LearningStatus.Rows.Count > 0)
 				{
-					DataRow[] start_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_StartLearning);
-					foreach (DataRow start_row in start_rows)
+					DataRow[] start_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_StartLearning+"'");
+                    
+                    foreach (DataRow start_row in start_rows)
 					{
 						string str_start_rdt = string.Empty;
 						DateTime dt_start_rdt = new DateTime();
@@ -194,6 +196,7 @@ namespace AppMain.Controllers.Reports
 						DataRow[] end_rows = dtData_LearningStatus.Select("actions='" + Global.LearningActionsMap.LessonAction_EndLearning + "' and code='" + str_code + "'");
 						TimeSpan timeSpan = new TimeSpan();
 						bool isEnded = false;
+                        string end_dt = string.Empty;
 						if (end_rows.Length > 0)
 						{
 							string str_end_rdt = string.Empty;
@@ -204,10 +207,14 @@ namespace AppMain.Controllers.Reports
 							{
 								isEnded = true;
 								timeSpan = dt_end_rdt - dt_start_rdt;
+                                end_dt = dt_end_rdt.Year + "-" + dt_end_rdt.Month + "-" + dt_end_rdt.Day;
 							}
 						}
 						XmlNode timeItemNode = Util_XmlOperHelper.CreateNode(doc_Result, "item", "");
-						timelineNode.AppendChild(timeItemNode);
+                        Util_XmlOperHelper.SetAttribute(timeItemNode, "hours", timeSpan.Hours.ToString());
+                        Util_XmlOperHelper.SetAttribute(timeItemNode, "minutes", timeSpan.Minutes.ToString());
+                        Util_XmlOperHelper.SetAttribute(timeItemNode, "dt", end_dt != string.Empty ? end_dt : DateTime.Now.ToString("yyyy-MM-dd"));
+                        timelineNode.AppendChild(timeItemNode);
 
 					}
 				}

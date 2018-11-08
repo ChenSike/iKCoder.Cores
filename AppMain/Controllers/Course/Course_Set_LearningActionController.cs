@@ -41,9 +41,9 @@ namespace AppMain.Controllers.Course
 				XmlNode typeNode = requestDoc.SelectSingleNode("/root/type");
 				XmlNode actionNode = requestDoc.SelectSingleNode("/root/action");
 				XmlNode codeNode = requestDoc.SelectSingleNode("/root/code");
-				string str_code = Util_XmlOperHelper.GetNodeValue(typeNode);
+				string str_code = Util_XmlOperHelper.GetNodeValue(codeNode);
 				string str_action = Util_XmlOperHelper.GetNodeValue(actionNode);
-				string str_type = Util_XmlOperHelper.GetNodeValue(actionNode);
+				string str_type = Util_XmlOperHelper.GetNodeValue(typeNode);
 				Dictionary<string, string> paramsmap = new Dictionary<string, string>();
 				string uname = GetAccountInfoFromBasicController("name");
 				paramsmap.Add("@uid", uname);

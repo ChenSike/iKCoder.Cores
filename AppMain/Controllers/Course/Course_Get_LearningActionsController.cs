@@ -20,8 +20,8 @@ namespace AppMain.Controllers.Course
 		{
 			StringBuilder docReturn = new StringBuilder();
 			docReturn.Append("<root>");
-			docReturn.Append("<action value='" + Global.LearningActionsMap.LessonAction_StartLearning + "'");
-			docReturn.Append("<action value='" + Global.LearningActionsMap.LessonAction_EndLearning + "'");
+			docReturn.Append("<action value='" + Global.LearningActionsMap.LessonAction_StartLearning + "'></action>");
+			docReturn.Append("<action value='" + Global.LearningActionsMap.LessonAction_EndLearning + "'></action>");
 			docReturn.Append("</root>");
 			return Content(docReturn.ToString());
 		}

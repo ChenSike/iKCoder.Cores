@@ -19,8 +19,8 @@ namespace AppMain.Controllers.Course
 		{
 			StringBuilder docReturn = new StringBuilder();
 			docReturn.Append("<root>");
-			docReturn.Append("<type value='" + Global.LearningTypeMap.Type_Exp + "'");
-			docReturn.Append("<type value='" + Global.LearningTypeMap.Type_Lesson + "'");
+			docReturn.Append("<type value='" + Global.LearningTypeMap.Type_Exp + "'></type>");
+			docReturn.Append("<type value='" + Global.LearningTypeMap.Type_Lesson + "'></type>");
 			docReturn.Append("</root>");
 			return Content(docReturn.ToString());
 		}
