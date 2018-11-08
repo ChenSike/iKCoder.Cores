@@ -4,6 +4,7 @@ using System.Text;
 using System.Data;
 using System.Data.SqlClient;
 using System.Xml;
+using MySql.Data.MySqlClient;
 
 namespace iKCoderSDK
 {
@@ -871,10 +872,40 @@ namespace iKCoderSDK
                 {
                     class_data_SqlServerSPEntry activeEntry_SqlServer = (class_data_SqlServerSPEntry)activeEntry;
                     activeEntry_SqlServer.ModifyParameterValue("@operation", "selectcondition");
-                    
+                    foreach (SqlParameter activeParameter in activeEntry_SqlServer.ParametersCollection.Values)
+                    {
+                        if (activeParameter.Value == null)
+                        {
+                            if (activeParameter.DbType == DbType.Int16 || activeParameter.DbType == DbType.Int32 || activeParameter.DbType == DbType.Int64 || activeParameter.DbType == DbType.Decimal || activeParameter.DbType == DbType.Double)
+                            {
+                                activeParameter.Value = -1;
+                            }
+                            else if (activeParameter.DbType == DbType.String)
+                            {
+                                activeParameter.Value = " ";
+                            }
+                        }
+                    }
                 }
                 else if (connectionHelper.Get_ActiveConnection(connectionKeyName).activeDatabaseType == enum_DatabaseType.MySql)
-                    ((class_data_MySqlSPEntry)activeEntry).ModifyParameterValue("_operation", "selectcondition");
+                {
+                    class_data_MySqlSPEntry activeEntry_MySql = (class_data_MySqlSPEntry)activeEntry;
+                    activeEntry_MySql.ModifyParameterValue("_operation", "selectcondition");
+                    foreach(MySqlParameter activeMySqlParamter in activeEntry_MySql.ParametersCollection.Values)
+                    {
+                        if (activeMySqlParamter.Value == null)
+                        {
+                            if (activeMySqlParamter.MySqlDbType == MySqlDbType.Int16 || activeMySqlParamter.MySqlDbType == MySqlDbType.Int24 || activeMySqlParamter.MySqlDbType == MySqlDbType.Int32 || activeMySqlParamter.MySqlDbType == MySqlDbType.Int64 || activeMySqlParamter.MySqlDbType == MySqlDbType.Decimal || activeMySqlParamter.MySqlDbType == MySqlDbType.Float || activeMySqlParamter.MySqlDbType == MySqlDbType.Double)
+                            {
+                                activeMySqlParamter.Value = "-1";
+                            }
+                            else if (activeMySqlParamter.MySqlDbType == MySqlDbType.Text || activeMySqlParamter.MySqlDbType == MySqlDbType.LongText || activeMySqlParamter.MySqlDbType == MySqlDbType.MediumText || activeMySqlParamter.MySqlDbType == MySqlDbType.VarChar || activeMySqlParamter.MySqlDbType == MySqlDbType.TinyText || activeMySqlParamter.MySqlDbType == MySqlDbType.Blob || activeMySqlParamter.MySqlDbType == MySqlDbType.LongBlob || activeMySqlParamter.MySqlDbType == MySqlDbType.MediumBlob)
+                            {
+                                activeMySqlParamter.Value = " ";
+                            }
+                        }
+                    }
+                }
                 Data_dbDataHelper.ActionExecuteStoreProcedureForDT(connectionHelper.Get_ActiveConnection(connectionKeyName), activeEntry, out dt);
                 return dt;
             }
