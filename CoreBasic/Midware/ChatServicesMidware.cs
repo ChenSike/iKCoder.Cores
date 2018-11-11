@@ -324,18 +324,16 @@ namespace CoreBasic.Midware
 					 * </id>
 					 * </root>
 					 */
-                    string id = string.Empty;
-                    XmlNode idNode = protocalMessageDoc.SelectSingleNode("/root/id");
-                    if (idNode == null)
+					string id = string.Empty;
+                    XmlNode id_node = protocalMessageDoc.SelectSingleNode("/root/id");
+                    if (id_node == null)
                     {
-                        return "<root type='error'><errmsg>noid</errmsg></root>";
+                        return "<root type='error'><errmsg>no puname</errmsg></root>";
                     }
                     else
-                    {
-                        id = Util_XmlOperHelper.GetNodeValue(idNode);
-                        return Action_Set_AcceptFriend(id, existedLoader);
-                    }
-                case Global.ActionsMap.Action_Get_BatchArrProfile:
+                        id = Util_XmlOperHelper.GetNodeValue(id_node);
+					return Action_Set_AcceptFriend(id, existedLoader);
+				case Global.ActionsMap.Action_Get_BatchArrProfile:
                     /*
 					 * <root>
 					 * <from>
@@ -488,11 +486,11 @@ namespace CoreBasic.Midware
 			DataTable dtData = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			if (dtData != null && dtData.Rows.Count ==1 )
 			{
-				paramsMap_for_profle.Add("@accepted", "1");
+				paramsMap_for_profle.Add("@isacc", "1");
 				if (existedLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle))
 				{
 					string puname = string.Empty;
-					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "", out puname);
+					Data_dbDataHelper.GetColumnData(dtData.Rows[0], "puname", out puname);
 					if (_accountTokenMap.ContainsKey(puname))
 					{
 						string owner_token = _accountTokenMap[puname];
@@ -532,7 +530,7 @@ namespace CoreBasic.Midware
 			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
 			Dictionary<string, string> paramsMap_for_profle = new Dictionary<string, string>();
 			paramsMap_for_profle.Add("@puname", activeItem.name);
-			paramsMap_for_profle.Add("@accepted", "1");
+			paramsMap_for_profle.Add("@isacc", "1");
 			DataTable dtData = existedLoader.ExecuteSelectWithMixedConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
 			return MessageHelper.TransDatatableToXML(dtData);
 		}
