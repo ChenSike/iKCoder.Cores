@@ -1,0 +1,1 @@
+<root><from>0af4fd95-d57a-4d76-9c7d-ca324e48274b</from><action>Action_Set_AcceptFriend</action><id>16</id></root>
