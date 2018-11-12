@@ -102,8 +102,8 @@ namespace AppMain.Controllers.Reports
 				//Get Learning Status
 				DataTable dtData_LearningStatus = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_learninrecord, paramsMap);
 
-				//Build Sumary
-				XmlNode sumaryNode = Util_XmlOperHelper.CreateNode(doc_Result, "sumary", "");
+                //Build Sumary
+                XmlNode sumaryNode = Util_XmlOperHelper.CreateNode(doc_Result, "sumary", "");
 				rootNode.AppendChild(sumaryNode);
 				Util_XmlOperHelper.SetAttribute(sumaryNode, "exp", totalExpValue.ToString());
 				if (iTotalValue == 1)
@@ -175,7 +175,7 @@ namespace AppMain.Controllers.Reports
 					XmlNode newSteamNode = Util_XmlOperHelper.CreateNode(doc_Result, steam_char.ToString(), (steamMapForLessons[steam_char] * 100).ToString());
 					steamNode.AppendChild(newSteamNode);
 				}
-                rootNode.AppendChild(steamNode);
+                rootNode.AppendChild(abilityNode);
 
 				//Build Time Line
 				XmlNode timelineNode = Util_XmlOperHelper.CreateNode(doc_Result, "timeline", "");
@@ -188,7 +188,7 @@ namespace AppMain.Controllers.Reports
 					{
 						string str_start_rdt = string.Empty;
 						DateTime dt_start_rdt = new DateTime();
-						Data_dbDataHelper.GetColumnData(start_row, "rdt", out str_start_rdt);
+						Data_dbDataHelper.GetColumnData(start_row, "rfultime", out str_start_rdt);
 						DateTime.TryParse(str_start_rdt, out dt_start_rdt);
 						int i_times = Data_dbDataHelper.GetColumnIntData(start_row, "times");
 						string str_code = string.Empty;
