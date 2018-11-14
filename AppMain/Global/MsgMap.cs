@@ -12,7 +12,9 @@ namespace AppMain.Global
 		public static string MsgKey_Fetch_Error = "MsgKey_Fetch_Error";
 		public static string MsgKey_Request_Invalidate = "MsgKey_Request_Invalidate";
 		public static string MsgKey_Invalidated_OperatorKey = "MsgKey_Invalidated_OperatorKey";
-	}
+        public static string MsgKey_Package_AccessDenied = "MsgKey_Package_AccessDenied";
+
+    }
 
     public class MsgMap
     {
@@ -29,8 +31,10 @@ namespace AppMain.Global
 			MsgContentMap.Add(MsgKeyMap.MsgKey_Request_Invalidate, "Invalidate Request Data.");
 			MsgCodeMap.Add(MsgKeyMap.MsgKey_Invalidated_OperatorKey, "420");
 			MsgContentMap.Add(MsgKeyMap.MsgKey_Invalidated_OperatorKey, "Invalidate Operator Key.");
+            MsgCodeMap.Add(MsgKeyMap.MsgKey_Package_AccessDenied, "430");
+            MsgContentMap.Add(MsgKeyMap.MsgKey_Package_AccessDenied, "Course Package Access denied.");
 
-		}
+        }
 
     }
 }

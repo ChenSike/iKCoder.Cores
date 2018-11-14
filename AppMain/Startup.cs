@@ -32,7 +32,8 @@ namespace AppMain
 			services.AddScoped<Filter.Filter_ConnectDB>();
 			services.AddScoped<Filter.Filter_InitServices>();
 			services.AddScoped<Filter.Filter_OperatorVerify>();
-		}
+            services.AddScoped<Filter.Filter_AccessVerify>();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
