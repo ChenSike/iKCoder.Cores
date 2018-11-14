@@ -42,11 +42,11 @@ namespace CoreBasic.Controllers.Account_Students
 						}
 						else
 						{
-							return Content(MessageHelper.ExecuteFalse());
+							return Content(MessageHelper.ExecuteFalse(Global.MsgMap.MsgCodeMap[Global.MsgKeyMap.MsgKey_Login_InvalidatedPwd], Global.MsgMap.MsgContentMap[Global.MsgKeyMap.MsgKey_Login_InvalidatedPwd]));
 						}
 					}
 					else
-						return Content(MessageHelper.ExecuteFalse());
+						return Content(MessageHelper.ExecuteFalse(Global.MsgMap.MsgCodeMap[Global.MsgKeyMap.MsgKey_Login_NoUser], Global.MsgMap.MsgContentMap[Global.MsgKeyMap.MsgKey_Login_NoUser]));
 				}
 				else
 					return Content(MessageHelper.ExecuteFalse());

@@ -9,6 +9,8 @@ namespace CoreBasic.Global
 	public class MsgKeyMap
 	{
 		public static string MsgKey_Login_Needed = "MsgKey_Login_Needed";
+		public static string MsgKey_Login_NoUser = "MsgKey_Login_NoUser";
+		public static string MsgKey_Login_InvalidatedPwd = "MsgKey_Login_Invalidatedpwd";
 		public static string MsgKey_Profile_TextInfo = "MsgKey_Profile_TextInfo";
 		public static string MsgKey_Invalidated_OperatorKey = "MsgKey_Invalidated_OperatorKey";
 	}
@@ -25,6 +27,10 @@ namespace CoreBasic.Global
 			MsgCodeMap.Add(MsgKeyMap.MsgKey_Profile_TextInfo, "100");
 			MsgCodeMap.Add(MsgKeyMap.MsgKey_Invalidated_OperatorKey, "401");
 			MsgContentMap.Add(MsgKeyMap.MsgKey_Invalidated_OperatorKey, "Invalidated Operator Key");
+			MsgCodeMap.Add(MsgKeyMap.MsgKey_Login_NoUser, "402");
+			MsgContentMap.Add(MsgKeyMap.MsgKey_Login_NoUser, "User is not existed");
+			MsgCodeMap.Add(MsgKeyMap.MsgKey_Login_InvalidatedPwd, "403");
+			MsgContentMap.Add(MsgKeyMap.MsgKey_Login_InvalidatedPwd, "Invalidated Password");
 		}
 
     }
