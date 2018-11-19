@@ -502,7 +502,7 @@ namespace CoreBasic.Midware
 							message.Append("<root type='passive'>");
 							message.Append("<action>" + Global.ActionsMap.Action_Get_RelationsList + "</action>");
 							message.Append("</root>");
-							SendStringAsync(owner_socket, BuildReturnDoc(message.ToString(), Global.ActionsMap.Action_Get_RelationsList, true));
+							SendStringAsync(owner_socket, BuildReturnDoc(message.ToString(), Global.ActionsMap.Action_Get_RelationsList, false));
 						}
 					}
 					return MessageHelper.ExecuteSucessful();

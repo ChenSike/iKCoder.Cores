@@ -200,7 +200,7 @@ namespace AppMain.Controllers.Reports
 						if (end_rows.Length > 0)
 						{
 							string str_end_rdt = string.Empty;
-							Data_dbDataHelper.GetColumnData(end_rows[0], "rdt", out str_end_rdt);
+							Data_dbDataHelper.GetColumnData(end_rows[0], "rfultime", out str_end_rdt);
 							DateTime dt_end_rdt = new DateTime();
 							DateTime.TryParse(str_end_rdt, out dt_end_rdt);
 							if (dt_end_rdt.Year == dt_start_rdt.Year && dt_end_rdt.Month == dt_start_rdt.Month && dt_end_rdt.Day == dt_start_rdt.Day)
