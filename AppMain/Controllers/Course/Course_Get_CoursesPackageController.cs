@@ -31,7 +31,7 @@ namespace AppMain.Controllers.Course
 				foreach (DataRow activeDR in dtData.Rows)
 				{
 					string courseid = string.Empty;
-					Data_dbDataHelper.GetColumnData(activeDR, "courseid", out courseid);
+					Data_dbDataHelper.GetColumnData(activeDR, "course_name", out courseid);
 					string overdate = string.Empty;
 					Data_dbDataHelper.GetColumnData(activeDR, "overdate", out overdate);
 					DateTime dtOverdate = DateTime.Now;
@@ -76,7 +76,7 @@ namespace AppMain.Controllers.Course
 					Util_XmlOperHelper.SetAttribute(newItemNode, "diff", course_diff);
 					Util_XmlOperHelper.SetAttribute(newItemNode, "udma", course_udma);
 					Util_XmlOperHelper.SetAttribute(newItemNode, "des", course_des);
-					if (lstCoursesFromPackage.Contains(course_id) || course_isfree == "1")
+					if (lstCoursesFromPackage.Contains(course_name) || course_isfree == "1")
 					{
 						Util_XmlOperHelper.SetAttribute(newItemNode, "access", "1");
 					}
