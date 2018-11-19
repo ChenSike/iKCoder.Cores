@@ -402,7 +402,7 @@ namespace CoreBasic.Midware
                     }
                     XmlNode messageNode = protocalMessageDoc.SelectSingleNode("/root/message");
                     string messageValue = Util_XmlOperHelper.GetNodeValue(messageNode);
-					return Action_Set_SendMessage(activeStuentItem.name, symbolValue, message, lstOwners, existedLoader);
+					return Action_Set_SendMessage(activeStuentItem.name, symbolValue, messageValue, lstOwners, existedLoader);
             }
 			return "";
 		}
@@ -573,8 +573,10 @@ namespace CoreBasic.Midware
 			else
 			{
 				string base64MsgContent = string.Empty;
-				Data_dbDataHelper.GetArrByteColumnDataToString(activeDataTable.Rows[0], "content", out base64MsgContent);
-				string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
+                string id = string.Empty;
+                Data_dbDataHelper.GetArrByteColumnDataToString(activeDataTable.Rows[0], "content", out base64MsgContent);
+                Data_dbDataHelper.GetColumnData(activeDataTable.Rows[0], "id", out id);
+                string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
 				XmlDocument contentDoc = new XmlDocument();
 				contentDoc.LoadXml("<root></root>");
 				XmlNode newItem = Util_XmlOperHelper.CreateNode(contentDoc,"item", message);
@@ -583,7 +585,8 @@ namespace CoreBasic.Midware
 				Util_XmlOperHelper.SetAttribute(newItem, "dt", DateTime.Now.ToString());
 				contentDoc.SelectSingleNode("/root").AppendChild(newItem);
 				string MsgBase64Conetent = Util_Common.Encoder_Base64(contentDoc.OuterXml);
-				activeParams.Add("content", MsgBase64Conetent);
+                activeParams.Add("id", id);
+                activeParams.Add("content", MsgBase64Conetent);
 				existedLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
 				return "<root><msg>sent</msg></root>";
 			}
