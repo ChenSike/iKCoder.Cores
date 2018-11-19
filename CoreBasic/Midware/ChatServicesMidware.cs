@@ -585,9 +585,10 @@ namespace CoreBasic.Midware
 				Util_XmlOperHelper.SetAttribute(newItem, "dt", DateTime.Now.ToString());
 				contentDoc.SelectSingleNode("/root").AppendChild(newItem);
 				string MsgBase64Conetent = Util_Common.Encoder_Base64(contentDoc.OuterXml);
+                activeParams.Clear();
                 activeParams.Add("id", id);
                 activeParams.Add("content", MsgBase64Conetent);
-				existedLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
+                existedLoader.ExecuteUpdate(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messages_students, activeParams);
 				return "<root><msg>sent</msg></root>";
 			}
 		}
