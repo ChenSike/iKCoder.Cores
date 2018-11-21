@@ -15,6 +15,34 @@ namespace AppMain.Controllers.Reports
 	[ApiController]
 	public class Report_Get_StudentWReportController : BaseController.BaseController_AppMain
 	{
+        private class CourseMainInfoItem
+        {
+            public string name
+            {
+                set;
+                get;
+            }
+
+            public string title
+            {
+                set;
+                get;
+            }
+
+            public int totallessons
+            {
+                set;
+                get;
+            }
+
+            public int finishedlessons
+            {
+                set;
+                get;
+            }
+
+        }
+
 		[ServiceFilter(typeof(AppMain.Filter.Filter_InitServices))]
 		[ServiceFilter(typeof(AppMain.Filter.Filter_ConnectDB))]
 		[ServiceFilter(typeof(AppMain.Filter.Filter_TokenVerify))]
@@ -102,6 +130,17 @@ namespace AppMain.Controllers.Reports
 				//Get Learning Status
 				DataTable dtData_LearningStatus = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_learninrecord, paramsMap);
 
+                //Get Course Main
+                DataTable dtData_CourseMain = _appLoader.ExecuteSelect(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, AppMain.Global.MapStoreProcedures.ikcoder_appmain.spa_operation_course_main);
+
+                //Get Lessons Total
+                sql = "SELECT count(*) as total,course_name FROM ikcoder_appmain.course_basic group by course_name";
+                DataTable dtData_LessonsTotal = _appLoader.ExecuteSQL(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, sql);
+
+                //Get Finished Lessons Total
+                sql = "SELECT count(*) as total,course_name FROM ikcoder_appmain.students_lessonfinished group by course_name";
+                DataTable dtData_FinishedLessonsTotal = _appLoader.ExecuteSQL(AppMain.Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, sql);
+
                 //Build Sumary
                 XmlNode sumaryNode = Util_XmlOperHelper.CreateNode(doc_Result, "sumary", "");
 				rootNode.AppendChild(sumaryNode);
@@ -177,8 +216,52 @@ namespace AppMain.Controllers.Reports
 				}
                 rootNode.AppendChild(abilityNode);
 
-				//Build Time Line
-				XmlNode timelineNode = Util_XmlOperHelper.CreateNode(doc_Result, "timeline", "");
+                //Build Course Finsished Map
+                XmlNode courseFinishedMapNode = Util_XmlOperHelper.CreateNode(doc_Result, "coursefinished", "");
+                rootNode.AppendChild(courseFinishedMapNode);
+                Dictionary<string, CourseMainInfoItem> totalfinished_courses = new Dictionary<string, CourseMainInfoItem>();
+                foreach(DataRow courseRow in dtData_CourseMain.Rows)
+                {
+                    XmlNode newItemNode = Util_XmlOperHelper.CreateNode(doc_Result, "item", "");
+                    courseFinishedMapNode.AppendChild(newItemNode);
+                    string course_name = string.Empty;
+                    Data_dbDataHelper.GetColumnData(courseRow, "name", out course_name);
+                    Util_XmlOperHelper.SetAttribute(newItemNode, "name", course_name);
+                    string course_title = string.Empty;
+                    Data_dbDataHelper.GetColumnData(courseRow, "title", out course_title);
+                    Util_XmlOperHelper.SetAttribute(newItemNode, "title", course_title);
+                    DataRow[] rows_finishedLesson = dtData_FinishedLesson.Select("course_name='" + course_name + "'");
+                    string lessonFinished_Total = string.Empty;
+                    int i_lessonFinished_Total = 0;
+                    if (rows_finishedLesson.Length>0)
+                    {
+                        Data_dbDataHelper.GetColumnData(rows_finishedLesson[0], "total", out lessonFinished_Total);
+                        int.TryParse(lessonFinished_Total, out i_lessonFinished_Total);
+                        Util_XmlOperHelper.SetAttribute(newItemNode, "count_finished", lessonFinished_Total);
+                    }
+                    else
+                    {
+                        Util_XmlOperHelper.SetAttribute(newItemNode,"count_finished", "0");
+                    }
+                    DataRow[] rows_total = dtData_LessonsTotal.Select("course_name='" + course_name + "'");
+                    string lessons_Total = string.Empty;
+                    int i_lessons_Total = 1;
+                    if (rows_total.Length>0)
+                    {
+                        Data_dbDataHelper.GetColumnData(rows_total[0], "total", out lessons_Total);
+                        int.TryParse(lessons_Total, out i_lessons_Total);
+                        Util_XmlOperHelper.SetAttribute(newItemNode, "count_total", lessons_Total);
+                    }
+                    else
+                    {
+                        Util_XmlOperHelper.SetAttribute(newItemNode, "count_total", "1");
+                    }
+                    Util_XmlOperHelper.SetAttribute(newItemNode, "rate", ((i_lessonFinished_Total / i_lessons_Total) * 100).ToString());
+                }
+                
+
+                //Build Time Line
+                XmlNode timelineNode = Util_XmlOperHelper.CreateNode(doc_Result, "timeline", "");
 				rootNode.AppendChild(timelineNode);
 				if (dtData_LearningStatus != null && dtData_LearningStatus.Rows.Count > 0)
 				{
@@ -215,7 +298,6 @@ namespace AppMain.Controllers.Reports
                         Util_XmlOperHelper.SetAttribute(timeItemNode, "minutes", timeSpan.Minutes.ToString());
                         Util_XmlOperHelper.SetAttribute(timeItemNode, "dt", end_dt != string.Empty ? end_dt : DateTime.Now.ToString("yyyy-MM-dd"));
                         timelineNode.AppendChild(timeItemNode);
-
 					}
 				}
 

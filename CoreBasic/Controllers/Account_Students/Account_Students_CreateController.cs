@@ -14,6 +14,8 @@ namespace CoreBasic.Controllers.Account_Students
     [Route("api/Account_Students_Create")]
     public class Account_Students_CreateController : ControllerBase_Std
 	{
+        private string system_suname = "99999999999";
+
 		[ServiceFilter(typeof(Filter.Filter_InitServices))]
 		[ServiceFilter(typeof(Filter.Filter_ConnectDB))]
 		[HttpGet]
@@ -48,7 +50,13 @@ namespace CoreBasic.Controllers.Account_Students
 					{
 						if (_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_account_students, activeParams))
 						{
-							return Content(MessageHelper.ExecuteSucessful());
+                            paramsMap_for_profle.Clear();
+                            paramsMap_for_profle.Add("@puname", uid);
+                            paramsMap_for_profle.Add("@isacc", "1");
+                            paramsMap_for_profle.Add("@suname", system_suname);
+                            paramsMap_for_profle.Add("@message", "");
+                            _appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_relations_students, paramsMap_for_profle);
+                            return Content(MessageHelper.ExecuteSucessful());
 						}
 						else
 						{

@@ -14,7 +14,7 @@ namespace AppMain.Controllers.Course
     [ApiController]
     public class Course_Get_PackageLessonDocController : BaseController.BaseController_AppMain
     {
-        [ServiceFilter(typeof(AppMain.Filter.Filter_InitServices))]
+       /* [ServiceFilter(typeof(AppMain.Filter.Filter_InitServices))]
         [ServiceFilter(typeof(AppMain.Filter.Filter_ConnectDB))]
         [ServiceFilter(typeof(AppMain.Filter.Filter_TokenVerify))]
         [ServiceFilter(typeof(AppMain.Filter.Filter_AccessVerify))]
@@ -22,6 +22,6 @@ namespace AppMain.Controllers.Course
         public ContentResult Action(string package_name)
         {
             
-        }
+        }*/
     }
 }

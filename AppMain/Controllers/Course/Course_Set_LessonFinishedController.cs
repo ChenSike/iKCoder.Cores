@@ -18,7 +18,7 @@ namespace AppMain.Controllers.Course
 		[ServiceFilter(typeof(AppMain.Filter.Filter_ConnectDB))]
 		[ServiceFilter(typeof(AppMain.Filter.Filter_TokenVerify))]
 		[HttpGet]
-		public ContentResult Action(string lesson_code)
+		public ContentResult Action(string lesson_code,string course_name)
 		{
 			try
 			{
@@ -41,6 +41,7 @@ namespace AppMain.Controllers.Course
                 else
                 {
                     paramsmap.Add("@rdt", DateTime.Now.ToString("yyyy-MM-dd"));
+                    paramsmap.Add("@course_name", course_name);
                     _appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_students_lessonfinished, paramsmap);
                     paramsmap.Clear();
                     paramsmap.Add("@lesson_code", lesson_code);

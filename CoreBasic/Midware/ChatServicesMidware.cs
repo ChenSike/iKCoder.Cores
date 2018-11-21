@@ -518,6 +518,8 @@ namespace CoreBasic.Midware
 			}
 		}
 
+
+
 		public string Action_Get_RelationsSearch(string value, AppLoader existedLoader)
 		{
 			string sql = "select * from profile_students where uid = '" + value + "' or nickname like '%" + value + "%'";
@@ -698,6 +700,7 @@ namespace CoreBasic.Midware
 			}			
 		}
 
+        
 
 		private static Task SendStringAsync(System.Net.WebSockets.WebSocket socket, string data, CancellationToken ct = default(CancellationToken))
 		{
