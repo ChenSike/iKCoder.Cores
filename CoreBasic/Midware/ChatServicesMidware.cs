@@ -675,9 +675,12 @@ namespace CoreBasic.Midware
 				string base64MsgContent = string.Empty;
 				Data_dbDataHelper.GetArrByteColumnDataToString(activeDataTable.Rows[0], "content", out base64MsgContent);
 				string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
-				resultStr.Append("<root>");
-				resultStr.Append(MsgContent);
-				resultStr.Append("</root>");
+                string dialogID = string.Empty;
+                Data_dbDataHelper.GetArrByteColumnDataToString(activeDataTable.Rows[0], "id", out dialogID);
+                resultStr.Append("<did>");
+                resultStr.Append(dialogID);
+                resultStr.Append("</did>");
+                resultStr.Append(MsgContent);
 				return resultStr.ToString();
 			}
 		}
