@@ -580,7 +580,7 @@ namespace CoreBasic.Midware
                 Data_dbDataHelper.GetColumnData(activeDataTable.Rows[0], "id", out id);
                 string MsgContent = Util_Common.Decoder_Base64(base64MsgContent);
 				XmlDocument contentDoc = new XmlDocument();
-				contentDoc.LoadXml("<root></root>");
+				contentDoc.LoadXml(MsgContent);
 				XmlNode newItem = Util_XmlOperHelper.CreateNode(contentDoc,"item", message);
 				Util_XmlOperHelper.SetAttribute(newItem, "date", DateTime.Now.ToString("yyyy-MM-dd"));
 				Util_XmlOperHelper.SetAttribute(newItem, "time", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);

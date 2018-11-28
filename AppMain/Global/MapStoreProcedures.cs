@@ -24,6 +24,7 @@ namespace AppMain.Global
 			public const string spa_operation_students_learninrecord = "spa_operation_students_learninrecord";
 			public const string spa_operation_appstudio_store = "spa_operation_appstudio_store";
             public const string spa_operation_exp_defined = "spa_operation_exp_defined";
+            public const string spa_operation_store_demo_raw = "spa_operation_store_demo_raw";
 
         }				
     }
