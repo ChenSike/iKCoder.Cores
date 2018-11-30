@@ -14,7 +14,6 @@ namespace AppMain.Controllers.Demo
     [ApiController]
     public class Demo_Set_RAWContentController : BaseController.BaseController_AppMain
     {
-        /*
         [ServiceFilter(typeof(AppMain.Filter.Filter_InitServices))]
         [ServiceFilter(typeof(AppMain.Filter.Filter_ConnectDB))]
         [HttpPost]
@@ -39,9 +38,13 @@ namespace AppMain.Controllers.Demo
             }
             paramsMap.Clear();
             paramsMap.Add("rdt", DateTime.Now.ToString("yyyy-MM-dd"));
-            paramsMap.Add("symbol", Guid.NewGuid().ToString());
-            paramsMap.Add("content"
-        }
-        */
+			string symbol = Guid.NewGuid().ToString();
+			paramsMap.Add("symbol", symbol);
+			paramsMap.Add("content", data);
+			_appLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_store_demo_raw, paramsMap);
+			return Content(MessageHelper.ExecuteSucessful("symbol", symbol));
+
+		}
+        
     }
 }
