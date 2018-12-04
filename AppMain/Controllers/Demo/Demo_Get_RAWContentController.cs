@@ -12,14 +12,13 @@ namespace AppMain.Controllers.Demo
 {
     [Route("api/Demo_Get_RAWContent")]
     [ApiController]
-    public class Demo_Get_RAWContentController : ControllerBase_Std
+    public class Demo_Get_RAWContentController : BaseController.BaseController_AppMain
     {
         [ServiceFilter(typeof(AppMain.Filter.Filter_InitServices))]
         [ServiceFilter(typeof(AppMain.Filter.Filter_ConnectDB))]
         [HttpGet]
         public ContentResult Action(string symbol)
         {
-            string data = _appLoader.get_PostData(HttpContext.Request, "data");
             Dictionary<string, string> paramsMap = new Dictionary<string, string>();
             paramsMap.Add("symbol",symbol);
             DataTable dtData = _appLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_store_demo_raw, paramsMap);
