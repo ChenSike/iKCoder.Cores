@@ -19,7 +19,8 @@ namespace CoreBasic.Controllers.Account_Students
 		[HttpGet]
 		public ContentResult actionResult()
 		{
-			Global.LoginServices.Clear();
+			string token = _appLoader.get_ClientToken(Request, "student_token");
+			Global.LoginServices.Clear(token);
 			return Content(MessageHelper.ExecuteSucessful());
 		}
 	}
