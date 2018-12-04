@@ -25,7 +25,7 @@ namespace AppMain.Controllers.Demo
             if(dtData!=null && dtData.Rows.Count>0)
             {
                 string content = string.Empty;
-                Data_dbDataHelper.GetColumnData(dtData.Rows[0], "content", out content);
+                Data_dbDataHelper.GetArrByteColumnDataToString(dtData.Rows[0], "content", out content);
                 return Content(content);
             }
             else
