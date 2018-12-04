@@ -19,7 +19,7 @@ namespace AppMain.Controllers.Demo
         [HttpPost]
         public ContentResult Action()
         {
-            string data = _appLoader.get_PostData(HttpContext.Request, "data");
+            string data = _appLoader.get_PostData(HttpContext.Request);
             Dictionary<string, string> paramsMap = new Dictionary<string, string>();
             DataTable dtData = _appLoader.ExecuteSelect(Global.GlobalDefines.DB_KEY_IKCODER_APPMAIN, Global.MapStoreProcedures.ikcoder_appmain.spa_operation_store_demo_raw);
             foreach(DataRow dr in dtData.Rows)
