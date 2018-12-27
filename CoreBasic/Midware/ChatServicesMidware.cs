@@ -437,7 +437,7 @@ namespace CoreBasic.Midware
 				return err.Message + "|" + err.StackTrace;
 			}
 		}
-
+                
 		public string Action_Set_NewFriend(string token,string suname, string msg,AppLoader existedLoader)
 		{
 			Global.ItemAccountStudents activeItem = Global.LoginServices.Pull(token);
@@ -635,12 +635,24 @@ namespace CoreBasic.Midware
 			string symbol_dialog = Guid.NewGuid().ToString();
 			Dictionary<string, string> activeParams = new Dictionary<string, string>();
 			activeParams.Add("symbol", symbol_dialog);
-			foreach (string owner in lstOwners)
+            DataTable dtMessageIndex = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messagesindex_students, activeParams);
+            List<string> existedIndexLst = new List<string>();
+            foreach(DataRow dr in dtMessageIndex.Rows)
+            {
+                string existedUID = string.Empty;
+                Data_dbDataHelper.GetColumnData(dr, "uid", out existedUID);
+                if(!existedIndexLst.Contains(existedUID))
+                    existedIndexLst.Add(existedUID);
+            }
+            foreach (string owner in lstOwners)
 			{
-				if (activeParams.ContainsKey("uid"))
-					activeParams.Remove("uid");
-				activeParams.Add("uid", owner);
-				existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messagesindex_students, activeParams);
+                if (!existedIndexLst.Contains(owner))
+                {
+                    if (activeParams.ContainsKey("uid"))
+                        activeParams.Remove("uid");
+                    activeParams.Add("uid", owner);
+                    existedLoader.ExecuteInsert(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messagesindex_students, activeParams);
+                }
 			}
 			activeParams.Clear();
 			activeParams.Add("symbol", symbol_dialog);
