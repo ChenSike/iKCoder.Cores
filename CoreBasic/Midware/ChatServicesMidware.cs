@@ -585,7 +585,7 @@ namespace CoreBasic.Midware
 				Util_XmlOperHelper.SetAttribute(newItem, "date", DateTime.Now.ToString("yyyy-MM-dd"));
 				Util_XmlOperHelper.SetAttribute(newItem, "time", DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second);
 				Util_XmlOperHelper.SetAttribute(newItem, "dt", DateTime.Now.ToString());
-				contentDoc.SelectSingleNode("/root").AppendChild(newItem);
+				contentDoc.SelectSingleNode("/msg").AppendChild(newItem);
 				string MsgBase64Conetent = Util_Common.Encoder_Base64(contentDoc.OuterXml);
                 activeParams.Clear();
                 activeParams.Add("id", id);
@@ -630,7 +630,31 @@ namespace CoreBasic.Midware
 			}
 		}
 
-		public string Action_Set_NewDialog(string token, List<string> lstOwners, AppLoader existedLoader)
+        /*
+        public string Action_Set_RemoveFromChatGroup(string dialogSymbol, string owner, AppLoader existedLoader)
+        {
+            Dictionary<string, string> activeParams = new Dictionary<string, string>();
+            activeParams.Add("symbol", dialogSymbol);
+            DataTable dtMessageIndex = existedLoader.ExecuteSelectWithConditionsReturnDT(Global.GlobalDefines.DB_KEY_IKCODER_BASIC, Global.MapStoreProcedures.ikcoder_basic.spa_operation_messagesindex_students, activeParams);
+            Dictionary<string, string> existedIndexLst = new Dictionary<string, string>();
+            foreach (DataRow dr in dtMessageIndex.Rows)
+            {
+                string existedUID = string.Empty;
+                string existedID = string.Empty;
+                Data_dbDataHelper.GetColumnData(dr, "uid", out existedUID);
+
+                if (!existedIndexLst.Contains(existedUID))
+                    existedIndexLst.Add(existedUID);
+            }
+            if(existedIndexLst.Contains(owner))
+            {
+
+            }
+        }
+        */
+
+
+        public string Action_Set_NewDialog(string token, List<string> lstOwners, AppLoader existedLoader)
 		{
 			string symbol_dialog = Guid.NewGuid().ToString();
 			Dictionary<string, string> activeParams = new Dictionary<string, string>();
